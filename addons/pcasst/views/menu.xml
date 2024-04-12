@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_mfp_root" name="小幫手" web_icon="static/description/icon.png" sequence="10"/>
+
+        <menuitem id="menu_mfp_01" name="公司管理" parent="menu_mfp_root" sequence="10" action="action_res_partner"/>
+
+        <menuitem id="menu_mfp_02" name="電腦設備管理" parent="menu_mfp_root" sequence="20"/>
+    </data>
+</odoo>
