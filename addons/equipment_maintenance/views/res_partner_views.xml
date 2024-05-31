@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Add equipment maintenance details in res.partner form -->
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <page name="sales_purchases" position="after">
+                    <page string="資訊設備">
+                        <field name="equipment_ids" context="{'default_partner_id': active_id}">
+                            <tree>
+                                <field name="number"/>
+                                <field name="name"/>
+                                <field name="type"/>
+                                <field name="user"/>
+                                <field name="account"/>
+                                <field name="password"/>
+                                <field name="brand_model"/>
+                                <field name="ip_address"/>
+                                <field name="contract_subject"/>
+                                <field name="os_firmware_version"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="網路-軟體-授權">
+                        <field name="software_ids" context="{'default_partner_id': active_id}">
+                            <tree>
+                                <field name="name"/>
+                                <field name="connection_info"/>
+                                <field name="account"/>
+                                <field name="password"/>
+                                <field name="contract_expiry_date"/>
+                                <field name="serial_number"/>
+                                <field name="internet_type"/>
+                                <field name="ip_range"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="帳號密碼">
+                        <field name="account_info_ids">
+                            <tree>
+                                <field name="user_name"/>
+                                <field name="connect_name"/>
+                                <field name="connect_account"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>

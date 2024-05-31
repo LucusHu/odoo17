@@ -4,10 +4,8 @@
     <content url="file://$MODULE_DIR$/../odoo-17.0">
       <sourceFolder url="file://$MODULE_DIR$/../odoo-17.0" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/.venv" />
-    </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (pcasst)" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (odoo17)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
