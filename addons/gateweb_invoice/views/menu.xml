@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_test_root" name="測試系統" web_icon="static/description/icon.png" sequence="10"/>
+
+        <menuitem id="menu_test_01" name="公司管理" parent="menu_test_root" sequence="10" action="action_test"/>
+
+        <menuitem id="menu_test_02" name="管理" parent="menu_test_root" sequence="20"/>
+    </data>
+</odoo>

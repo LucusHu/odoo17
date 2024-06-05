@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="test_view_form" model="ir.ui.view">
+            <field name="model">test</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Name" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group name="main">
+                            <group name="left">
+<!--<field name="journal_id" readonly="[('state', '=', 'done')]"/>-->
+<!--<field name="bank_journal_id" readonly="[('state', '=', 'done')]"/>-->
+                                <field name="journal_id"/>
+                                <field name="bank_journal_id" widget="selection"/>
+                                <field name="currency_id" groups="base.group_multi_currency"/>
+                            </group>
+                            <group name="right">
+                                <field name="company_id"/>
+                            <!--<field name="company_id" groups="base.group_multi_company"/>-->
+                                <field name="company_number"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Action -->
+        <record id="action_test" model="ir.actions.act_window">
+            <field name="name">公司管理</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">test</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
