@@ -1,17 +1,22 @@
+from typing import Dict, List
+
 from odoo import fields, models, api
 
 
-class ModelName(models.Model):
+class GateWebInvoice(models.Model):
     _name = 'gateweb.invoice'
     _description = 'Description'
 
-    sale_id = fields.Many2one('sale.order', '應收憑單')
+    # sale_id = fields.Many2one('sale.order', '應收憑單')
     # amount, quantity, unitPrice, description, sequenceNumber
     # price_total, product_uom_qty, price_unit, name, sequence
-    detail_ids = fields.One2many(related='sale_id.order_line')
+    # detail_ids = fields.One2many(related='sale_id.order_line')
 
     invoice_category = fields.Selection([('B2B', 'B2B'), ('B2C', 'B2C')],
                                         '發票類別', default='B2B')
+    state = fields.Selection([('not invoiced', '未開電子發票'), ('invoiced', '已開電子發票'),
+                              ('invalid', '已作廢')],
+                             '電子發票狀態', default='not invoiced', readonly=True)
     # 待回傳後, 再行增添
     invoice_number = fields.Char('發票號碼', readonly=True)
     invoice_date = fields.Date('發票開立日期', readonly=True)
@@ -39,18 +44,18 @@ class ModelName(models.Model):
     # buyer_person_incharge = fields.Char('買方負責人')
     # buyer_telephone_number = fields.Char('買方電話')
     # buyer_facsimile_number = fields.Char('買方傳真')
-    # buyer_email_address = fields.Char('買方電子郵件地址')
+    # B2B，若需要發送E-Mail PDF檔，將買方信箱郵件地址放上
+    buyer_email_address = fields.Char('買方電子郵件地址')
     # buyer_customer_number = fields.Char('買方號碼')
     # 若有值顯示於發票備註欄位
     # buyer_role_remark = fields.Char('發票總備註')
-
-    # is_print = fields.Boolean('列印')
-    # is_donate = fields.Boolean('捐贈')
-    # donate_number = fields.Char('愛心碼')
-    # print_address = fields.Char('發票寄送地址')
-    # ident_name = fields.Char('發票抬頭')
-    # ident = fields.Char('統一編號')
-
+    # 待回傳後, 再行增添
+    # 作廢日期(YYYYMMDD)
+    cancel_date = fields.Char('作廢日期', readonly=True)
+    # 作廢時間(HH: mm:ss)
+    cancel_time = fields.Char('作廢時間', readonly=True)
+    # 作廢原因
+    cancel_reason = fields.Char('作廢原因')
     # 未填值則由關網自動產生填入
     # random_number = fields.Char('發票防偽隨機碼')
     # 必須是一組唯一的編號，可以是內部訂單號碼或自訂規則之編碼，未來查詢發票及異動對應使用
@@ -75,8 +80,11 @@ class ModelName(models.Model):
     #                                           default='1')
     print_mark = fields.Selection([('Y', '是'), ('N', '否')],
                                   '索取紙本發票', default='Y')
-    donate_mark = fields.Selection([('Y', '是'), ('N', '否')],
+    donate_mark = fields.Selection([('1', '是'), ('0', '否')],
                                    '捐贈發票', default='N')
+    # 受贈單位代碼donateMark is 1 , npoban 必填3-7碼數字
+    npo_ban = fields.Char("受贈單位代碼")
+    customs_clearance_mark = fields.Boolean("")
     sales_amount = fields.Char('銷售額(應稅)')
     free_tax_sales_amount = fields.Char('銷售額(免稅)')
     zero_tax_sales_amount = fields.Char('銷售額(零稅率)')
@@ -86,4 +94,9 @@ class ModelName(models.Model):
     # tax Type(1)=0.05、tax Type(2、3)= 0 、tax Type=(3) CustomsClearanceMark必填
     tax_rate = fields.Char('稅率')
     tax_amount = fields.Integer('營業稅額')
+    # totalAmount = salesAmount + free_tax_sales_amount + zero_tax_sales_amount + tax_amount
     total_amount = fields.Integer('總計金額')
+
+
+class SaleOrder(models.Model):
+    _inherit = ['sale.order', 'gateweb.invoice']
