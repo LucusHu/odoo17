@@ -20,8 +20,8 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        # 'security/security.xml',
-        # 'views/account_data_views.xml',
+        'data/sequence.xml',
+        'views/account_move_views.xml',
         # 'views/test_views.xml',
         # 'report/account_move_report.xml',
         # 'wizard/account_move_calc.xml',

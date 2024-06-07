@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_test,access_test,model_test,base.group_user,1,1,1,1
+access_gateweb_invoice_allowance,access_gateweb_invoice_allowance,model_gateweb_invoice_allowance,base.group_user,1,1,1,1
+access_gateweb_invoice_allowance_line,access_gateweb_invoice_allowance_line,model_gateweb_invoice_allowance_line,base.group_user,1,1,1,1
