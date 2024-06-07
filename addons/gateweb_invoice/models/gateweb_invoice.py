@@ -41,19 +41,26 @@ class GateWebInvoice(models.Model):
         self.relate_number = self.env['ir.sequence'].next_by_code('gateweb.invoice')
 
     # ========== 賣方資訊 ==========
-    seller_identifier = fields.Char('賣方統編')
+    seller_identifier = fields.Char('賣方統編', compute='compute_seller', store=True)
     # 必須為繁體中文（財政部登記姓名一致）
     seller_name = fields.Char('賣方公司名稱')
     # 該欄位值由關網提供＆若為子母公司設定，依照不同公司之印表機名稱代入
     seller_department = fields.Char('印表機名稱')
     # 必須為繁體中文（財政部登記一致）
     seller_address = fields.Char('賣方營業登記地址')
+
     # seller_person_incharge = fields.Char('賣方負責人')
     # seller_telephone_number = fields.Char('賣方電話')
     # seller_facsimile_number = fields.Char('賣方傳真')
     # seller_email_address  = fields.Char('賣方電子郵件地址')
     # seller_customer_number = fields.Char('賣方號碼')
     # seller_role_remark = fields.Char('發票總備註')
+
+    def compute_seller(self):
+        self.seller_identifier = self.company_id.vat if self.company_id else False
+        self.seller_name = self.company_id.name if self.company_id else False
+        self.seller_department = self.company_id.address if self.company_id else False
+        self.seller_address = self.company_id.address if self.company_id else False
 
     # ========== 買方資訊 ==========
     # 非營業人固定放0000000000
@@ -178,7 +185,7 @@ class GateWebAllowance(models.Model):
         amount = 0
         sequence = 1
         for line in detail_ids:
-            line['sequence'] = (sequence or line['sequence'])
+            line['sequence_number'] = (sequence or line['sequence_number'])
             sequence += 1
             amount += line['amount']
         self.amount = amount
@@ -211,7 +218,7 @@ class GateWebAllowanceLine(models.Model):
 
     # description
     name = fields.Char('折讓商品', required=True)
-    sequence_number = fields.Integer('排列序號', readonly=True)
+    sequence_number = fields.Integer('排列序號', default=1, readonly=True)
     unit_price = fields.Integer('單價', required=True)
     quantity = fields.Integer('數量', default=1, required=True)
     # unit = fields.Char('單位')
