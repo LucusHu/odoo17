@@ -1,0 +1,50 @@
+{
+    'name': 'MFP 雲端抄表系統',
+    'category': 'Services',
+    'version': '2.3',
+    'summary': 'MFP 雲端抄表系統',
+    'description': '''
+    §功能:
+        1.事務機抄表系統
+    【版本v2.3】
+        1.
+    ''',
+    'depends': [
+        'base',
+        'account',
+        'line_notify',
+        # 'contacts',
+    ],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'data/place_data.xml',
+        'data/brand_data.xml',
+        'data/model_data.xml',
+        'data/product_data.xml',
+        'data/record_data.xml',
+        'data/tooltip_data.xml',
+        'data/ir_cron.xml',
+        'report/account_move_report.xml',
+        # 'views/account_data_views.xml',
+        'views/account_move_views.xml',
+        'views/brand_views.xml',
+        'views/contract_views.xml',
+        'views/install_record_views.xml',
+        'views/invalid_record_views.xml',
+        'views/mfp_data_views.xml',
+        'views/mfp_record_views.xml',
+        # 'views/mfp_record_category_views.xml',
+        'views/res_partner_views.xml',
+        'views/place_views.xml',
+        'wizard/mfp_calc_manual_wizard.xml',
+        'wizard/mfp_calc_manual_exchange_wizard.xml',
+        # 'wizard/account_move_exchange_calc.xml',
+        'views/menu.xml',
+    ],
+    'post_init_hook': 'post_init_hook',
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}

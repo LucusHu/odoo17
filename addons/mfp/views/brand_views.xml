@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_mfp_brand_list" model="ir.ui.view">
+            <field name="model">mfp.brand</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_mfp_brand_from" model="ir.ui.view">
+            <field name="model">mfp.brand</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                            <page name="line_ids" string="型號">
+                                <field name="line_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="verify" widget="badge"
+                                               decoration-muted="verify == '0'"
+                                               decoration-success="verify == '1'"/>
+                                        <field name="feature"/>
+                                        <field name="description"/>
+                                        <field name="state" widget="badge"
+                                               decoration-muted="state == '0'"
+                                               decoration-info="state == '1'"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="feature"/>
+                                                <field name="state"/>
+                                            </group>
+                                            <notebook>
+                                                <page string="說明">
+                                                    <field name="description" widget="text"/>
+                                                </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="description" string="說明">
+                                <field name="description" widget="text"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mfp_brand" model="ir.actions.act_window">
+            <field name="name">廠牌</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mfp.brand</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

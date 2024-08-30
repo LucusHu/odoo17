@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="action_print_ezpay_invoice" string="列印電子發票" model="account.move" report_type="qweb-pdf"
+                name="ezpay_invoice.invoice" file="ezpay_invoice.invoice"
+                print_report_name="'%s' % (object.name)"/>
+
+        <template id="invoice">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <!--                    <t t-debug="pdb" />-->
+                    <div class="header">
+                        <div class="row">
+                            <br/>
+                            <div class="col-3"/>
+                            <br/>
+                            <br/>
+                            <div class="col-6">
+                                <h3 class="text-center">
+                                    <div t-field="o.company_id.name"/>
+                                </h3>
+                            </div>
+                            <div class="col-3"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-3"/>
+                            <div class="col-6">
+                                <h2 style="text-align:center;">電子發票證明聯
+<!--                                    <br/>-->
+<!--                                    <span t-esc="o.invoice_month"/>-->
+                                    <br/>
+<!--                                    <span t-esc="o.IIS_Create_Date"/>-->
+                                    <span t-field="o.IIS_Create_Date" t-options='{"format": "yyyy-MM-dd"}'/>
+                                </h2>
+                            </div>
+                            <div class="col-3"/>
+                        </div>
+                    </div>
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-7">
+                                    <table style="font-family: arial;font-size:larger;">
+                                        <tr>
+                                            <td>
+                                                <span>發票號碼:</span>
+                                                <span t-field="o.IIS_Number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>買方:</span>
+                                                <span t-field="o.IIS_Customer_Name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>統一編號:</span>
+                                                <span t-field="o.IIS_Identifier"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='word-wrap:break-word;word-break: break-all;'>
+                                                <span>地址:</span>
+<!--                                                <span t-field="o.IIS_Customer_Addr"/>-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-4 ">
+                                    <table style="font-family: arial;font-size:larger;">
+                                        <tr>
+                                            <td>
+                                                <span>格式:</span>
+                                                <span>25</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>隨機碼:</span>
+                                                <span t-field="o.IIS_Random_Number"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <table class="table table-bordered" style="border-color: #666;">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" rowspan="1" style="text-align:center;border-color: #666;">品名</td>
+                                        <td style="text-align:center;border-color: #666;">數量</td>
+                                        <td colspan="2" rowspan="1" style="text-align:center;border-color: #666;">單價(含稅)</td>
+                                        <td style="text-align:center;border-color: #666;">金額(含稅)</td>
+                                        <td style="text-align:center;border-color: #666;">備註</td>
+                                    </tr>
+
+                                    <t t-foreach="o.split_order_line()" t-as="line">
+                                        <tr>
+                                            <td colspan="4" rowspan="1" style="border-color: #666;">
+                                                <span t-esc="line['ItemName']"/>
+                                            </td>
+                                            <td style="border-color: #666;">
+                                                <span t-esc="line['ItemCount']"/>
+                                            </td>
+                                            <td colspan="2" rowspan="1" style="border-color: #666;">
+                                                <span t-esc="line['ItemPrice']"/>
+                                            </td>
+                                            <td style="border-color: #666;">
+                                                <span t-esc="line['ItemAmount']"/>
+                                            </td>
+                                            <td style="border-color: #666;">
+                                                <span style="padding: 2px;margin: 0px;"></span>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr></tr>
+                                    <tr></tr>
+                                    <tr>
+                                        <td colspan="7" rowspan="1" style="border-color: #666;">銷售額(未稅)合計</td>
+                                        <td style="border-color: #666;">
+                                            <t t-esc="int(o.IIS_Sales_Amt)"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
+                                        <td style="width:30%;border-color: #666;">營業人蓋用統一發票專用章</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:9%;border-color: #666;">營業稅</td>
+                                        <td style="width:8%;border-color: #666;">應稅</td>
+                                        <td style="width:8%;border-color: #666;">Ｖ</td>
+                                        <td style="width:9%;border-color: #666;">零稅率</td>
+                                        <td style="width:8%;border-color: #666;">
+                                            <span style="padding: 2px;margin: 0px;"></span>
+                                        </td>
+                                        <td style="width:8%;border-color: #666;">免稅</td>
+                                        <td style="width:8%;border-color: #666;">
+                                            <span style="padding: 2px;margin: 0px;"></span>
+                                        </td>
+                                        <td style="border-color: #666;">
+                                            <t t-esc="int(o.IIS_Tax_Amount)"
+                                               t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
+                                        <td colspan="1" rowspan="3" style="border-color: #666;">
+                                            <span style="padding: 0px;margin: 0px;">
+                                                賣方:<span t-field="o.company_id.name"/>
+                                                <br/>
+<!--                                                統一編號：<span t-field="o.company_id.vat"/>-->
+                                                統一編號：<span t-field="o.company_id.seller_Identifier"/>
+                                                <br/>
+                                                地址：<span t-field="o.company_id.state_id.name"/><span t-field="o.company_id.city"/><span t-field="o.company_id.street"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" rowspan="1" style="border-color: #666;">總計</td>
+                                        <td style="border-color: #666;">
+                                            <t t-esc="int(o.IIS_Sales_Amount)"
+                                               t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" rowspan="1" style="border-color: #666;">
+                                            <span style="padding-right:10px">總計新台幣</span>
+                                            <t t-esc="o.change_num()"/>
+                                            <br/>
+                                            （中文大寫）
+                                        </td>
+                                        <!-- -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+
+
+        </template>
+    </data>
+</odoo>

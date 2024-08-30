@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- record category -->
+        <record id="mfp_record_category_auto" model="mfp.record.category">
+            <field name="name">auto</field>
+            <field name="color">4</field>
+        </record>
+        <record id="mfp_record_category_manual" model="mfp.record.category">
+            <field name="name">manual</field>
+            <field name="color">10</field>
+        </record>
+    </data>
+</odoo>

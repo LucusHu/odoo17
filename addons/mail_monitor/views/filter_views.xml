@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_mail_monitor_server_mail_filter_list" model="ir.ui.view">
+            <field name="model">mail.monitor.server.mail.filter</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="color" widget="color_picker"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_mail_monitor_server_mail_filter_from" model="ir.ui.view">
+            <field name="model">mail.monitor.server.mail.filter</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                        <notebook>
+                            <page name="description" string="說明">
+                                <field name="description" widget="text"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mail_monitor_server_mail_filter" model="ir.actions.act_window">
+            <field name="name">標籤:關鍵字</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.monitor.server.mail.filter</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

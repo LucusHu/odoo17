@@ -1,0 +1,451 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* equipment_maintenance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-17 03:29+0000\n"
+"PO-Revision-Date: 2024-06-17 11:35+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/calendar/quick_create/calendar_quick_create.js:0
+#, python-format
+msgid "Invalid fields"
+msgstr "必填欄位"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/model/relational_model/record.js:0
+#: code:addons/web/static/src/views/kanban/kanban_record_quick_create.js:0
+#, python-format
+msgid "Invalid fields: "
+msgstr "必填欄位："
+
+#. module: equipment_maintenance
+#: model:ir.model,name:equipment_maintenance.model_res_partner
+msgid "Contact"
+msgstr "聯絡人"
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__create_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__create_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__display_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__id
+msgid "ID"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__ip_address
+msgid "IP位址"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__ip_range
+msgid "IP範圍(寬頻帳號密碼)"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__write_uid
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__write_date
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.constraint,message:equipment_maintenance.constraint_equipment_maintenance_equipment_maintenance_serial_number_unique
+msgid "Serial number must be unique."
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__x_email
+msgid "x_EMAIL"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__x_email_pw
+msgid "x_EMAIL密碼"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__x_nas_pw
+msgid "x_NAS密碼"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__x_username
+msgid "x_USERNAME"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__x_vpn_pw
+msgid "x_VPN密碼"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__x_remote_connection
+msgid "x_遠端連線"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__internet_type
+msgid "上網型式"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__os_firmware_version
+msgid "作業系統-韌體版本"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__user_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__user
+msgid "使用者"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__backup_description
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_equipment_form
+msgid "備份說明"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.ui.menu,name:equipment_maintenance.menu_equipment_root
+msgid "創勁客戶設備"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__contract_expiry_date
+msgid "合約到期日"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__contract_subject
+msgid "合約標的"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__connect_name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__name
+msgid "名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__active
+msgid "啟用"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__partner_id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__partner_id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__partner_id
+msgid "客戶"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_res_partner__equipment_ids
+#: model:ir.model.fields,field_description:equipment_maintenance.field_res_users__equipment_ids
+msgid "客戶資訊設備"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_res_partner__software_ids
+#: model:ir.model.fields,field_description:equipment_maintenance.field_res_users__software_ids
+msgid "客戶軟體授權"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__password
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__password
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__password
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__password
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__password
+msgid "密碼"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__name
+msgid "帳密名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_account_connect_type
+#: model:ir.model,name:equipment_maintenance.model_account_connect_type
+#: model:ir.ui.menu,name:equipment_maintenance.menu_account_connect_type
+msgid "帳密類型"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__account
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__connect_account
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__account
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__account
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__account
+msgid "帳號"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__account
+msgid "帳號/ID"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_account_info
+#: model:ir.model,name:equipment_maintenance.model_account_info
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__info_id
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__connect_ids
+#: model:ir.model.fields,field_description:equipment_maintenance.field_res_partner__account_info_ids
+#: model:ir.model.fields,field_description:equipment_maintenance.field_res_users__account_info_ids
+#: model:ir.ui.menu,name:equipment_maintenance.menu_account_info
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_account_info_form
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_partner_form_inherit
+msgid "帳號密碼"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__serial_number
+msgid "序號"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__brand_model
+msgid "廠牌型號"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__name
+msgid "網型名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_software_internet_type
+#: model:ir.model,name:equipment_maintenance.model_software_internet_type
+#: model:ir.ui.menu,name:equipment_maintenance.menu_software_internet_type
+msgid "網型類型"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_software_license
+#: model:ir.model,name:equipment_maintenance.model_software_license
+#: model:ir.ui.menu,name:equipment_maintenance.menu_software_license
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_partner_form_inherit
+msgid "網路-軟體-授權"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__device_description
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_equipment_form
+msgid "裝置說明"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__info_id
+msgid "設備"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__name
+msgid "設備名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__serial_number
+msgid "設備序號"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__number
+msgid "設備編號"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_equipment_device_type
+#: model:ir.model,name:equipment_maintenance.model_equipment_device_type
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__type
+#: model:ir.ui.menu,name:equipment_maintenance.menu_equipment_device_type
+msgid "設備類型"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect_type__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_info__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_connect_info__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_device_type__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_internet_type__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__description
+#: model:ir.model.fields,field_description:equipment_maintenance.field_type_info__description
+msgid "說明"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_equipment
+#: model:ir.model,name:equipment_maintenance.model_equipment_maintenance
+#: model:ir.ui.menu,name:equipment_maintenance.menu_equipment
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_partner_form_inherit
+msgid "資訊設備"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__name
+msgid "軟體(服務)名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_name_type__name
+msgid "軟體名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_software_name_type
+#: model:ir.model,name:equipment_maintenance.model_software_name_type
+#: model:ir.ui.menu,name:equipment_maintenance.menu_software_name_type
+msgid "軟體類型"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model,name:equipment_maintenance.model_connect_info
+#: model:ir.model.fields,field_description:equipment_maintenance.field_software_license__connection_info
+msgid "連線資訊"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model,name:equipment_maintenance.model_account_connect
+msgid "連線類型"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_remote_type__name
+msgid "遠端名稱"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model,name:equipment_maintenance.model_remote_connect
+#: model:ir.model.fields,field_description:equipment_maintenance.field_equipment_maintenance__remote_ids
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_equipment_form
+msgid "遠端連線"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.actions.act_window,name:equipment_maintenance.action_equipment_remote_type
+#: model:ir.model,name:equipment_maintenance.model_equipment_remote_type
+#: model:ir.ui.menu,name:equipment_maintenance.menu_equipment_remote_type
+msgid "遠端類型"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.ui.menu,name:equipment_maintenance.menu_equipment_settings
+msgid "配置"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model_terms:ir.ui.view,arch_db:equipment_maintenance.view_equipment_form
+msgid "額外說明..."
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model.fields,field_description:equipment_maintenance.field_account_connect__name
+#: model:ir.model.fields,field_description:equipment_maintenance.field_remote_connect__name
+msgid "類別"
+msgstr ""
+
+#. module: equipment_maintenance
+#: model:ir.model,name:equipment_maintenance.model_type_info
+msgid "類型資訊"
+msgstr ""

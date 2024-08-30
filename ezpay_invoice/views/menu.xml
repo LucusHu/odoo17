@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="ezpay_invoice_uniform_menu"
+                  name="統一發票"
+                  parent="account.menu_finance_receivables"
+                  action="ezpay_invoice_uniform_view_action"/>
+    </data>
+</odoo>

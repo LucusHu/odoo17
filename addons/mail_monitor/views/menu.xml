@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_mail_monitor" name="郵件系統" web_icon="static/description/icon.png" sequence="10"/>
+
+        <menuitem id="menu_mail_monitor_01" name="郵件" parent="menu_mail_monitor" sequence="10"
+                  action="mail_monitor.action_mail_monitor_server_mail"/>
+
+        <menuitem id="menu_mail_monitor_02" name="配置" parent="menu_mail_monitor" sequence="20"/>
+        <menuitem id="menu_mail_monitor_0201" name="收件伺服器" parent="menu_mail_monitor_02" sequence="10"
+                  action="mail.action_email_server_tree"/>
+        <menuitem id="menu_mail_monitor_0202" name="設定關鍵字" parent="menu_mail_monitor_02" sequence="20"
+                  action="mail_monitor.action_mail_monitor_server_mail_filter"/>
+
+        <!--  <menuitem id="menu_mail_server_02" name="管理" parent="menu_mail_server" sequence="20"/>-->
+    </data>
+</odoo>

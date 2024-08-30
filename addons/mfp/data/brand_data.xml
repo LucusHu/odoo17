@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- brand -->
+        <record id="mfp_brand_ricoh" model="mfp.brand">
+            <field name="name">Ricoh</field>
+        </record>
+        <record id="mfp_brand_xerox" model="mfp.brand">
+            <field name="name">Xerox</field>
+        </record>
+        <record id="mfp_brand_toshiba" model="mfp.brand">
+            <field name="name">Toshiba</field>
+        </record>
+        <record id="mfp_brand_cannon" model="mfp.brand">
+            <field name="name">Cannon</field>
+        </record>
+    </data>
+</odoo>

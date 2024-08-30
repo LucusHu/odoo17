@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_equipment_monitor_monitor_parameter_list" model="ir.ui.view">
+            <field name="model">equipment.monitor.monitor.parameter</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="eqpt_id"/>
+                    <field name="hw_id"/>
+                    <field name="name"/>
+                    <field name="interval"/>
+                    <field name="allow_count"/>
+                    <field name="value"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_equipment_monitor_monitor_parameter_from" model="ir.ui.view">
+            <field name="model">equipment.monitor.monitor.parameter</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="eqpt_id"/>
+                                <field name="hw_id"/>
+                                <field name="name"/>
+                                <field name="type"/>
+                            </group>
+                            <group>
+                                <field name="interval"/>
+                                <field name="allow_count"/>
+                                <field name="value"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_equipment_monitor_monitor_parameter" model="ir.actions.act_window">
+            <field name="name">監視參數</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">equipment.monitor.monitor.parameter</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

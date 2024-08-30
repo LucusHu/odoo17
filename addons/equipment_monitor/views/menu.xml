@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_mfp_root" name="小幫手" web_icon="static/description/icon.png" sequence="10"/>
+        <!--<menuitem id="menu_mfp_01" name="公司管理" parent="menu_mfp_root" sequence="10" action="action_res_partner"/>-->
+        <menuitem id="menu_mfp_01" name="設備管理" parent="menu_mfp_root" sequence="10" action="equipment_monitor.action_equipment_monitor"/>
+
+        <menuitem id="menu_mfp_02" name="配置" parent="menu_mfp_root" sequence="20"/>
+        <menuitem id="menu_mfp_0201" name="硬體類型" parent="menu_mfp_02" sequence="10" action="equipment_monitor.action_equipment_monitor_hardware_type"/>
+        <menuitem id="menu_mfp_0202" name="配置" parent="menu_mfp_02" sequence="20"/>
+    </data>
+</odoo>

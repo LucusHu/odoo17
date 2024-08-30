@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_equipment_monitor_hardware_type_list" model="ir.ui.view">
+            <field name="model">equipment.monitor.hardware.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_equipment_monitor_hardware_type_from" model="ir.ui.view">
+            <field name="model">equipment.monitor.hardware.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_equipment_monitor_hardware_type" model="ir.actions.act_window">
+            <field name="name">硬體類型</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">equipment.monitor.hardware.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

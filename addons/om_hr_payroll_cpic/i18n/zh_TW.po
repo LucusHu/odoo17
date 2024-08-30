@@ -1,0 +1,64 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* om_hr_payroll_cpic
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-29 09:44+0000\n"
+"PO-Revision-Date: 2024-08-29 17:44+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: om_hr_payroll_cpic
+#: model_terms:ir.ui.view,arch_db:om_hr_payroll_cpic.hr_contract_cpic_form_inherit
+msgid "<span> %</span>"
+msgstr ""
+
+#. module: om_hr_payroll_cpic
+#: model_terms:ir.ui.view,arch_db:om_hr_payroll_cpic.hr_contract_cpic_form_inherit
+msgid "<span>/ Person</span>"
+msgstr "<span>/ 人</span>"
+
+#. module: om_hr_payroll_cpic
+#: model_terms:ir.ui.view,arch_db:om_hr_payroll_cpic.hr_contract_cpic_form_inherit
+msgid "<span>/ month</span>"
+msgstr ""
+
+#. module: om_hr_payroll_cpic
+#: model:ir.model.fields,help:om_hr_payroll_cpic.field_hr_contract__accident_insurance
+msgid "Accident Insurance"
+msgstr "勞保"
+
+#. module: om_hr_payroll_cpic
+#: model:ir.model,name:om_hr_payroll_cpic.model_hr_contract
+msgid "Employee Contract"
+msgstr "員工合同"
+
+#. module: om_hr_payroll_cpic
+#: model:ir.model.fields,field_description:om_hr_payroll_cpic.field_hr_contract__health_insurance_dependents
+msgid "Health Ins. Dependents"
+msgstr "健保親屬"
+
+#. module: om_hr_payroll_cpic
+#: model:ir.model.fields,field_description:om_hr_payroll_cpic.field_hr_contract__health_insurance
+#: model:ir.model.fields,help:om_hr_payroll_cpic.field_hr_contract__health_insurance
+msgid "Health Insurance"
+msgstr "健保"
+
+#. module: om_hr_payroll_cpic
+#: model:ir.model.fields,field_description:om_hr_payroll_cpic.field_hr_contract__accident_insurance_contributed
+msgid "Labor Ins. Contributed"
+msgstr "勞保自提"
+
+#. module: om_hr_payroll_cpic
+#: model:ir.model.fields,field_description:om_hr_payroll_cpic.field_hr_contract__accident_insurance
+msgid "Labor Insurance"
+msgstr "勞保"

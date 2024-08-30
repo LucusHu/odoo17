@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Schedule -->
+        <record id="ir_cron_mfp_calc_auto_wizard" model="ir.cron">
+            <field name="name">mfp calc auto wizard</field>
+            <field name="model_id" ref="model_mfp_calc_auto_wizard"/>
+            <field name="state">code</field>
+            <!--<field name="code">model._cron_process_documents_web_services(job_count=20)</field>-->
+            <field name="code">model._calc_mfps()</field>
+            <field name="interval_number">1</field>
+            <!--<field name="interval_type">months,weeks,days,hours,minutes</field>-->
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+        <!--        &lt;!&ndash; iron_account &ndash;&gt;-->
+        <!--        <record id="data_mfp_everyday_pm06_schedule" model="ir.cron">-->
+        <!--            <field name="name">MFP EveryDay PM06</field>-->
+        <!--            <field name="model_id" ref="model_mfp_data"/>-->
+        <!--            <field name="state">code</field>-->
+        <!--            <field name="user_id" ref="base.user_root"/>-->
+        <!--            <field name="code">model.iron_account()</field>-->
+        <!--            <field name="interval_number">1</field>-->
+        <!--            <field name="interval_type">days</field>-->
+        <!--            <field name="numbercall">-1</field>-->
+        <!--            <field name="doall" eval="False"/>-->
+        <!--            <field name="active" eval="True"/>-->
+        <!--            <field name="nextcall"-->
+        <!--                   eval="(datetime.now().replace(hour=18, minute=30, second=0, microsecond=0)).strftime('%Y-%m-%d %H:%M:%S')"/>-->
+        <!--        </record>-->
+        <!--        <record id="data_mfp_test_schedule" model="ir.cron">-->
+        <!--            <field name="name">MFP Test</field>-->
+        <!--            <field name="model_id" ref="model_mfp_data"/>-->
+        <!--            <field name="state">code</field>-->
+        <!--            <field name="user_id" ref="base.user_root"/>-->
+        <!--            <field name="code">model.iron_test()</field>-->
+        <!--            <field name="interval_number">1</field>-->
+        <!--            <field name="interval_type">minutes</field>-->
+        <!--            <field name="numbercall">-1</field>-->
+        <!--            <field name="doall" eval="False"/>-->
+        <!--            <field name="active" eval="True"/>-->
+        <!--            <field name="nextcall"-->
+        <!--                   eval="(datetime.now()).strftime('%Y-%m-%d %H:%M:%S')"/>-->
+        <!--        </record>-->
+    </data>
+</odoo>

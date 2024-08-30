@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_mail_monitor_server_mail_list" model="ir.ui.view">
+            <field name="model">mail.monitor.server.mail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="filter_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_mail_server_mail_form" model="ir.ui.view">
+            <field name="model">mail.monitor.server.mail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="測試" name="action_test" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="filter_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="date"/>
+                        </group>
+                        <notebook>
+                            <page string="信件內容">
+                                <field name="content" widget="html"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="view_mail_monitor_server_mail_search" model="ir.ui.view">
+            <field name="model">mail.monitor.server.mail</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="today" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <!--                    <group expand="0" string="Group By">-->
+                    <!--                        <filter name='group_by_company' context="{'group_by':'company_id'}"/>-->
+                    <!--                    </group>-->
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mail_monitor_server_mail" model="ir.actions.act_window">
+            <field name="name">郵件</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.monitor.server.mail</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_today': 1}</field>
+        </record>
+    </data>
+</odoo>

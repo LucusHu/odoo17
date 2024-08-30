@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--        <record id="sequence_place_data" model="ir.sequence">-->
+        <!--            <field name="name">Place Data Sequence</field>-->
+        <!--            <field name="code">place.data.sequence</field>-->
+        <!--            <field name="padding">3</field>-->
+        <!--            <field name="number_next" eval="1"/>-->
+        <!--            <field name="number_increment" eval="1"/>-->
+        <!--        </record>-->
+        <record id="seq_mfp_company" model="ir.sequence">
+            <field name="name">MFP Company</field>
+            <field name="code">mfp.company.sequence</field>
+            <field name="padding">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_mfp_place" model="ir.sequence">
+            <field name="name">MFP Place</field>
+            <field name="code">mfp.place.sequence</field>
+            <field name="padding">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

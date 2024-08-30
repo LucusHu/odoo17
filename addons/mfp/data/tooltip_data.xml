@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Waste -->
+        <record id="mfp_tooltip_toner_waste_full" model="mfp.tooltip">
+            <field name="name">廢粉:已滿</field>
+            <field name="color">1</field>
+        </record>
+        <record id="mfp_tooltip_toner_waste_almost_full" model="mfp.tooltip">
+            <field name="name">廢粉:將滿</field>
+            <field name="color">2</field>
+        </record>
+
+        <!-- Toner -->
+        <record id="mfp_tooltip_toner_empty" model="mfp.tooltip">
+            <field name="name">碳粉:已空</field>
+            <field name="color">1</field>
+        </record>
+        <record id="mfp_tooltip_toner_almost_empty" model="mfp.tooltip">
+            <field name="name">碳粉:將空</field>
+            <field name="color">2</field>
+        </record>
+        <record id="mfp_tooltip_toner_critical_value" model="mfp.tooltip">
+            <field name="name">碳粉:已達臨界值</field>
+            <field name="color">3</field>
+        </record>
+
+        <!-- Drum -->
+        <record id="mfp_tooltip_drum_empty" model="mfp.tooltip">
+            <field name="name">滾筒:已空</field>
+            <field name="color">1</field>
+        </record>
+        <record id="mfp_tooltip_drum_almost_empty" model="mfp.tooltip">
+            <field name="name">滾筒:將空</field>
+            <field name="color">2</field>
+        </record>
+        <record id="mfp_tooltip_drum_critical_value" model="mfp.tooltip">
+            <field name="name">滾筒:已達臨界值</field>
+            <field name="color">3</field>
+        </record>
+    </data>
+</odoo>

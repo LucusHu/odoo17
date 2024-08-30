@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_mfp_data_list" model="ir.ui.view">
+            <field name="model">mfp.data</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="company_number"/>
+                    <field name="company_id"/>
+                    <field name="model_id"/>
+                    <field name="name"/>
+                    <field name="contract_end"/>
+                    <field name="contract_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="stl_date"/>
+                    <field name="toner"/>
+                    <field name="drum"/>
+                    <field name="merge_id" widget="many2many_tags"/>
+                    <field name="tooltip_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_mfp_data_form" model="ir.ui.view">
+            <field name="model">mfp.data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_invalid" type="object" class="oe_highlight" icon="fa-trash"
+                                string="作廢張數"/>
+                    </header>
+                    <sheet>
+                        <group string="客戶資料">
+                            <group>
+                                <label for="company_id" class="oe_inline"/>
+                                <div class="d-flex">
+                                    <div class="d-flex col">
+                                        <field name="company_id"/>
+                                    </div>
+                                    <label for="company_number" class="oe_inline"/>
+                                    <div class="d-flex col" style="margin-left: 1rem;">
+                                        <field name="company_number"/>
+                                    </div>
+                                </div>
+                                <field name="place_id" context="{'default_company_id': company_id}"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="proxy_user"/>
+                            </group>
+                        </group>
+                        <group string="事務機">
+                            <group>
+                                <field name="name"/>
+                                <label for="brand_id" class="oe_inline"/>
+                                <div class="d-flex">
+                                    <div class="d-flex col">
+                                        <field name="brand_id"/>
+                                    </div>
+                                    <label for="model_id" class="oe_inline"/>
+                                    <div class="d-flex col" style="margin-left: 1rem;">
+                                        <field name="model_id"/>
+                                    </div>
+                                </div>
+                                <label for="ip" class="oe_inline"/>
+                                <div class="d-flex">
+                                    <div class="d-flex col">
+                                        <field name="ip"/>
+                                    </div>
+                                    <label for="mac" class="oe_inline"/>
+                                    <div class="d-flex col" style="margin-left: 1rem;">
+                                        <field name="mac"/>
+                                    </div>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="deposit"/>
+                            <!--<field name="meter_day" invisible="merge_id"/>-->
+                                <field name="state"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="description" string="說明">
+                                <field name="description" widget="text"/>
+                            </page>
+                            <page name="contract" string="合約/費用">
+                                <group>
+                                    <group string="合約">
+                                        <field name="contract_start"/>
+                                        <field name="contract_end"/>
+                                        <field name="contract_ids" widget="many2many_tags"
+                                               options="{'color_field': 'color'}"
+                                               invisible="merge_id"/>
+                                    </group>
+                                    <group string="抄表起訖">
+                                        <field name="meter_date" readonly="merge_id"/>
+                                        <field name="stl_date" readonly="merge_id"/>
+                                        <!--<field name="prev_date" invisible="merge_id"/>-->
+                                    </group>
+                                    <group colspan="8">
+                                        <group string="月租">
+                                            <field name="rental"/>
+                                            <field name="tax" invisible="merge_id"/>
+                                            <field name="pay_period" invisible="merge_id"/>
+                                            <field name="is_adv" invisible="merge_id"/>
+                                            <field name="deduct" invisible="merge_id"/>
+                                        </group>
+                                        <group string="超印單價/贈送張數">
+                                            <field name="color_print_overprice"/>
+                                            <field name="black_print_overprice"/>
+                                            <field name="large_print_overprice"/>
+                                            <field name="color_print_deduct"/>
+                                            <field name="black_print_deduct"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <group string="合併計費">
+                                    <field name="merge_id" widget="many2many_tags" readonly="True"/>
+                                    <field name="merge_ids" invisible="merge_id">
+                                        <tree readonly="True">
+                                            <field name="place_id"/>
+                                            <field name="name"/>
+                                            <field name="model_id"/>
+                                            <field name="rental"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="invalid" string="作廢筆數">
+                                <field name="invalid_ids">
+                                    <tree create="false">
+                                        <field name="date"/>
+                                        <field name="color_print"/>
+                                        <field name="black_print"/>
+                                        <field name="large_print"/>
+                                        <field name="invalid_reason"/>
+                                        <field name="state" widget="badge"
+                                               decoration-info="state == '0'"
+                                               decoration-success="state == '1'"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="notify" string="帳務通知" invisible="merge_id">
+                                <field name="notify_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="toner" string="碳粉/滾筒">
+                                <group>
+                                    <group string="碳粉">
+                                        <field name="toner_black" widget="percentage"/>
+                                        <field name="toner_cyan" widget="percentage"/>
+                                        <field name="toner_magenta" widget="percentage"/>
+                                        <field name="toner_yellow" widget="percentage"/>
+                                    </group>
+                                    <group string="滾筒">
+                                        <field name="drum_black" widget="percentage"/>
+                                        <field name="drum_cyan" widget="percentage"/>
+                                        <field name="drum_magenta" widget="percentage"/>
+                                        <field name="drum_yellow" widget="percentage"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="alert" string="告警訊息">
+                                <field name="alert_ids">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="code"/>
+                                        <field name="description"/>
+                                        <field name="state" widget="badge"
+                                               decoration-info="state == '0'"
+                                               decoration-danger="state == '1'"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="view_mfp_data_search" model="ir.ui.view">
+            <field name="model">mfp.data</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name"/>
+                    <field name="company_number"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name='group_by_company' context="{'group_by':'company_id'}"/>
+                        <filter name='group_by_brand' context="{'group_by':'brand_id'}"/>
+                        <filter name='group_by_model' context="{'group_by':'model_id'}"/>
+                        <filter name='group_by_user' context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mfp_data" model="ir.actions.act_window">
+            <field name="name">事務機管理</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mfp.data</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

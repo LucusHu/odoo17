@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menu items -->
+        <menuitem id="menu_equipment_root" name="創勁客戶設備" web_icon="equipment_maintenance,static/description/icon.png">
+            <menuitem id="menu_equipment" action="action_equipment" sequence="1"/>
+            <menuitem id="menu_account_info" action="action_account_info" sequence="2"/>
+            <menuitem id="menu_software_license" action="action_software_license" sequence="3"/>
+
+            <!-- Menu items -->
+            <menuitem id="menu_equipment_settings" name="配置" sequence="4">
+                <menuitem id="menu_equipment_device_type" action="action_equipment_device_type" sequence="1"/>
+                <menuitem id="menu_equipment_remote_type" action="action_equipment_remote_type" sequence="2"/>
+                <menuitem id="menu_account_connect_type" action="action_account_connect_type" sequence="3"/>
+                <menuitem id="menu_software_name_type" action="action_software_type" sequence="4"/>
+                <menuitem id="menu_software_internet_type" action="action_software_internet_type" sequence="5"/>
+            </menuitem>
+        </menuitem>
+    </data>
+</odoo>

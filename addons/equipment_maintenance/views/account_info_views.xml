@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_account_info_tree" model="ir.ui.view">
+            <field name="model">account.info</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="partner_id"/>
+                    <field name="user_name"/>
+                    <field name="connect_name"/>
+                    <field name="connect_account"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_account_info_form" model="ir.ui.view">
+            <field name="model">account.info</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="user_name"/>
+                                <field name="active"/>
+                                <field name="x_username"/>
+                            </group>
+                            <group>
+                                <field name="x_email"/>
+                                <field name="x_email_pw"/>
+                                <field name="x_nas_pw"/>
+                                <field name="x_vpn_pw"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="說明">
+                                <field name="description" widget="text"/>
+                            </page>
+                            <page string="帳號密碼" autofocus="autofocus">
+                                <field name="connect_ids" widget="one2many">
+                                    <tree editable="bottom">
+                                        <field name="type_id" widget="many2one"/>
+                                        <field name="account"/>
+                                        <field name="password"/>
+                                        <field name="description" widget="text"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_account_info" model="ir.actions.act_window">
+            <field name="name">帳號密碼</field>
+            <field name="res_model">account.info</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

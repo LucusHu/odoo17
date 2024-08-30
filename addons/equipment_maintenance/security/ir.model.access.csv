@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_connect_info,connect.info,model_connect_info,base.group_user,1,1,1,1
+access_account_connect,account.connect,model_account_connect,base.group_user,1,1,1,1
+access_remote_connect,remote.connect,model_remote_connect,base.group_user,1,1,1,1
+
+access_account_connect_type,account.connect.type,model_account_connect_type,base.group_user,1,1,1,1
+access_equipment_device_type,equipment.device.type,model_equipment_device_type,base.group_user,1,1,1,1
+access_equipment_remote_type,equipment.remote.type,model_equipment_remote_type,base.group_user,1,1,1,1
+access_software_type,software.type,model_software_type,,1,1,1,1
+access_software_internet_type,software.internet.type,model_software_internet_type,base.group_user,1,1,1,1
+
+access_equipment_maintenance,equipment.maintenance,model_equipment_maintenance,,1,1,1,1
+access_software_license,software.license,model_software_license,,1,1,1,1
+access_account_info,account.info,model_account_info,,1,1,1,1

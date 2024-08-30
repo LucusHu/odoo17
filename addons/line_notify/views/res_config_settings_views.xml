@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Form View-->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Line" string="Line Notify" name="line_notify">
+                    <block title="Line Notify">
+                        <setting string="Line Notify Control">
+                            <div class="content-group" name="line_notify_presence_options">
+                                <div class="d-flex">
+                                    <label for="client_id" class="col-3 o_light_label"/>
+                                    <field name="client_id"/>
+                                </div>
+                                <div class="d-flex">
+                                    <label for="client_secret" class="col-3 o_light_label"/>
+                                    <field name="client_secret"/>
+                                </div>
+                                <div class="d-flex">
+                                    <label for="redirect_uri" class="col-3 o_light_label"/>
+                                    <field name="redirect_uri"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Action View-->
+    <record id="action_line_notify_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <!--        <field name="context">{'module' : 'helpdesk_mgmt', 'bin_size': False}</field>-->
+    </record>
+</odoo>

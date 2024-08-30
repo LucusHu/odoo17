@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_mfp_invalid_record_list" model="ir.ui.view">
+            <field name="model">mfp.invalid.record</field>
+            <field name="arch" type="xml">
+                <tree create="false" default_order="date desc">
+                    <field name="company_number"/>
+                    <field name="company_id"/>
+                    <field name="place_id"/>
+                    <field name="mfp_id"/>
+                    <field name="user_id"/>
+                    <field name="black_print"/>
+                    <field name="color_print"/>
+                    <field name="large_print"/>
+                    <field name="state" widget="badge"
+                           decoration-info="state == '0'"
+                           decoration-success="state == '1'"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="view_mfp_invalid_record_search" model="ir.ui.view">
+            <field name="model">mfp.invalid.record</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name"/>
+                    <field name="company_number"/>
+                    <filter name="today" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name='group_by_company' context="{'group_by':'company_id'}"/>
+                        <filter name='group_by_place' context="{'group_by':'place_id'}"/>
+                        <filter name='group_by_user' context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <!-- Invalid -->
+        <record id="view_mfp_invalid_record_form" model="ir.ui.view">
+            <field name="name">作廢張數</field>
+            <field name="model">mfp.invalid.record</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="date"/>
+                            <field name="color_print"/>
+                            <field name="black_print"/>
+                            <field name="large_print"/>
+                        </group>
+                        <notebook>
+                            <page name="invalid_reason" string="作廢事由">
+                                <field name="invalid_reason" widget="html"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mfp_invalid_record" model="ir.actions.act_window">
+            <field name="name">作廢紀錄</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mfp.invalid.record</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_axis_helpdesk_advance_supporter
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-10 13:43+0000\n"
+"PO-Revision-Date: 2024-07-10 21:45+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: website_axis_helpdesk_advance_supporter
+#: model:ir.model.fields,field_description:website_axis_helpdesk_advance_supporter.field_axis_helpdesk_ticket__equipment_number
+msgid "Equipment Number"
+msgstr "設備編號"
+
+#. module: website_axis_helpdesk_advance_supporter
+#: model:ir.model,name:website_axis_helpdesk_advance_supporter.model_axis_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr ""
+
+#. module: website_axis_helpdesk_advance_supporter
+#: model:ir.model.fields,field_description:website_axis_helpdesk_advance_supporter.field_axis_helpdesk_ticket__process_hours
+msgid "Process Hours"
+msgstr "處理時數"
+
+#. module: website_axis_helpdesk_advance_supporter
+#: model:ir.model.fields,field_description:website_axis_helpdesk_advance_supporter.field_axis_helpdesk_ticket__helpdesk_stage_id
+msgid "Stage"
+msgstr ""
+
+#. module: website_axis_helpdesk_advance_supporter
+#: model:ir.model.fields,field_description:website_axis_helpdesk_advance_supporter.field_axis_helpdesk_ticket__support_user_id
+msgid "Support User"
+msgstr "支援工程師"

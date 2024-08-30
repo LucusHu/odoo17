@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_account_move_print">
+            <div class="row pt-2">
+                <div class="col">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <span class="text-primary font-weight-bold" t-esc="'客戶編號:'"/>
+                                    <span t-field="line.mfp_id.company_id.number"/>
+                                </td>
+                                <td colspan="2">
+                                    <span class="text-primary font-weight-bold" t-esc="'基本租金:'"/>
+                                    <span t-field="line.rental"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span class="text-primary font-weight-bold" t-esc="'機器號碼:'"/>
+                                    <span t-field="line.mfp_id.serial_number"/>
+                                </td>
+                                <td colspan="2">
+                                    <span class="text-primary font-weight-bold" t-esc="'彩色贈送張數:'"/>
+                                    <span t-field="line.mfp_id.color_print_deduct"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span class="text-primary font-weight-bold" t-esc="'客戶名稱:'"/>
+                                    <span t-field="line.mfp_id.company_id"/>
+                                    <span t-field="line.mfp_id.place_id"/>
+                                </td>
+                                <td colspan="2">
+                                    <span class="text-primary font-weight-bold" t-esc="'黑白贈送張數:'"/>
+                                    <span t-field="line.mfp_id.black_print_deduct"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'抄表日期'"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.date_start"
+                                          t-options='{"widget": "date","format": "yyyy-MM-dd"}'/>
+                                </td>
+                                <td>
+                                    <span t-field="line.date_end"
+                                          t-options='{"widget": "date","format": "yyyy-MM-dd"}'/>
+                                </td>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'計費張數'"/>
+                                </td>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'單價'"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'彩色張數'"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.color_print_start"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.color_print_end"/>
+                                </td>
+                                <td>
+                                    <!--<t t-set="start" t-value="line.color_print_start"/>-->
+                                    <!--<t t-set="end" t-value="line.color_print_end"/>-->
+                                    <!--<t t-set="deduct" t-value="line.color_print_deduct"/>-->
+                                    <!--<t t-set="count" t-value="end - start"/>-->
+                                    <!--<span t-esc="count"/>-->
+                                    <span t-field="line.color_print_number"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.color_print_overprice"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'黑白張數'"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.black_print_start"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.black_print_end"/>
+                                </td>
+                                <td>
+                                    <!--<t t-set="start" t-value="line.black_print_start"/>-->
+                                    <!--<t t-set="end" t-value="line.black_print_end"/>-->
+                                    <!--<t t-set="deduct" t-value="line.black_print_deduct"/>-->
+                                    <!--<t t-set="number" t-value="line.black_print_number"/>-->
+                                    <!--<t t-set="count" t-value="end - start"/>-->
+                                    <!--<span t-esc="count"/>-->
+                                    <span t-field="line.black_print_number"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.black_print_overprice"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'A3大尺寸'"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.large_print_start"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.large_print_end"/>
+                                </td>
+                                <td>
+                                    <!--<span t-field="line.large_print_count"/>-->
+                                    <span t-field="line.large_print_number"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.large_print_overprice"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-primary font-weight-bold" t-esc="'備註:'"/>
+                                </td>
+                                <td colspan="4">
+                                    <span t-field="line.description"/>
+                                    <t t-if="line.color_print_invalid">
+                                        <t t-set="start" t-value="line.color_print_start"/>
+                                        <t t-set="end" t-value="line.color_print_end"/>
+                                        <t t-set="deduct" t-value="line.color_print_deduct"/>
+                                        <t t-set="count" t-value="end - start - deduct"/>
+                                        <span class="pr-2" t-esc="'彩色張數:'"/>
+                                        <span t-esc="count"/>
+                                        <span t-esc="'-'"/>
+                                        <span t-field="line.color_print_invalid"/>
+                                        <span class="pr-2" t-esc="'(作廢張數彩色)'"/>
+                                        <span t-esc="'='"/>
+                                        <span t-field="line.color_print_count"/>
+                                    </t>
+                                    <t t-if="line.black_print_invalid">
+                                        <t t-set="start" t-value="line.black_print_start"/>
+                                        <t t-set="end" t-value="line.black_print_end"/>
+                                        <t t-set="deduct" t-value="line.black_print_deduct"/>
+                                        <t t-set="count" t-value="end - start - deduct"/>
+                                        <span class="pr-2" t-esc="'黑白張數:'"/>
+                                        <span t-esc="count"/>
+                                        <span t-esc="'-'"/>
+                                        <span t-field="line.black_print_invalid"/>
+                                        <span class="pr-2" t-esc="'(作廢張數黑白)'"/>
+                                        <span t-esc="'='"/>
+                                        <span t-field="line.black_print_count"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <!--========== Document ==========-->
+        <template id="report_account_move_document">
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <div class="page">
+                    <t t-foreach="doc.print_ids" t-as="line">
+                        <t t-call="mfp.report_account_move_print"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        <!--========== External Layout ==========-->
+        <!--========== Base ==========-->
+        <template id="report_account_move_base">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="mfp.report_account_move_document" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+        <!-- Action -->
+        <record id="action_report_account_move" model="ir.actions.report">
+            <field name="name">事務機明細</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">mfp.report_account_move_base</field>
+            <field name="report_file">mfp.report_account_move_base</field>
+            <field name="print_report_name">'事務機明細 %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

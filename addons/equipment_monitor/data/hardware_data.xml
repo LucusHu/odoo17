@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- hardware category -->
+        <!-- # Board, CPU, Memery, HDD, SDD, VGA -->
+        <record id="equipment_monitor_info_hardware_board" model="equipment.monitor.info.hardware">
+            <field name="name">Board</field>
+        </record>
+        <record id="equipment_monitor_info_hardware_cpu" model="equipment.monitor.info.hardware">
+            <field name="name">CPU</field>
+        </record>
+        <record id="equipment_monitor_info_hardware_memery" model="equipment.monitor.info.hardware">
+            <field name="name">Memery</field>
+        </record>
+        <record id="equipment_monitor_info_hardware_hdd" model="equipment.monitor.info.hardware">
+            <field name="name">HDD</field>
+        </record>
+        <record id="equipment_monitor_info_hardware_sdd" model="equipment.monitor.info.hardware">
+            <field name="name">SDD</field>
+        </record>
+        <record id="equipment_monitor_info_hardware_vga" model="equipment.monitor.info.hardware">
+            <field name="name">VGA</field>
+        </record>
+    </data>
+</odoo>

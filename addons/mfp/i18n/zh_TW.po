@@ -1,0 +1,944 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mfp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-02 04:25+0000\n"
+"PO-Revision-Date: 2024-02-15 18:07+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.1\n"
+
+#. module: mfp
+#: model:ir.actions.report,print_report_name:mfp.action_report_account_move
+msgid "'列印紀錄 %s' % (object.name)"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__large_print_overprice
+msgid "A3大尺寸價格"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_account_print_line
+msgid "Account Print Line"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_bank_statement_line__account_type
+#: model:ir.model.fields,field_description:mfp.field_account_move__account_type
+#: model:ir.model.fields,field_description:mfp.field_account_payment__account_type
+msgid "Account Type"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_brand_data
+msgid "Brand Data"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_account_move_calc_form
+msgid "Calculate"
+msgstr "計算"
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_account_move_calc_form
+msgid "Cancel"
+msgstr "取消"
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__create_uid
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__create_uid
+#: model:ir.model.fields,field_description:mfp.field_brand_data__create_uid
+#: model:ir.model.fields,field_description:mfp.field_install_record__create_uid
+#: model:ir.model.fields,field_description:mfp.field_line_record__create_uid
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__create_uid
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__create_uid
+#: model:ir.model.fields,field_description:mfp.field_model_data__create_uid
+#: model:ir.model.fields,field_description:mfp.field_place_data__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__create_date
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__create_date
+#: model:ir.model.fields,field_description:mfp.field_brand_data__create_date
+#: model:ir.model.fields,field_description:mfp.field_install_record__create_date
+#: model:ir.model.fields,field_description:mfp.field_line_record__create_date
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__create_date
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__create_date
+#: model:ir.model.fields,field_description:mfp.field_model_data__create_date
+#: model:ir.model.fields,field_description:mfp.field_place_data__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__display_name
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__display_name
+#: model:ir.model.fields,field_description:mfp.field_brand_data__display_name
+#: model:ir.model.fields,field_description:mfp.field_install_record__display_name
+#: model:ir.model.fields,field_description:mfp.field_line_record__display_name
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__display_name
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__display_name
+#: model:ir.model.fields,field_description:mfp.field_model_data__display_name
+#: model:ir.model.fields,field_description:mfp.field_place_data__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_install_record_search
+#: model_terms:ir.ui.view,arch_db:mfp.view_line_record_search
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_data_search
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_record_search
+#: model_terms:ir.ui.view,arch_db:mfp.view_model_data_search
+msgid "Group By"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__id
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__id
+#: model:ir.model.fields,field_description:mfp.field_brand_data__id
+#: model:ir.model.fields,field_description:mfp.field_install_record__id
+#: model:ir.model.fields,field_description:mfp.field_line_record__id
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__id
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__id
+#: model:ir.model.fields,field_description:mfp.field_model_data__id
+#: model:ir.model.fields,field_description:mfp.field_place_data__id
+msgid "ID"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_install_record
+msgid "Install Record"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_account_move
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__move_id
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__move_id
+msgid "Journal Entry"
+msgstr "日記帳分錄"
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line____last_update
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard____last_update
+#: model:ir.model.fields,field_description:mfp.field_brand_data____last_update
+#: model:ir.model.fields,field_description:mfp.field_install_record____last_update
+#: model:ir.model.fields,field_description:mfp.field_line_record____last_update
+#: model:ir.model.fields,field_description:mfp.field_mfp_data____last_update
+#: model:ir.model.fields,field_description:mfp.field_mfp_record____last_update
+#: model:ir.model.fields,field_description:mfp.field_model_data____last_update
+#: model:ir.model.fields,field_description:mfp.field_place_data____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__write_uid
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__write_uid
+#: model:ir.model.fields,field_description:mfp.field_brand_data__write_uid
+#: model:ir.model.fields,field_description:mfp.field_install_record__write_uid
+#: model:ir.model.fields,field_description:mfp.field_line_record__write_uid
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__write_uid
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__write_uid
+#: model:ir.model.fields,field_description:mfp.field_model_data__write_uid
+#: model:ir.model.fields,field_description:mfp.field_place_data__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__write_date
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__write_date
+#: model:ir.model.fields,field_description:mfp.field_brand_data__write_date
+#: model:ir.model.fields,field_description:mfp.field_install_record__write_date
+#: model:ir.model.fields,field_description:mfp.field_line_record__write_date
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__write_date
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__write_date
+#: model:ir.model.fields,field_description:mfp.field_model_data__write_date
+#: model:ir.model.fields,field_description:mfp.field_place_data__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_line_record
+msgid "Line Record"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__line
+#: model:ir.model.fields,field_description:mfp.field_res_partner__line
+#: model:ir.model.fields,field_description:mfp.field_res_users__line
+msgid "Line 編號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_brand_data__logo
+#: model:ir.model.fields,field_description:mfp.field_model_data__logo
+msgid "Logo"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_mfp_data
+msgid "MFP Data"
+msgstr "事務機資料"
+
+#. module: mfp
+#: model:ir.actions.server,name:mfp.data_mfp_everyday_schedule_ir_actions_server
+#: model:ir.cron,cron_name:mfp.data_mfp_everyday_schedule
+#: model:ir.cron,name:mfp.data_mfp_everyday_schedule
+msgid "MFP EveryDay"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_mfp_record
+msgid "MFP Record"
+msgstr "事務機紀錄"
+
+#. module: mfp
+#: model:ir.ui.menu,name:mfp.menu_mfp_root
+msgid "MFP 雲端抄表系統"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_model_data
+msgid "Model Data"
+msgstr "模組資料"
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_res_partner__place_ids
+#: model:ir.model.fields,field_description:mfp.field_res_users__place_ids
+#: model_terms:ir.ui.view,arch_db:mfp.view_res_partner_form
+msgid "Place"
+msgstr "裝機地點"
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_place_data
+msgid "Place Data"
+msgstr "裝機地點資料"
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_res_partner
+msgid "ResPartner"
+msgstr ""
+
+#. module: mfp
+#: model:product.template,uom_name:mfp.product_template_mfp_printer
+msgid "Units"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model,name:mfp.model_account_print_line_wizard
+msgid "Wizard"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__account_move__account_type__0
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__status__0
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_record__print_status__0
+msgid "一般"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_bank_statement_line__mfp_id
+#: model:ir.model.fields,field_description:mfp.field_account_move__mfp_id
+#: model:ir.model.fields,field_description:mfp.field_account_payment__mfp_id
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__mfp_id
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__mfp_id
+#: model:ir.model.fields,field_description:mfp.field_install_record__mfp_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__mfp_id
+#: model:ir.model.fields.selection,name:mfp.selection__account_move__account_type__1
+msgid "事務機"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__name
+msgid "事務機名稱"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_bank_statement_line__print_ids
+#: model:ir.model.fields,field_description:mfp.field_account_move__print_ids
+#: model:ir.model.fields,field_description:mfp.field_account_payment__print_ids
+#: model_terms:ir.ui.view,arch_db:mfp.view_account_move_form
+msgid "事務機明細"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__ip
+msgid "事務機的IP位址"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_mfp_data
+#: model:ir.ui.menu,name:mfp.menu_mfp_02
+#: model:ir.ui.menu,name:mfp.menu_mfp_0203
+msgid "事務機管理"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__install_record__install_status__0
+msgid "使用中"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__state
+msgid "使用狀態"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__brand_data__state__2
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__state__2
+#: model:ir.model.fields.selection,name:mfp.selection__model_data__state__2
+#: model:ir.model.fields.selection,name:mfp.selection__place_data__state__2
+msgid "停用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__overprint_pay_period__2
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__rental_pay_period__2
+msgid "兩個月"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__company_id
+#: model:ir.model.fields,field_description:mfp.field_install_record__company_id
+#: model:ir.model.fields,field_description:mfp.field_line_record__company_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__company_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__company_id
+#: model:ir.model.fields,field_description:mfp.field_place_data__company_id
+msgid "公司名稱"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_res_partner
+#: model:ir.ui.menu,name:mfp.menu_mfp_01
+msgid "公司管理"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__print_status
+msgid "列印狀態"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.report,name:mfp.action_report_account_move
+msgid "列印紀錄"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_model_data__feature
+msgid "功能"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__overprint_pay_period__6
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__rental_pay_period__6
+msgid "半年"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__mfp_id
+msgid "合併帳單(同合約)"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__contract_model
+msgid "合約模式"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__contract_end
+msgid "合約結束"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_data_form
+msgid "合約費用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__contract_start
+msgid "合約開始"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__brand_data__state__1
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__state__1
+#: model:ir.model.fields.selection,name:mfp.selection__model_data__state__1
+#: model:ir.model.fields.selection,name:mfp.selection__place_data__state__1
+msgid "啟用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__model_id
+msgid "型號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__6
+msgid "基本月租-吃到飽方案"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__3
+msgid "基本月租-固定張數&超印計費"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__4
+msgid "基本月租-彩色黑白混計費&可抵扣月租"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__5
+msgid "基本月租-直購碳粉方案"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__large_print_invalid
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__large_print_invalid
+msgid "大張-作廢張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__large_print_count
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__large_print_count
+msgid "大張-列印張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__large_print_end
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__large_print_end
+msgid "大張-結算張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__large_print_start
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__large_print_start
+msgid "大張-起算張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__large_print_overprice
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__large_print_overprice
+msgid "大張-超印價格"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__large_print
+msgid "大張張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_install_record__name
+msgid "安裝事件"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_install_record__install_place
+msgid "安裝位置"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_install_record__install_status
+msgid "安裝狀態"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_install_record
+#: model:ir.ui.menu,name:mfp.menu_mfp_0401
+msgid "安裝紀錄"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__number
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__number
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__number
+#: model:ir.model.fields,field_description:mfp.field_res_partner__number
+#: model:ir.model.fields,field_description:mfp.field_res_users__number
+msgid "客戶編號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_res_partner__password
+msgid "密碼"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_record__print_status__2
+msgid "尾表"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__line_record__status__1
+msgid "已發送"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_account_move_calc
+msgid "帳單計算"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_res_partner__account
+#: model:ir.model.fields,field_description:mfp.field_res_users__account
+msgid "帳號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_bank_statement_line__year
+#: model:ir.model.fields,field_description:mfp.field_account_move__year
+#: model:ir.model.fields,field_description:mfp.field_account_payment__year
+msgid "年份"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_brand_data__name
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__brand_id
+#: model:ir.model.fields,field_description:mfp.field_model_data__brand_id
+msgid "廠牌"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_model_data__brand_name
+msgid "廠牌名稱"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__yellow1
+msgid "廢碳粉盒"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_data_form
+msgid "張數費用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__color_print_invalid
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__color_print_invalid
+msgid "彩色-作廢張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__color_print_count
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__color_print_count
+msgid "彩色-列印張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__color_print_end
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__color_print_end
+msgid "彩色-結算張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__color_print_deduct
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__color_print_deduct
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__color_print_deduct
+msgid "彩色-贈送張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__color_print_start
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__color_print_start
+msgid "彩色-起算張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__color_print_overprice
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__color_print_overprice
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__color_print_overprice
+msgid "彩色-超印價格"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__color_print
+msgid "彩色張數"
+msgstr ""
+
+#. module: mfp
+#: model:product.template,name:mfp.product_template_mfp_printer
+msgid "影印費"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__meter_day
+msgid "抄表日"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__meter_before
+msgid "抄表日前X日"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__meter_after
+msgid "抄表日後X日"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__date
+msgid "抄表日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_mfp_record
+#: model:ir.ui.menu,name:mfp.menu_mfp_0402
+msgid "抄表紀錄"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_brand_data__description
+#: model:ir.model.fields,field_description:mfp.field_install_record__description
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__description
+#: model:ir.model.fields,field_description:mfp.field_model_data__description
+#: model:ir.model.fields,field_description:mfp.field_place_data__description
+msgid "描述"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__status__3
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_record__print_status__3
+msgid "換機"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__install_record__install_status__3
+msgid "換機[新裝機]"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__install_record__install_status__4
+msgid "換機[退機]"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_model_data
+#: model:ir.ui.menu,name:mfp.menu_mfp_0202
+msgid "支援型號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_brand_data
+#: model:ir.ui.menu,name:mfp.menu_mfp_0201
+msgid "支援廠牌"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__user_id
+msgid "收訊者"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__install_record__install_status__1
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__status__1
+msgid "新裝機"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__date
+msgid "日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_bank_statement_line__month
+#: model:ir.model.fields,field_description:mfp.field_account_move__month
+#: model:ir.model.fields,field_description:mfp.field_account_payment__month
+msgid "月份"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_data_form
+msgid "月租費用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__brand_data__state__0
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__state__0
+#: model:ir.model.fields.selection,name:mfp.selection__model_data__state__0
+#: model:ir.model.fields.selection,name:mfp.selection__place_data__state__0
+msgid "未啟用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_model_data__name
+msgid "機器型號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__deposit
+msgid "機器押金"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_model_data__code
+msgid "機器編號"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__serial_number
+msgid "機器號碼"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__rental_pay_period__3
+msgid "每季"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__overprint_pay_period__3
+msgid "每季(三個月)"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__overprint_pay_period__12
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__rental_pay_period__12
+msgid "每年"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__overprint_pay_period__1
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__rental_pay_period__1
+msgid "每月"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_record__print_status__4
+msgid "測試"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__1
+msgid "無月租費-單張計費"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__2
+msgid "無月租費-直購碳粉方案"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_brand_data__state
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__status
+#: model:ir.model.fields,field_description:mfp.field_model_data__state
+#: model:ir.model.fields,field_description:mfp.field_place_data__state
+msgid "狀態"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_res_partner__mfp_invoice
+#: model:ir.model.fields,field_description:mfp.field_res_users__mfp_invoice
+msgid "發票抬頭"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__name
+msgid "發送事件"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__message
+msgid "發送內容"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__line_record__status__2
+msgid "發送失敗"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__status
+msgid "發送狀態"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__magenta
+msgid "碳粉-洋紅色"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__cyan
+msgid "碳粉-青色"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__yellow
+msgid "碳粉-黃色"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__black
+msgid "碳粉-黑色"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_data_form
+msgid "碳粉/墨水"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__rental
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__rental
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__rental
+msgid "租金"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__rental_next_pay_date
+msgid "租金-下一付款日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__rental_pay_date
+msgid "租金-付款日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__rental_pay_period
+msgid "租金-結算期數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__line_record__status__0
+msgid "等待發送"
+msgstr ""
+
+#. module: mfp
+#: model:ir.ui.menu,name:mfp.menu_mfp_04
+msgid "系統紀錄"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__date_end
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__date_end
+msgid "結算日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_install_record__user_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__user_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__user_id
+msgid "維護工程師"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_install_record__place_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__place_id
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__place_id
+#: model:ir.model.fields,field_description:mfp.field_place_data__name
+msgid "裝機地點"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_record_form
+msgid "計算帳單"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__contract_model__7
+msgid "買斷方案"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__date_start
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__date_start
+msgid "起算日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_record__print_status__1
+msgid "起表"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__overprint_next_pay_date
+msgid "超印-下一付款日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__overprint_pay_date
+msgid "超印-付款日期"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__overprint_pay_period
+msgid "超印-結算期數"
+msgstr ""
+
+#. module: mfp
+#: model_terms:ir.ui.view,arch_db:mfp.view_mfp_data_form
+msgid "超印費用"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields.selection,name:mfp.selection__install_record__install_status__2
+#: model:ir.model.fields.selection,name:mfp.selection__mfp_data__status__2
+msgid "退機"
+msgstr ""
+
+#. module: mfp
+#: model:ir.actions.act_window,name:mfp.action_line_record
+#: model:ir.ui.menu,name:mfp.menu_mfp_0403
+msgid "通知紀錄"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_line_record__error
+msgid "錯誤訊息"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_place_data__install_place
+msgid "驅動安裝位置"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__black_print_invalid
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__black_print_invalid
+msgid "黑白-作廢張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__black_print_count
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__black_print_count
+msgid "黑白-列印張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__black_print_end
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__black_print_end
+msgid "黑白-結算張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__black_print_deduct
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__black_print_deduct
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__black_print_deduct
+msgid "黑白-贈送張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__black_print_start
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__black_print_start
+msgid "黑白-起算張數"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_account_print_line__black_print_overprice
+#: model:ir.model.fields,field_description:mfp.field_account_print_line_wizard__black_print_overprice
+#: model:ir.model.fields,field_description:mfp.field_mfp_data__black_print_overprice
+msgid "黑白-超印價格"
+msgstr ""
+
+#. module: mfp
+#: model:ir.model.fields,field_description:mfp.field_mfp_record__black_print
+msgid "黑白張數"
+msgstr ""

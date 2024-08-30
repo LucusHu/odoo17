@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_mfp_calc_manual_exchange_wizard_form" model="ir.ui.view">
+            <field name="model">mfp.calc.manual.exchange.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="帳單">
+                                <field name="company_id"/>
+                                <field name="invoice_date"/>
+                                <field name="deduct"/>
+                                <field name="is_adv"/>
+                                <field name="tax"/>
+                            </group>
+                            <group string="總計">
+                                <field name="rental"/>
+                                <field name="color_print"/>
+                                <field name="black_print"/>
+                                <field name="large_print"/>
+                                <field name="pay_period"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="line_ids" string="事務機(換機)">
+                                <field name="line_ids">
+                                    <tree>
+                                        <field name="mfp_id"/>
+                                        <field name="contract_ids" widget="many2many_tags"
+                                               options="{'color_field': 'color'}"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="rental"/>
+                                        <field name="print_count"/>
+                                        <field name="merge_ids" widget="many2many_tags"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="company_id"/>
+                                                    <field name="mfp_id"/>
+                                                    <field name="rental"/>
+                                                    <field name="pay_period" readonly="True"/>
+                                                </group>
+                                                <group>
+                                                    <field name="color_print_overprice"/>
+                                                    <field name="black_print_overprice"/>
+                                                    <field name="large_print_overprice"/>
+                                                    <field name="color_print_deduct" readonly="True"/>
+                                                    <field name="black_print_deduct" readonly="True"/>
+                                                </group>
+                                            </group>
+                                            <group>
+                                                <group string="起算日">
+                                                    <field name="date_start"/>
+                                                    <field name="color_print_start"/>
+                                                    <field name="black_print_start"/>
+                                                    <field name="large_print_start"/>
+                                                </group>
+                                                <group string="結算日">
+                                                    <field name="date_end"/>
+                                                    <field name="color_print_end"/>
+                                                    <field name="black_print_end"/>
+                                                    <field name="large_print_end"/>
+                                                </group>
+                                                <group string="作廢">
+                                                    <field name="color_print_invalid"/>
+                                                    <field name="black_print_invalid"/>
+                                                    <field name="large_print_invalid"/>
+                                                </group>
+                                                <group string="總計">
+                                                    <field name="color_print_count"/>
+                                                    <field name="black_print_count"/>
+                                                    <field name="large_print_count"/>
+                                                    <field name="print_count"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="return_ids" string="事務機(退機)">
+                                <field name="return_ids">
+                                    <tree>
+                                        <field name="mfp_id"/>
+                                        <field name="contract_ids" widget="many2many_tags"
+                                               options="{'color_field': 'color'}"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="rental"/>
+                                        <field name="print_count"/>
+                                        <field name="merge_ids" widget="many2many_tags"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="company_id"/>
+                                                    <field name="mfp_id"/>
+                                                    <field name="rental"/>
+                                                    <field name="pay_period" readonly="True"/>
+                                                </group>
+                                                <group>
+                                                    <field name="color_print_overprice"/>
+                                                    <field name="black_print_overprice"/>
+                                                    <field name="large_print_overprice"/>
+                                                    <field name="color_print_deduct"/>
+                                                    <field name="black_print_deduct"/>
+                                                </group>
+                                            </group>
+                                            <group>
+                                                <group string="起算日">
+                                                    <field name="date_start"/>
+                                                    <field name="color_print_start"/>
+                                                    <field name="black_print_start"/>
+                                                    <field name="large_print_start"/>
+                                                </group>
+                                                <group string="結算日">
+                                                    <field name="date_end"/>
+                                                    <field name="color_print_end"/>
+                                                    <field name="black_print_end"/>
+                                                    <field name="large_print_end"/>
+                                                </group>
+                                                <group string="作廢">
+                                                    <field name="color_print_invalid"/>
+                                                    <field name="black_print_invalid"/>
+                                                    <field name="large_print_invalid"/>
+                                                </group>
+                                                <group string="總計">
+                                                    <field name="color_print_count"/>
+                                                    <field name="black_print_count"/>
+                                                    <field name="large_print_count"/>
+                                                    <field name="print_count"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button string="計算並前往會計" name="btn_calc_account" type="object" class="oe_highlight"/>
+                            <button string="計算並新增" name="btn_calc_new" type="object" class="oe_highlight"/>
+                            <button string="Cancel" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mfp_calc_manual_exchange_wizard" model="ir.actions.act_window">
+            <field name="name">帳單計算(換機)</field>
+            <field name="res_model">mfp.calc.manual.exchange.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

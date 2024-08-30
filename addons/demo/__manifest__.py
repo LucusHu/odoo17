@@ -1,0 +1,31 @@
+{
+    'name': '測試系統',
+    'version': '1.0',
+    'category': 'Services',
+    # 'Accounting', # 'Sales', # 'Services'
+    'license': 'LGPL-3',
+    # 'MIT', 'BSD', 'Apache', 'LGPL-3', 'GPL-3', 'AGPL-3','OPL-1',
+    'summary': '測試系統',
+    'author': 'Lucas',
+    'description': 'Test',
+    # 'website': 'Your Website',
+    'depends': [
+        'base',
+        # 'contacts',
+        'account',
+        # 'sale_management',
+    ],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        # 'views/account_data_views.xml',
+        'views/test_views.xml',
+        # 'report/account_move_report.xml',
+        # 'wizard/account_move_calc.xml',
+        'views/menu.xml',
+        # 'data/sequence.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

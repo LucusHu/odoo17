@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_mfp_root" name="MFP 雲端抄表系統" web_icon="static/description/icon.png" sequence="10"/>
+
+        <menuitem id="menu_mfp_01" name="客戶管理" parent="menu_mfp_root" sequence="10" action="action_res_partner"/>
+
+        <menuitem id="menu_mfp_02" name="事務機管理" parent="menu_mfp_root" sequence="20" action="action_mfp_data"/>
+        <!--        <menuitem id="menu_mfp_0202" name="支援型號" parent="menu_mfp_02" sequence="20" action="action_model_data"/>-->
+        <!--        <menuitem id="menu_mfp_0203" name="事務機" parent="menu_mfp_02" sequence="20" action="action_mfp_data"/>-->
+
+        <menuitem id="menu_mfp_04" name="系統紀錄" parent="menu_mfp_root" sequence="30"/>
+        <menuitem id="menu_mfp_0401" name="安裝紀錄" parent="menu_mfp_04" sequence="10"
+                  action="action_mfp_install_record"/>
+        <menuitem id="menu_mfp_0402" name="抄表紀錄" parent="menu_mfp_04" sequence="20" action="action_mfp_record"/>
+        <menuitem id="menu_mfp_0403" name="作廢紀錄" parent="menu_mfp_04" sequence="30"
+                  action="action_mfp_invalid_record"/>
+
+        <menuitem id="menu_mfp_05" name="帳單計算" parent="menu_mfp_root" sequence="40"/>
+        <menuitem id="menu_mfp_0501" name="帳單計算(單一&amp;合併)" parent="menu_mfp_05" sequence="10"
+                  action="action_mfp_calc_manual_wizard"/>
+        <menuitem id="menu_mfp_0502" name="帳單計算(換機)" parent="menu_mfp_05" sequence="20"
+                  action="action_mfp_calc_manual_exchange_wizard"/>
+        <!--        <menuitem id="menu_mfp_0503" name="合併帳單計算" parent="menu_mfp_05" sequence="30" action="action_account_move_exchange_calc"/>-->
+
+        <menuitem id="menu_mfp_06" name="配置" parent="menu_mfp_root" sequence="50"/>
+        <menuitem id="menu_mfp_0601" name="設定廠牌" parent="menu_mfp_06" sequence="10" action="action_mfp_brand"/>
+        <menuitem id="menu_mfp_0602" name="設定合約" parent="menu_mfp_06" sequence="20" action="action_mfp_contract"/>
+        <menuitem id="menu_mfp_0603" name="設定序號" parent="menu_mfp_06" sequence="30" action="base.ir_sequence_form"/>
+        <menuitem id="menu_mfp_0604" name="設定地點" parent="menu_mfp_06" sequence="40" action="mfp.action_mfp_place"/>
+    </data>
+</odoo>

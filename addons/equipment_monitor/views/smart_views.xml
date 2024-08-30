@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_equipment_monitor_smart_list" model="ir.ui.view">
+            <field name="model">equipment.monitor.smart</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="eqpt_id"/>
+                    <field name="hw_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_equipment_monitor_smart_from" model="ir.ui.view">
+            <field name="model">equipment.monitor.smart</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="eqpt_id"/>
+                            <field name="hw_id"/>
+                            <field name="date"/>
+                        </group>
+                        <notebook>
+                            <page name="warning_ids" string="異常">
+                                <field name="warning_ids"/>
+                            </page>
+                            <page name="line_ids" string="明細">
+                                <field name="line_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_equipment_monitor_smart" model="ir.actions.act_window">
+            <field name="name">SMART</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">equipment.monitor.smart</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_mfp_record_list" model="ir.ui.view">
+            <field name="model">mfp.record</field>
+            <field name="arch" type="xml">
+                <tree default_order="date desc">
+                    <field name="company_number"/>
+                    <field name="company_id"/>
+                    <field name="place_id"/>
+                    <field name="mfp_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="color_print"/>
+                    <field name="black_print"/>
+                    <field name="large_print"/>
+                    <field name="state"/>
+                    <field name="category_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="count"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_mfp_record_form" model="ir.ui.view">
+            <field name="model">mfp.record</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="客戶資料">
+                            <group>
+                                <label for="company_id" class="oe_inline"/>
+                                <div class="d-flex">
+                                    <field name="company_id"/>
+                                    <field name="company_number"/>
+                                    <field name="company_name"/>
+                                </div>
+                                <field name="mfp_id"/>
+                            </group>
+                        </group>
+                        <group string="抄表紀錄">
+                            <group>
+                                <field name="date"/>
+                                <field name="state"/>
+                            </group>
+                            <group>
+                                <field name="color_print"/>
+                                <field name="black_print"/>
+                                <field name="large_print"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="view_mfp_record_search" model="ir.ui.view">
+            <field name="model">mfp.record</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name"/>
+                    <field name="company_number"/>
+                    <filter name="today" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name='group_by_company' context="{'group_by':'company_id'}"/>
+                        <filter name='group_by_place' context="{'group_by':'place_id'}"/>
+                        <filter name='group_by_user' context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mfp_record" model="ir.actions.act_window">
+            <field name="name">抄表紀錄</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mfp.record</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_today': 1}</field>
+        </record>
+    </data>
+</odoo>

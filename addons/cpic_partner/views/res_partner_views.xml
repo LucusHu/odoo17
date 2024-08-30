@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- kanban View -->
+        <record id="view_cpic_res_partner_kanban" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//templates//div//div//div//ul" position="inside">
+                    <li t-if="record.mobile.raw_value">Mobile: <field name="mobile"/></li>
+                    <li t-if="record.phone.raw_value">Phone: <field name="phone"/></li>
+                    <li t-if="record.ext.raw_value" class="o_text_overflow">Ext: <field name="ext"/></li>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_cpic_res_partner_form" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="engineer_id" invisible="not is_company"/>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="after">
+                    <field name="fax"/>
+                </xpath>
+                <xpath expr="//field[@name='phone'][@widget='phone']" position="replace">
+                    <field name="phone" widget="phone"/>
+                    <span class="o_form_label ms-3" invisible="is_company">分機</span>
+                    <field name="ext" invisible="is_company"/>
+                </xpath>
+                <xpath expr="//notebook//page//form//sheet//group//group//field[@name='phone']" position="after">
+                    <field name="ext"/>
+                </xpath>
+                <xpath expr="//templates//div//div[@class='oe_kanban_details']" position="inside">
+                    <div t-if="record.ext.raw_value">Ext: <t t-esc="record.ext.value"/></div>
+                </xpath>
+                <xpath expr="//page[@name='internal_notes']" position="after">
+                    <page name="service_notes" string="注意事項">
+                        <field name="service_comment" placeholder="Service note..." widget="html"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

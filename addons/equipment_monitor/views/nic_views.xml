@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_equipment_monitor_nic_list" model="ir.ui.view">
+            <field name="model">equipment.monitor.nic</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="mac"/>
+                    <field name="ip"/>
+                    <field name="interface"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

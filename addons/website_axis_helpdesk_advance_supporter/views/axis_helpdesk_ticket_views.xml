@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form Views -->
+        <record id="view_axis_helpdesk_ticket_form" model="ir.ui.view">
+            <field name="model">axis.helpdesk.ticket</field>
+            <field name="inherit_id" ref="website_axis_helpdesk_advance.axis_helpdesk_ticket_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='res_user_id']" position="after">
+                    <field name="support_user_id" class="field_user_id"
+                           domain="['&amp;', ('id', 'in', domain_user_ids), ('share', '=', False)]"
+                           widget="many2one_avatar_user"/>
+                    <field name="process_hours"/>
+                    <field name="equipment_number"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

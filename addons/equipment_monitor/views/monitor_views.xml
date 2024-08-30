@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_equipment_monitor_monitor_list" model="ir.ui.view">
+            <field name="model">equipment.monitor.monitor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="eqpt_id"/>
+                    <field name="hw_id"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="highest"/>
+                    <field name="current"/>
+                    <field name="count"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <!--        <record id="view_equipment_monitor_monitor_from" model="ir.ui.view">-->
+        <!--            <field name="model">equipment.monitor.monitor</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form>-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <group>-->
+        <!--                                <field name="eqpt_id"/>-->
+        <!--                                <field name="hw_id"/>-->
+        <!--                                <field name="name"/>-->
+        <!--                                <field name="current"/>-->
+        <!--                                <field name="date_start"/>-->
+        <!--                                <field name="date_end"/>-->
+        <!--                            </group>-->
+        <!--                            <group>-->
+        <!--                                <field name="highest"/>-->
+        <!--                                <field name="lowest"/>-->
+        <!--                                <field name="type"/>-->
+        <!--                                <field name="count"/>-->
+        <!--                            </group>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!-- Action -->
+        <record id="action_equipment_monitor_monitor" model="ir.actions.act_window">
+            <field name="name">監視紀錄</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">equipment.monitor.monitor</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>
