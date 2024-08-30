@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Waste -->
+<!--        <record id="line_notify_category_account_move" model="line.notify.category">-->
+<!--            <field name="name">會計</field>-->
+<!--            <field name="move_id" ref="base.model_account_move"/>-->
+<!--            <field name="color">1</field>-->
+<!--        </record>-->
+<!--        <record id="line_notify_category_helpdesk" model="line.notify.category">-->
+<!--            <field name="name">客服中心</field>-->
+<!--            <field name="code">helpdesk</field>-->
+<!--            <field name="color">2</field>-->
+<!--        </record>-->
+<!--        <record id="line_notify_category_project" model="line.notify.category">-->
+<!--            <field name="name">專案</field>-->
+<!--            <field name="code">project</field>-->
+<!--            <field name="color">3</field>-->
+<!--        </record>-->
+    </data>
+</odoo>

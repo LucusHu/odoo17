@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- place -->
+        <record id="mfp_place_main_company" model="mfp.place">
+            <field name="company_id" eval="ref('base.main_company')"/>
+            <field name="name">待機區</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="description">換機,退機</field>
+        </record>
+    </data>
+</odoo>

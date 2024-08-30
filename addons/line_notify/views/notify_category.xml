@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_line_notify_category_list" model="ir.ui.view">
+            <field name="model">line.notify.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="model_name"/>
+                    <field name="color" widget="color_picker"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_line_notify_category_from" model="ir.ui.view">
+            <field name="model">line.notify.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="model_name"/>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                        <notebook>
+                            <page name="message" string="文本">
+                                <field name="message" widget="text"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_line_notify_category" model="ir.actions.act_window">
+            <field name="name">Notify標籤</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">line.notify.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

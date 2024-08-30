@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_axis_helpdesk_advance_ticket_inherit_signature" name="Ticket Portal Template"
+              inherit_id="website_axis_helpdesk_advance.axis_helpdesk_ticket_portal_view">
+        <xpath expr="//div[@class='o_portal_messages_container mt32']" position="before">
+            <div class="row mt-4" name="priority_new">
+                <div t-if="ticket.priority_new">
+                    <h5>Customer Rating</h5>
+                    <p t-field="ticket.priority_new"/>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center d-print-none pt-1 pb-4">
+                <div class="col-sm-auto mt8">
+                    <a role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal"
+                       data-bs-target="#modalrating">
+                        <i class="fa fa-smile-o"/>
+                        <t>評分表</t>
+                    </a>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-call='portal.message_thread']" position="before">
+            <!-- Modal -->
+            <div class="modal fade" id="modalrating" tabindex="-1" role="dialog" aria-labelledby="modalacceptLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form t-attf-action="/axis/helpdesk/rating/submit" method="POST" t-att-data-order-id="ticket_id"
+                              t-att-data-token="token"
+                              class="js_accept_json modal-content js_website_submit_form">
+                            <input type="hidden" name="id" t-att-value="ticket.id"/>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <header class="modal-header">
+                                <h4 class="modal-title">Validate Ticket</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">×
+                                </button>
+                            </header>
+                            <main class="modal-body" id="rating-dialog">
+                                <div class="form-check" style="position: relative;width: 97px;">
+                                    <img src="/website_axis_helpdesk_advance/static/src/img/poor.png"
+                                         class="img-fluid"
+                                         style="width: 24px;height: 24px;position: absolute;bottom: 0;right: -24px;"
+                                         alt=""/>
+                                    <input class="form-check-input" type="radio" name="rating" id="poor"
+                                           value="poor"/>
+                                    <label class="form-check-label" for="poor" style="color: #f95048;">
+                                        Poor
+                                    </label>
+                                </div>
+                                <div class="form-check mt-lg-3 ml-lg-3" style="position: relative;width: 97px;">
+                                    <img src="/website_axis_helpdesk_advance/static/src/img/average.png"
+                                         class="img-fluid"
+                                         style="width: 24px;height: 24px;position: absolute;bottom: 0;right: -24px;"
+                                         alt=""/>
+                                    <input class="form-check-input" type="radio" name="rating" id="average"
+                                           value="average"/>
+                                    <label class="form-check-label" for="average" style="color: #fca338;">
+                                        Average
+                                    </label>
+                                </div>
+                                <div class="form-check mt-lg-3 ml-lg-3" style="position: relative;width: 97px;">
+                                    <img src="/website_axis_helpdesk_advance/static/src/img/good.png"
+                                         class="img-fluid"
+                                         style="width: 24px;height: 24px;position: absolute;bottom: 0;right: -24px;"
+                                         alt=""/>
+                                    <input class="form-check-input" type="radio" name="rating" id="good"
+                                           value="good"/>
+                                    <label class="form-check-label" for="good" style="color: #b5ca49;">
+                                        Good
+                                    </label>
+                                </div>
+                                <div class="form-check mt-lg-3 ml-lg-3" style="position: relative;width: 97px;">
+                                    <img src="/website_axis_helpdesk_advance/static/src/img/excellent.png"
+                                         class="img-fluid"
+                                         style="width: 24px;height: 24px;position: absolute;bottom: 0;right: -24px;"
+                                         alt=""/>
+                                    <input class="form-check-input" type="radio" name="rating" id="excellent"
+                                           value="excellent"/>
+                                    <label class="form-check-label" for="excellent" style="color: #48cc56;">
+                                        Excellent
+                                    </label>
+                                </div>
+                                <div class="input-group mb-3 mt-3">
+                                    <input type="text" height="70" style="margin: 0 13px;" name="comment"
+                                           class="form-control" placeholder="Write Your Review" aria-label="Username"
+                                           aria-describedby="basic-addon1" value=""/>
+                                </div>
+                            </main>
+                            <footer class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Submit Your Rating</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

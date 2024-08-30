@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="notify_model_account_move" model="line.notify.category">
+            <field name="name">會計</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="color">1</field>
+        </record>
+    </data>
+</odoo>

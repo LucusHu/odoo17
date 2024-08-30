@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="notify_model_helpdesk_ticket" model="line.notify.category">
+            <field name="name">客服中心</field>
+            <field name="model_id" ref="website_axis_helpdesk_advance.model_axis_helpdesk_ticket"/>
+            <field name="color">1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Schedule -->
+        <record id="ir_cron_mail_activity" model="ir.cron">
+            <field name="name">Mail Activity Send Notify</field>
+            <field name="model_id" ref="mail_activity.model_mail_activity"/>
+            <field name="state">code</field>
+            <field name="code">model._send_notify()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="DateTime.now().replace(hour=22, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')" />
+        </record>
+    </data>
+</odoo>

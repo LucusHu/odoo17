@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_mfp_place_list" model="ir.ui.view">
+            <field name="model">mfp.place</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="company_id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_mfp_place_from" model="ir.ui.view">
+            <field name="model">mfp.place</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="install_place"/>
+                            <field name="state"/>
+                        </group>
+                        <notebook>
+                            <page name="description" string="說明">
+                                <field name="description" widget="text"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mfp_place" model="ir.actions.act_window">
+            <field name="name">裝置地點</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mfp.place</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

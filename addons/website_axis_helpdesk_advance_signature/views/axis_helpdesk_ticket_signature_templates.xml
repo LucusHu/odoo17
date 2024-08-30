@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_axis_helpdesk_advance_ticket_inherit_signature" name="Ticket Portal Template"
+              inherit_id="website_axis_helpdesk_advance.axis_helpdesk_ticket_portal_view">
+        <xpath expr="//div[@class='o_portal_messages_container mt32']" position="before">
+            <div class="row mt-4" name="signature">
+                <div t-if="ticket.signature">
+                    <h5>Signature</h5>
+                    <img t-att-src="image_data_uri(ticket.signature)" style="max-height: 6rem; max-width: 100%;"/>
+                    <p t-field="ticket.signed_by"/>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center d-print-none pt-1 pb-4">
+                <div class="col-sm-auto mt8">
+                    <a role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal" data-bs-target="#modalaccept">
+                        <i class="fa fa-check"/>
+                        <!--<t>Accept &amp; Sign</t>-->
+                        <t>簽名同意</t>
+                    </a>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-call='portal.message_thread']" position="before">
+            <!-- Modal -->
+            <div class="modal fade" id="modalaccept" tabindex="-1" role="dialog" aria-labelledby="modalacceptLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form id="accept" method="POST" t-att-data-order-id="ticket_id" t-att-data-token="token"
+                              class="js_accept_json modal-content js_website_submit_form">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <header class="modal-header">
+                                <h4 class="modal-title">Validate Ticket</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                            </header>
+                            <main class="modal-body" id="sign-dialog">
+                                <!--<t t-esc="'/axis/helpdesk/ticket/%s/%s/accept' % (ticket.id, ticket.access_token)"/>-->
+                                <t t-call="portal.signature_form">
+                                    <!--<t t-set="call_url" t-value="ticket.get_portal_url(suffix='/accept')"/>-->
+                                    <t t-set="call_url"
+                                       t-value="'/axis/helpdesk/ticket/%s/%s/accept' % (ticket.id, ticket.access_token)"/>
+                                    <t t-set="default_name" t-value="ticket.signed_by"/>
+                                </t>
+                            </main>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

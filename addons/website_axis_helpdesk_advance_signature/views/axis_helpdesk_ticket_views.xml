@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_axis_helpdesk_ticket_signature_form" model="ir.ui.view">
+            <field name="name">axis.helpdesk.ticket.signature</field>
+            <field name="model">axis.helpdesk.ticket</field>
+            <field name="inherit_id" ref="website_axis_helpdesk_advance.axis_helpdesk_ticket_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[2]" position="after">
+                    <page string="客戶簽名">
+                        <group>
+                            <field name="signature" widget="signature"/>
+                            <field name="signed_by"/>
+                            <field name="signed_on"/>
+                            <field name="stage_url"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
