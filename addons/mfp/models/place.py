@@ -21,11 +21,10 @@ class Place(models.Model):
         for vals in vals_list:
             if 'code' not in vals or not vals['code']:
                 # 沒有代碼，給予一個新代碼
-                vals['code'] = self.env['ir.sequence'].next_by_code('mfp.place.sequence')
                 while True:
+                    vals['code'] = self.env['ir.sequence'].next_by_code('mfp.place.sequence')
                     domain = [('code', '=', vals['code'])]
                     places = self.env['mfp.place'].search(domain)
                     if len(places) == 0:
                         break
-                    vals['code'] = self.env['ir.sequence'].next_by_code('mfp.place.sequence')
         return super(Place, self).create(vals_list)

@@ -7,6 +7,7 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     print_ids = fields.One2many('account.print.line', 'move_id', '事務機明細', ondelete='cascade')
+
     # mfp_id = fields.Many2one('mfp.data', '事務機')
     # # year = fields.Integer(string='年份')
     # # month = fields.Integer(string='月份')
@@ -14,14 +15,14 @@ class AccountMove(models.Model):
     #                                 default='0')
 
     # ========== Line ==========
-    def action_line_record(self):
-        if not self.mfp_id or not self.mfp_id.accountant_ids:
-            return
-        company_id = self.mfp_id.company_id
-        # partner 聯絡人
-        accountant_ids = self.mfp_id.accountant_ids
-        for partner_id in accountant_ids:
-            partner_id.line_to(f'{company_id.name}通知貴公司帳單已寄出,請至電子信箱收件與確認')
+    # def action_line_record(self):
+    #     if not self.mfp_id or not self.mfp_id.accountant_ids:
+    #         return
+    #     company_id = self.mfp_id.company_id
+    #     # partner 聯絡人
+    #     accountant_ids = self.mfp_id.accountant_ids
+    #     for partner_id in accountant_ids:
+    #         partner_id.line_to(f'{company_id.name}通知貴公司帳單已寄出,請至電子信箱收件與確認')
 
     # ========== 電子發票 ==========
     # def get_ref(self, xml_id):
@@ -31,96 +32,115 @@ class AccountMove(models.Model):
         # _render_qweb_pdf 是引用 ir.actions.report 因此僅限制 ir.actions.report 使用
         return ref_id._render_qweb_pdf(self.id) if ref_id else False
 
-    def report_gateweb_invoice(self):
-        # report_id = self.get_ref('ezpay_invoice.action_print_ezpay_invoice')
-        # if not report_id:
-        #     return
-        # generated_report = report_id._render_qweb_pdf(self.id)
-        generated_report = self.get_report_pdf('gateweb_invoice.report_gateweb_invoice')
-        if not generated_report:
-            return
-        data_record = base64.b64encode(generated_report[0])
-        ir_values = {
-            'name': '電子發票',
-            'type': 'binary',
-            'datas': data_record,
-            'store_fname': data_record,
-            'mimetype': 'application/pdf',
-            'res_model': 'account.move',
-        }
-        return self.env['ir.attachment'].sudo().create(ir_values)
+    # def report_gateweb_invoice(self):
+    #     self.ensure_one()
+    #     if self.invoice_state != 'invoiced':
+    #         return False
+    #     # get pdf
+    #     report_ref = 'gateweb_invoice.action_gateweb_invoices_A4' \
+    #         if self.invoice_paper == 'A4' else 'gateweb_invoice.action_gateweb_invoices_A5'
+    #     report_data = self.env['ir.actions.report']._render_qweb_pdf(report_ref, self.id)
+    #     if not report_data:
+    #         return False
+    #     pdf_content = report_data[0]
+    #     data_record = base64.b64encode(pdf_content)
+    #     ir_values = {
+    #         'name': '電子發票.pdf',
+    #         'type': 'binary',
+    #         'datas': data_record,
+    #         'store_fname': data_record,
+    #         'mimetype': 'application/pdf',
+    #         'res_model': 'account.move',
+    #     }
+    #     return self.env['ir.attachment'].sudo().create(ir_values)
 
     def report_mfp_detail(self):
-        generated_report = self.get_report_pdf('mfp.action_report_account_move')
-        if not generated_report:
-            return
-        data_record = base64.b64encode(generated_report[0])
-        ir_values = {
-            'name': '事務機明細',
-            'type': 'binary',
-            'datas': data_record,
-            'store_fname': data_record,
-            'mimetype': 'application/pdf',
-            'res_model': 'account.move',
-        }
-        return self.env['ir.attachment'].sudo().create(ir_values)
-
-    def send_email(self):
-        attachment_ids = [(5, 0, 0)]
-
-        # 建立附件
-        reports = [
-            self.report_gateweb_invoice(),
-            self.report_mfp_detail()
-        ]
-        for report in reports:
-            if report:
-                attachment_ids.append((4, report.id))
-
-        # 獲取郵件模板
-        email_template = self.env.ref('account.email_template_edi_invoice', raise_if_not_found=False)
-
-        # 如果郵件模板存在，設置附件
-        if email_template:
-            email_template.attachment_ids = attachment_ids
-
-        return email_template
-
-    def action_invoice_sent(self):
         self.ensure_one()
-        template = self.send_email()
-        compose_form = self.env.ref('account.account_invoice_send_wizard_form', raise_if_not_found=False)
-        ctx = dict(
-            default_model='account.move',
-            default_res_id=self.id,
-            # For the sake of consistency we need a default_res_model if
-            # default_res_id is set. Not renaming default_model as it can
-            # create many side-effects.
-            default_res_model='account.move',
-            default_use_template=bool(template),
-            default_template_id=template and template.id or False,
-            default_composition_mode='comment',
-            mark_invoice_as_sent=True,
-            custom_layout='mail.mail_notification_paynow',
-            model_description=self.with_context(lang=False).type_name,
-            force_email=True,
-            active_ids=self.ids,
-        )
+        for rec in self:
+            report_ref = 'mfp.action_report_account_move'
+            report_data = self.env['ir.actions.report']._render_qweb_pdf(report_ref, rec.id)
+            if not report_data:
+                return False
+            pdf_content = report_data[0]
+            ir_values = {
+                'datas': base64.b64encode(pdf_content),
+                'name': f'事務機明細{rec.name}.pdf',
+                'store_fname': f'事務機明細{rec.name}.pdf',
+                'mimetype': 'application/pdf',
+                'type': 'binary',
+                'res_id': rec.id,
+                'res_model': 'account.move',
+            }
+            domain = [('name', '=', ir_values.get('name'))]
+            attachment = self.env['ir.attachment'].sudo().search(domain)
+            if attachment:
+                attachment.write(ir_values)
+            else:
+                attachment = self.env['ir.attachment'].sudo().create(ir_values)
+            return attachment
 
-        report_action = {
-            'name': 'Send Invoice',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'account.invoice.send',
-            'views': [(compose_form.id, 'form')],
-            'view_id': compose_form.id,
-            'target': 'new',
-            'context': ctx,
-        }
-        self.action_line_record()
-        return report_action
-        # return super(AccountMove, self).action_invoice_sent()
+    def action_send_and_print(self):
+        self.report_mfp_detail()
+        return super().action_send_and_print()
+
+    # def action_send_and_print(self):
+    #     record = super(AccountMove, self).action_send_and_print()
+    #     template = self.env.ref(self._get_mail_template(), raise_if_not_found=False)
+    #     if template:
+    #         # 建立附件
+    #         # attachment_ids = [(5, 0, 0)]
+    #         reports = [self.report_mfp_detail()]
+    #         # 使用 (4, report.id) 附加新附件
+    #         attachment_ids = [(4, report.id) for report in reports]
+    #         template.attachment_ids = attachment_ids
+    #     return record
+
+    # def send_email(self):
+    #     attachment_ids = [(5, 0, 0)]
+    #
+    #     # 建立附件
+    #     reports = [
+    #         self.report_gateweb_invoice(),
+    #         self.report_mfp_detail()
+    #     ]
+    #     for report in reports:
+    #         if report:
+    #             attachment_ids.append((4, report.id))
+    #
+    #     # 獲取郵件模板
+    #     email_template = self.env.ref('account.email_template_edi_invoice', raise_if_not_found=False)
+    #
+    #     # 如果郵件模板存在，設置附件
+    #     if email_template:
+    #         email_template.attachment_ids = attachment_ids
+    #
+    #     return email_template
+    #
+    # def action_invoice_sent(self):
+    #     self.ensure_one()
+    #     mail_template = self.send_email()
+    #     compose_form = self.env.ref('mail.email_compose_message_wizard_form', raise_if_not_found=False)
+    #     ctx = dict(
+    #         default_model='account.move',
+    #         default_res_ids=self.ids,
+    #         default_template_id=mail_template and mail_template.id or False,
+    #         default_composition_mode='comment',
+    #         default_email_layout_xmlid='mail.mail_notification_light',
+    #     )
+    #
+    #     report_action = {
+    #         'name': 'Send Invoice',
+    #         'type': 'ir.actions.act_window',
+    #         'view_mode': 'form',
+    #         'res_model': 'mail.compose.message',
+    #         'views': [(compose_form.id, 'form')],
+    #         'view_id': compose_form.id,
+    #         'target': 'new',
+    #         'context': ctx,
+    #     }
+    #     # self.action_line_record()
+    #     return report_action
+    #     # return super(AccountMove, self).action_invoice_sent()
 
 
 class AccountPrintLine(models.Model):
@@ -146,7 +166,7 @@ class AccountPrintLine(models.Model):
     # 租金*週期=總月租費用
     # 贈送張數*週期=總贈送張數
     period = fields.Integer('月份期數', default=0, required=True)
-    description = fields.Html('備註')
+    description = fields.Text('備註')
 
     # ==== 黑白 ====
     black_print_start = fields.Integer('黑白-起算張數')

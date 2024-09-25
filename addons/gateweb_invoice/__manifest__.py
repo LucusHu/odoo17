@@ -1,6 +1,6 @@
 {
     'name': 'GateWeb 第三方電子發票模組',
-    'version': '1.7',
+    'version': '2.0',
     'category': 'Accounting',
     # 'Accounting', # 'Sales', # 'Services'
     'license': 'LGPL-3',
@@ -18,6 +18,14 @@
     【版本v1.7】
         1.稅額修正:免稅,零稅率設定異常修補
         2.API中Description 修正從欄位name->product_id.name
+    【版本v1.8】
+        1.調整排版A4(45%,10%,15%,30%)
+        2.調整排版A5(35%,8%,12%,15%,30%)
+        3.新增res.config.settings權限
+    【版本v1.9】
+        1. 修改添加附檔名
+    【版本v2.0】
+        1. 修改電子發票改為取得僅取得公司      
     ''',
     # 'website': 'Your Website',
     'depends': [

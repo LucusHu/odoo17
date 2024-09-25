@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="avb_QF_14">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div>頁碼:
+                            <span class="page"/>
+                            /
+                            <span class="topage"/>
+                        </div>
+                        <!-- 基本資料 -->
+                        <div>
+                            <table style="width:100%;border:0 solid #fff;">
+                                <tr>
+                                    <!-- 左側 -->
+                                    <td style="text-align:left;width:60%;vertical-align: top;">
+                                        <t t-set="company_id" t-value="o.company_id.sudo()"/>
+                                        <!-- 公司 -->
+                                        <div>
+                                            <span style="color:#00f; font-size:1.5rem; font-weight:700;"
+                                                  t-esc="company_id.name"/>
+                                        </div>
+                                        <!-- 地址 -->
+                                        <div>
+                                            <span t-esc="company_id.get_address()"/>
+                                        </div>
+                                        <!-- 電話 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'Tel : '"/>
+                                            <span t-esc="company_id.phone"/>
+                                            <span style="color:#00f;" t-esc="'Fax : '"/>
+                                            <span t-esc="company_id.fax"/>
+                                        </div>
+                                        <!-- ====== 供應商 ====== -->
+                                        <!-- 供應商名稱 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'供應商名稱 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.name"/>
+                                        </div>
+                                        <!-- 供應商地址 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'供應商地址 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.get_address()"/>
+                                        </div>
+                                        <!-- 聯絡人 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'聯絡人 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.get_contact()"/>
+                                        </div>
+                                        <!-- 統一編號 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'統一編號 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.vat"/>
+                                        </div>
+                                        <!-- 聯絡電話 & 傳真號碼 -->
+                                        <div>
+                                            <div style="width: 50%; float: left;">
+                                                <span style="color:#00f;" t-esc="'聯絡電話 : '"/>
+                                                <span t-if="o.purchase_id.partner_id"
+                                                      t-esc="o.purchase_id.partner_id.phone"/>
+                                            </div>
+                                            <div style="width: 50%; float: left;">
+                                                <span style="color:#00f;" t-esc="'傳真號碼 : '"/>
+                                                <span t-if="o.purchase_id.partner_id"
+                                                      t-esc="o.purchase_id.partner_id.fax"/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!-- 右側 -->
+                                    <td style="text-align:left;width:40%;vertical-align: top;">
+                                        <!-- 進貨單 -->
+                                        <div>
+                                            <span style="margin-right:1rem;color:#00f; font-size:1.8rem; font-weight:700;"
+                                                  t-esc="'進貨單'"/>
+                                            <span style="font-size:1.2rem;" t-esc="'QF-14-06'"/>
+                                        </div>
+                                        <!-- 頁次 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'頁次 : '"/>
+                                        </div>
+                                        <!-- 進貨日期 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'進貨日期 : '"/>
+                                            <span t-esc="o.date_done.strftime('%Y/%m/%d')"/>
+                                        </div>
+                                        <!-- 進貨單號 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'進貨單號 : '"/>
+                                            <span t-esc="o.name"/>
+                                        </div>
+                                        <!-- 採購單號 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'採購單號 : '"/>
+                                            <span t-esc="o.purchase_id.name"/>
+                                        </div>
+                                        <!-- 採購人員 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'採購人員 : '"/>
+                                            <span t-if="o.purchase_id.user_id"
+                                                  t-esc="o.purchase_id.user_id.name"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- 清單明細 -->
+                        <div>
+                            <table style="width: 100%;border:0 solid #fff;border-top:.15rem solid #000;border-bottom:.15rem solid #000;">
+                                <thead style="border:0 solid #fff;border-bottom:.15rem solid #000;">
+                                    <tr>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">貨品編號</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">品名/型號/規格
+                                        </td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">數量</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">單位</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">序號</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.move_line_ids" t-as="line">
+                                        <tr style="border:0 solid #fff;">
+                                            <td>
+                                                <span t-field="line.product_id.code"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id.uom_name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.lot_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="5">
+                                            <span t-esc="'--------以下空白--------'"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 備註 -->
+                        <div style="width: 100%; margin-bottom:5rem; padding: 0;">
+                            <span style="color:#00f;" t-esc="'備註 : '"/>
+                            <span t-esc="o.note"/>
+                        </div>
+                        <!-- 審核人員 & 驗收人員 -->
+                        <div>
+                            <!-- 左側 -->
+                            <div style="width: 50%; float: left;">
+                                <span style="color:#00f;" t-esc="'審核人員 : '"/>
+                            </div>
+                            <!-- 右側 -->
+                            <div style="width: 50%; float: left;">
+                                <span style="color:#00f;" t-esc="'驗收人員 : '"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="avb_QF_21">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <!-- 基本資料 -->
+                        <div>
+                            <table style="width:100%;border:0 solid #fff;">
+                                <tr>
+                                    <!-- 左側 -->
+                                    <td style="text-align:left;width:60%;vertical-align: top;">
+                                        <t t-set="company_id" t-value="o.company_id.sudo()"/>
+                                        <!-- 公司 -->
+                                        <div>
+                                            <span style="color: #00f; font-size: 1.5rem; font-weight: 700;"
+                                                  t-esc="company_id.name"/>
+                                        </div>
+                                        <!-- 地址 -->
+                                        <div>
+                                            <span t-esc="company_id.get_address()"/>
+                                        </div>
+                                        <!-- 電話 -->
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'Tel : '"/>
+                                            <span t-esc="company_id.phone"/>
+                                            <span style="color: #00f;" t-esc="'Fax : '"/>
+                                            <span t-esc="company_id.fax"/>
+                                        </div>
+                                        <!-- ====== 供應商 ====== -->
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'退貨單位 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.name"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'聯絡地址 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.get_address()"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'聯絡人 : '"/>
+                                            <span t-if="o.purchase_id.partner_id"
+                                                  t-esc="o.purchase_id.partner_id.get_contact()"/>
+                                        </div>
+                                        <!-- 聯絡電話 & 傳真號碼 -->
+                                        <div>
+                                            <div style="width: 50%; float: left;">
+                                                <span style="color:#00f;" t-esc="'聯絡電話 : '"/>
+                                                <span t-if="o.purchase_id.partner_id"
+                                                      t-esc="o.purchase_id.partner_id.phone"/>
+                                            </div>
+                                            <div style="width: 50%; float: left;">
+                                                <span style="color:#00f;" t-esc="'傳真號碼 : '"/>
+                                                <span t-if="o.purchase_id.partner_id"
+                                                      t-esc="o.purchase_id.partner_id.fax"/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!-- 右側 -->
+                                    <td style="text-align:left;width:40%;vertical-align: top;">
+                                        <!-- 退貨單 -->
+                                        <div>
+                                            <span style="margin-right:1rem;color:#00f; font-size:1.8rem; font-weight:700;"
+                                                  t-esc="'退貨單'"/>
+                                            <span style="font-size:1.2rem;" t-esc="'QF-21-01'"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'頁次 : '"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'退貨單號 : '"/>
+                                            <span t-esc="o.name"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'收貨日期 : '"/>
+                                            <span t-esc="o.date_done.strftime('%Y/%m/%d')"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'原出貨單號 : '"/>
+                                            <span t-esc="o.return_id.name"/>
+                                        </div>
+                                        <div>
+                                            <span style="color: #00f;" t-esc="'業務人員 : '"/>
+                                            <span t-if="o.return_id.user_id"
+                                                  t-esc="o.return_id.user_id.name"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- 清單明細 -->
+                        <div>
+                            <table style="width: 100%;border:0 solid #fff;border-top:.15rem solid #000;border-bottom: .15rem solid #000;">
+                                <thead style="border:0 solid #fff;border-bottom: .15rem solid #000;">
+                                    <tr>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">貨品編號</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">品名/型號/規格
+                                        </td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">數量</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">單位</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">序號</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.move_line_ids" t-as="line">
+                                        <tr style="border:0 solid #fff;">
+                                            <td>
+                                                <span t-field="line.product_id.code"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id.uom_name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.lot_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="5">
+                                            <span t-esc="'--------以下空白--------'"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 備註 -->
+                        <div style="width: 100%; margin-bottom:5rem; padding: 0;">
+                            <span style="color:#00f;" t-esc="'備註 : '"/>
+                            <span t-esc="o.note"/>
+                        </div>
+                        <!-- 審核人員 & 驗收人員 -->
+                        <div>
+                            <!-- 左側 -->
+                            <div style="width: 50%; float: left;">
+                                <span style="color:#00f;" t-esc="'審核人員 : '"/>
+                            </div>
+                            <!-- 右側 -->
+                            <div style="width: 50%; float: left;">
+                                <span style="color:#00f;" t-esc="'驗收人員 : '"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="avb_QF_09">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <!-- 基本資料 -->
+                        <div>
+                            <table style="width:100%;border:0 solid #fff;">
+                                <tr>
+                                    <!-- 左側 -->
+                                    <td style="text-align:left;width:60%;vertical-align: top;">
+                                        <t t-set="company_id" t-value="o.company_id.sudo()"/>
+                                        <!-- 公司 -->
+                                        <div>
+                                            <span style="color:#00f; font-size:1.5rem; font-weight:700;"
+                                                  t-esc="company_id.name"/>
+                                        </div>
+                                        <!-- 地址 -->
+                                        <div>
+                                            <span t-esc="company_id.get_address()"/>
+                                        </div>
+                                        <!-- 電話 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'Tel : '"/>
+                                            <span t-esc="company_id.phone"/>
+                                            <span style="color:#00f;" t-esc="'Fax : '"/>
+                                            <span t-esc="company_id.fax"/>
+                                        </div>
+                                        <!-- ====== 客戶 ====== -->
+                                        <!-- 客戶名稱 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'客戶名稱 : '"/>
+                                            <span t-esc="o.partner_id.parent_id.name"/>
+                                        </div>
+                                        <!-- 聯絡人 & 統一編號 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'聯絡人 : '"/>
+                                            <span t-esc="o.partner_id.parent_id.get_contact()"/>
+                                        </div>
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'統一編號 : '"/>
+                                            <span t-esc="o.partner_id.parent_id.vat"/>
+                                        </div>
+                                        <!-- 聯絡電話 & 傳真號碼 -->
+                                        <div>
+                                            <div style="width: 50%; float: left;">
+                                                <span style="color:#00f;" t-esc="'聯絡電話 : '"/>
+                                                <span t-esc="o.partner_id.parent_id.phone"/>
+                                            </div>
+                                            <div style="width: 50%; float: left;">
+                                                <span style="color:#00f;" t-esc="'傳真號碼 : '"/>
+                                                <span t-esc="o.partner_id.parent_id.fax"/>
+                                            </div>
+                                        </div>
+                                        <!-- 送貨地址 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'送貨地址 : '"/>
+                                            <span t-esc="o.partner_id.get_address()"/>
+                                        </div>
+                                    </td>
+                                    <!-- 右側 -->
+                                    <td style="text-align:left;width:40%;vertical-align: top;">
+                                        <!-- 出貨單 -->
+                                        <div>
+                                            <span style="margin-right:1rem; color:#00f; font-size:1.8rem; font-weight:700;"
+                                                  t-esc="'出貨單'"/>
+                                            <span style="font-size:1.2rem;" t-esc="'QF-09-02'"/>
+                                        </div>
+                                        <!-- 頁次 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'頁次 : '"/>
+                                        </div>
+                                        <!-- 出貨日期 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'出貨日期 : '"/>
+                                            <span t-esc="o.date_done.strftime('%Y/%m/%d')"/>
+                                        </div>
+                                        <!-- 出貨單號 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'出貨單號 : '"/>
+                                            <span t-esc="o.name"/>
+                                        </div>
+                                        <!-- 業務姓名 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'業務姓名 : '"/>
+                                            <span t-esc="o.sale_id.user_id.name"/>
+                                        </div>
+                                        <!-- 行動電話 -->
+                                        <div>
+                                            <span style="color:#00f;" t-esc="'行動電話 : '"/>
+                                            <span t-esc="o.sale_id.user_id.mobile"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- 清單明細 -->
+                        <div>
+                            <table style="width: 100%;border:0 solid #fff;border-top:.15rem solid #000;border-bottom:.15rem solid #000;">
+                                <thead style="border:0 solid #fff;border-bottom:.15rem solid #000;">
+                                    <tr>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">貨品編號</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">品名/型號/規格
+                                        </td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">數量</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">單位</td>
+                                        <td style="padding-top:.5rem;padding-bottom:.5rem;color:#00f;">序號</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.move_line_ids" t-as="line">
+                                        <tr style="border:0 solid #fff;">
+                                            <td>
+                                                <span t-field="line.product_id.code"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id.uom_name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.lot_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="5">
+                                            <span t-esc="'--------以下空白--------'"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 備註 -->
+                        <div style="width: 100%; margin-bottom:5rem; padding: 0;">
+                            <span style="color:#00f;" t-esc="'備註 : '"/>
+                            <span t-esc="o.note"/>
+                        </div>
+                        <!-- 審核人員 & 驗收人員 -->
+                        <div>
+                            <div style="width: 50%; float: left;">
+                                <span style="color:#00f;" t-esc="'審核人員 : '"/>
+                            </div>
+                            <div style="width: 50%; float: left;">
+                                <span style="color:#00f;" t-esc="'驗收人員 : '"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Action -->
+        <record id="action_report_stock_picking_QF_14" model="ir.actions.report">
+            <field name="name">遠見進貨單(A5)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-html</field>
+            <!--qweb-pdf, qweb-html -->
+            <field name="report_name">stock_avb.avb_QF_14</field>
+            <field name="report_file">stock_avb.avb_QF_14</field>
+            <field name="print_report_name">'遠見進貨單 %s' % (object.name)</field>
+            <field name="paperformat_id" ref="stock_avb.paperformat_stock_picking_avb"/>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_stock_picking_QF_21" model="ir.actions.report">
+            <field name="name">遠見退貨單(A5)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <!--qweb-pdf, qweb-html -->
+            <field name="report_name">stock_avb.avb_QF_21</field>
+            <field name="report_file">stock_avb.avb_QF_21</field>
+            <field name="print_report_name">'遠見退貨單 %s' % (object.name)</field>
+            <field name="paperformat_id" ref="stock_avb.paperformat_stock_picking_avb"/>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_stock_picking_QF_09" model="ir.actions.report">
+            <field name="name">遠見出貨單(A5)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <!--qweb-pdf, qweb-html -->
+            <field name="report_name">stock_avb.avb_QF_09</field>
+            <field name="report_file">stock_avb.avb_QF_09</field>
+            <field name="print_report_name">'遠見出貨單 %s' % (object.name)</field>
+            <field name="paperformat_id" ref="stock_avb.paperformat_stock_picking_avb"/>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

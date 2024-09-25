@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- code 定義為2 -->
+        <!-- ========== Xerox ========== -->
+        <!-- 3XXX -->
+        <record id="mfp_model_xerox_c3370" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_xerox"/>
+            <field name="name">DocuCentre-VI C3370</field>
+            <field name="code">2</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_xerox_c3371" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_xerox"/>
+            <field name="name">ApeosPortV1-C3371</field>
+            <field name="code">2</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <!-- 5XXX -->
+        <record id="mfp_model_xerox_c5571" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_xerox"/>
+            <field name="name">ApeosPortV1-C5571</field>
+            <field name="code">2</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+    </data>
+</odoo>

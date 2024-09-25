@@ -1,13 +1,10 @@
 import base64
-import requests
-
 from odoo import fields, models, api
 from odoo.exceptions import UserError
 
 
 class GateWebInvoice(models.Model):
     _inherit = 'account.move'
-    # _name = 'gateweb.invoice'
     _description = '關網電子發票'
 
     detail_ids = fields.One2many('account.move.line', compute='_compute_detail_ids')
@@ -27,8 +24,8 @@ class GateWebInvoice(models.Model):
 
     def _default_invoice_paper(self):
         # self.company_id 起初是沒有數值的 因此採 self.env.company
-        config_settings = self.env['res.config.settings'].sudo().search([], limit=1)
-        return config_settings.gw_paper_format
+        config = self.env['ir.config_parameter'].sudo()
+        return config.get_param('gateweb_invoice.gw_paper_format')
 
     invoice_state = fields.Selection([('not invoiced', '未開立'),
                                       ('uploading', '待上傳'), ('invoiced', '已開立'),
@@ -49,13 +46,24 @@ class GateWebInvoice(models.Model):
     invoice_time = fields.Char('發票開立時間', readonly=True)
 
     # ========== 賣方資訊 ==========
-    seller_identifier = fields.Char('賣方統編', default=lambda self: self._default_seller_identifier(), readonly=True)
+    seller_identifier = fields.Char('賣方統編', compute='_compute_seller')
     # 必須為繁體中文（財政部登記姓名一致）
-    seller_name = fields.Char('賣方公司名稱', default=lambda self: self._default_seller_name(), readonly=True)
+    seller_name = fields.Char('賣方公司名稱', readonly=True)
     # 該欄位值由關網提供＆若為子母公司設定，依照不同公司之印表機名稱代入
     seller_department = fields.Char('印表機名稱')
     # 必須為繁體中文（財政部登記一致）
-    seller_address = fields.Char('賣方營業登記地址', default=lambda self: self._default_seller_address(), readonly=True)
+    seller_address = fields.Char('賣方營業登記地址', readonly=True)
+
+    def _compute_seller(self):
+        for rec in self:
+            seller = rec.invoice_user_id.company_id
+            rec.seller_identifier = seller.vat
+            rec.seller_name = seller.name
+            rec.seller_address = ('%s%s%s%s' % (
+                seller.state_id.name if seller.state_id else '',
+                seller.city if seller.city else '',
+                seller.street if seller.street else '',
+                seller.street2 if seller.street2 else '',))
 
     def _default_seller_identifier(self):
         seller = self.env.user.company_id
@@ -82,21 +90,22 @@ class GateWebInvoice(models.Model):
 
     # ========== 買方資訊 ==========
     # 非營業人固定放0000000000
-    buyer_identifier = fields.Char('買方統一編號')
+    buyer_identifier = fields.Char('買方統一編號', compute='_compute_buyer')
     # 非營業人固定放0000000000
-    buyer_name = fields.Char('買方公司名稱')
+    buyer_name = fields.Char('買方公司名稱', readonly=True)
     # buyer_address = fields.Char('買方營業地址')
     # buyer_person_incharge = fields.Char('買方負責人')
     # buyer_telephone_number = fields.Char('買方電話')
     # buyer_facsimile_number = fields.Char('買方傳真')
     # B2B，若需要發送E-Mail PDF檔，將買方信箱郵件地址放上
-    buyer_email_address = fields.Char('買方電子郵件地址', readonly=True)
+    buyer_email_address = fields.Char('買方電子郵件地址')
 
-    @api.onchange('partner_id')
-    def _onchange_buyer(self):
-        buyer = self.partner_id
-        self.buyer_identifier = buyer.vat if buyer else False
-        self.buyer_name = buyer.name if buyer else False
+    @api.depends('partner_id')
+    def _compute_buyer(self):
+        for record in self:
+            buyer = record.partner_id.partner_id if record.partner_id.partner_id else record.partner_id
+            record.buyer_identifier = buyer.vat if buyer else False
+            record.buyer_name = buyer.name if buyer else False
 
     # @api.depends('partner_id')
     # def _onchange_buyer(self):
@@ -163,7 +172,7 @@ class GateWebInvoice(models.Model):
     # 作廢時間(HH: mm:ss)
     cancel_time = fields.Char('作廢時間', readonly=True)
     # 作廢原因
-    cancel_reason = fields.Char('作廢原因')
+    cancel_reason = fields.Text('作廢原因')
 
     @api.depends('allowance_ids')
     def _compute_allowance_amount(self):
@@ -181,6 +190,7 @@ class GateWebInvoice(models.Model):
     def _onchange_tax_rate(self):
         self.tax_rate = 0.05 if self.tax_type == '1' else 0
 
+    # ==================== 發票 ====================
     # 中文數字
     def change_num(self):
         self.ensure_one()
@@ -217,8 +227,8 @@ class GateWebInvoice(models.Model):
 
     def gw_invoice(self):
         try:
-            config = self.env['res.config.settings'].sudo().search([], limit=1)
-            gw_seller_department = config.gw_seller_department
+            config = self.env['ir.config_parameter'].sudo()
+            gw_seller_department = config.get_param('gateweb_invoice.gw_seller_department')
             # 設定 relate_number
             self.relate_number = self.relate_number or self.env['ir.sequence'].next_by_code('gateweb.invoice')
             # 設定 seller
@@ -279,9 +289,9 @@ class GateWebInvoice(models.Model):
                 "zeroTaxSalesAmount": self.amount_untaxed if self.tax_type == '2' else 0,
                 'customsClearanceMark': '1' if self.tax_type == '2' else '',
             }
-            # config = self.env['res.config.settings'].sudo().search([], limit=1)
-            config.token()
-            response = config.invoice(transaction_data_array)
+            res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+            res_config.token()
+            response = res_config.invoice(transaction_data_array)
             if response.status_code == 200:
                 self.invoice_state = 'uploading'
             else:
@@ -294,9 +304,9 @@ class GateWebInvoice(models.Model):
     def gw_invoice_status_instantly(self):
         seller_identifier = self.seller_identifier
         relate_number = self.relate_number
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.invoice_status_instantly(seller_identifier, relate_number)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.invoice_status_instantly(seller_identifier, relate_number)
         if response.status_code == 200:
             self.invoice_state = 'invoiced'
             response_data = response.json()
@@ -311,9 +321,9 @@ class GateWebInvoice(models.Model):
             "sellerId": self.seller_identifier,
             "cancelReason": self.cancel_reason or 'cancel',
         }
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.trash(transaction_data_array)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.trash(transaction_data_array)
         if response.status_code == 200:
             self.invoice_state = 'canceling'
         else:
@@ -324,9 +334,9 @@ class GateWebInvoice(models.Model):
     def gw_trash_status_instantly(self):
         seller_identifier = self.seller_identifier
         relate_number = self.relate_number
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.trash_status_instantly(seller_identifier, relate_number)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.trash_status_instantly(seller_identifier, relate_number)
         if response.status_code == 200:
             self.invoice_state = 'canceled'
             response_data = response.json()
@@ -375,58 +385,85 @@ class GateWebInvoice(models.Model):
 
     def report_gateweb_invoice(self):
         self.ensure_one()
-        if self.invoice_state != 'invoiced':
-            return False
-        # get pdf
-        report_ref = 'gateweb_invoice.action_gateweb_invoices_A4' \
-            if self.invoice_paper == 'A4' else 'gateweb_invoice.action_gateweb_invoices_A5'
-        report_data = self.env['ir.actions.report']._render_qweb_pdf(report_ref, self.id)
-        if not report_data:
-            return False
-        pdf_content = report_data[0]
-        data_record = base64.b64encode(pdf_content)
-        ir_values = {
-            'name': '電子發票',
-            'type': 'binary',
-            'datas': data_record,
-            'store_fname': data_record,
-            'mimetype': 'application/pdf',
-            'res_model': 'account.move',
-        }
-        return self.env['ir.attachment'].sudo().create(ir_values)
+        for rec in self:
+            if rec.invoice_state != 'invoiced':
+                return False
+            # get pdf
+            report_ref = 'gateweb_invoice.action_gateweb_invoices_A4' \
+                if rec.invoice_paper == 'A4' else 'gateweb_invoice.action_gateweb_invoices_A5'
+            report_data = self.env['ir.actions.report']._render_qweb_pdf(report_ref, rec.id)
+            if not report_data:
+                return False
+            pdf_content = report_data[0]
+            ir_values = {
+                'datas': base64.b64encode(pdf_content),
+                'name': f'電子發票{rec.name}.pdf',
+                'store_fname': f'電子發票{rec.name}.pdf',
+                'mimetype': 'application/pdf',
+                'type': 'binary',
+                'res_id': rec.id,
+                'res_model': 'account.move',
+            }
+            domain = [('name', '=', ir_values.get('name'))]
+            attachment = self.env['ir.attachment'].sudo().search(domain)
+            if attachment:
+                attachment.write(ir_values)
+            else:
+                attachment = self.env['ir.attachment'].sudo().create(ir_values)
+            return attachment
 
-    def send_email(self):
-        self.ensure_one()
-        # 獲取郵件模板
-        # email_template = self.env.ref('gateweb_invoice.mail_template_invoice', raise_if_not_found=False)
-        email_template = self.env.ref('account.email_template_edi_invoice', raise_if_not_found=False)
-        # 如果郵件模板存在，設置附件
-        if email_template:
-            # 建立附件
-            attachment_ids = [(5, 0, 0)]
-            invoice = self.report_gateweb_invoice()
-            if invoice:
-                attachment_ids.append((4, invoice.id))
-            email_template.attachment_ids = attachment_ids
-        return email_template
+    def action_send_and_print(self):
+        self.report_gateweb_invoice()
+        return super().action_send_and_print()
+    # def send_email(self):
+    #     self.ensure_one()
+    #     # 獲取郵件模板
+    #     # email_template = self.env.ref('gateweb_invoice.mail_template_invoice', raise_if_not_found=False)
+    #     email_template = self.env.ref('account.email_template_edi_invoice', raise_if_not_found=False)
+    #     # 如果郵件模板存在，設置附件
+    #     if email_template:
+    #         # 建立附件
+    #         attachment_ids = [(5, 0, 0)]
+    #         invoice = self.report_gateweb_invoice()
+    #         if invoice:
+    #             attachment_ids.append((4, invoice.id))
+    #         email_template.attachment_ids = attachment_ids
+    #     return email_template
+    # def _get_mail_thread_data_attachments(self):
+    #     res = super()._get_mail_thread_data_attachments()
+    #     # else, attachments with 'res_field' get excluded
+    #     return res
 
     # [action,inherit]
-    def action_invoice_sent(self):
-        self.ensure_one()
-        template = self.send_email()
-        report_action = {
-            'name': 'Send Invoice',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'account.move.send',
-            'target': 'new',
-            'context': {
-                'active_ids': self.ids,
-                'default_mail_template_id': template and template.id or False,
-            },
-        }
-        return report_action
+    # def action_send_and_print(self):
+    #     record = super(GateWebInvoice, self).action_send_and_print()
+    #     template = self.env.ref(self._get_mail_template(), raise_if_not_found=False)
+    #     if template:
+    #         # 建立附件
+    #         # attachment_ids = [(5, 0, 0)]
+    #         reports = [self.report_gateweb_invoice()]
+    #         # 使用 (4, report.id) 附加新附件
+    #         attachment_ids = [(4, report.id) for report in reports]
+    #         template.attachment_ids = attachment_ids
+    #     return record
+
+    # [action,inherit]
+    # def action_invoice_sent(self):
+    #     self.ensure_one()
+    #     # template = self.send_email()
+    #     report_action = {
+    #         'name': 'Send Invoice',
+    #         'type': 'ir.actions.act_window',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'account.move.send',
+    #         'target': 'new',
+    #         'context': {
+    #             'active_ids': self.ids,
+    #             'default_mail_template_id': template and template.id or False,
+    #         },
+    #     }
+    #     return report_action
 
 
 class GateWebAllowance(models.Model):
@@ -496,9 +533,9 @@ class GateWebAllowance(models.Model):
             "relateNumber": self.relate_number,
             "sellerId": self.seller_id,
         }
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.allowance(transaction_data_array)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance(transaction_data_array)
         if response.status_code == 200:
             # self.state = 'uploading'
             self.state = 'allowance'
@@ -511,9 +548,9 @@ class GateWebAllowance(models.Model):
         seller_id = self.seller_id
         original_relate_number = self.original_relate_number
         relate_number = self.relate_number
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.allowance_status(seller_id, original_relate_number, relate_number)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance_status(seller_id, original_relate_number, relate_number)
         if response.status_code == 200:
             self.state = 'allowance'
             response_data = response.json()
@@ -531,9 +568,9 @@ class GateWebAllowance(models.Model):
             "sellerId": self.seller_id,
             "cancelReason": self.cancel_reason or 'cancel',
         }
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.allowance_trash(transaction_data_array)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance_trash(transaction_data_array)
         if response.status_code == 200:
             # self.state = 'canceling'
             self.state = 'canceled'
@@ -545,9 +582,9 @@ class GateWebAllowance(models.Model):
     def gw_trash_status(self):
         seller_id = self.seller_id
         relate_number = self.relate_number
-        config = self.env['res.config.settings'].sudo().search([], limit=1)
-        config.token()
-        response = config.allowance_trash_status(seller_id, relate_number)
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance_trash_status(seller_id, relate_number)
         if response.status_code == 200:
             self.state = 'canceled'
             response_data = response.json()

@@ -15,6 +15,7 @@ class Brand(models.Model):
 class BrandModel(models.Model):
     _name = 'mfp.brand.model'
     _description = '廠牌型號'
+    _order = 'name asc'
 
     brand_id = fields.Many2one('mfp.brand', '廠牌', required=True)
 
@@ -29,13 +30,11 @@ class BrandModel(models.Model):
     state = fields.Selection([('0', '停用'), ('1', '啟用')],
                              '狀態', default='1', required=True)
 
-    @api.depends('name')
     def name_get(self):
-        rec = []
-        for records in self:
-            name = records.name
-            verify = records.verify
-            if verify == '0':
-                name = f'{name}[未驗證]'
-            rec.append((records.id, name))
-        return rec
+        result = []
+        for record in self:
+            name = record.name
+            if record.verify == '0':
+                name = f'{name} [未驗證]'
+            result.append((record.id, name))
+        return result

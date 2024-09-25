@@ -7,20 +7,23 @@
     §功能:
         1.事務機抄表系統
     【版本v2.3】
-        1.
+        1.新增【待機區】
+        2.【帳單計算】,將預收與扣抵顯示移除
+        3.修正發送異常問題
+        4.
     ''',
     'depends': [
         'base',
         'account',
-        'line_notify',
-        # 'contacts',
     ],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/place_data.xml',
         'data/brand_data.xml',
-        'data/model_data.xml',
+        'data/model_ricoh_data.xml',
+        'data/model_xerox_data.xml',
+        'data/model_toshiba_data.xml',
         'data/product_data.xml',
         'data/record_data.xml',
         'data/tooltip_data.xml',

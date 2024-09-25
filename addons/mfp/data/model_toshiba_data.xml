@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- code 定義為3 -->
+        <!-- ========== Toshiba ========== -->
+        <record id="mfp_model_toshiba_e_studio_2550" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_toshiba"/>
+            <field name="name">Toshiba e-STUDIO 2550</field>
+            <field name="code">3</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+    </data>
+</odoo>

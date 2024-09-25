@@ -16,6 +16,23 @@
             </field>
         </record>
 
+        <!-- Search -->
+        <record id="view_software_license_search" model="ir.ui.view">
+            <field name="model">software.license</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name"/>
+                    <field name="name"/>
+                    <field name="serial_number"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name='group_by_company' context="{'group_by':'partner_id'}"/>
+                        <filter name='group_by_type' context="{'group_by':'software_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <!-- Form view -->
         <record id="view_software_license_form" model="ir.ui.view">
             <field name="model">software.license</field>

@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-<!--        <record id="product_product_mfp_print_price" model="product.product">-->
-<!--            <field name="name">影印費</field>-->
-<!--            <field name="categ_id" ref="product.product_category_all"/>-->
-<!--            <field name="standard_price">0</field>-->
-<!--            <field name="list_price">0</field>-->
-<!--            <field name="detailed_type">service</field>-->
-<!--            <field name="uom_id" ref="uom.product_uom_unit"/>-->
-<!--            <field name="uom_po_id" ref="uom.product_uom_unit"/>-->
-<!--        </record>-->
+        <record id="product_product_mfp_print_price" model="product.product">
+            <field name="name">影印費</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">0</field>
+            <field name="list_price">0</field>
+            <field name="detailed_type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        </record>
         <record id="product_product_mfp_rental_price" model="product.product">
             <field name="name">月租費</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">0</field>
+            <field name="list_price">0</field>
+            <field name="detailed_type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="product_product_mfp_adv_rental_price" model="product.product">
+            <field name="name">預收月租費</field>
             <field name="categ_id" ref="product.product_category_all"/>
             <field name="standard_price">0</field>
             <field name="list_price">0</field>
@@ -22,14 +31,6 @@
         <record id="product_product_mfp_over_price" model="product.product">
             <field name="name">超印費</field>
             <field name="categ_id" ref="product.product_category_all"/>
-            <field name="standard_price">0</field>
-            <field name="list_price">0</field>
-            <field name="detailed_type">service</field>
-            <field name="uom_id" ref="uom.product_uom_unit"/>
-            <field name="uom_po_id" ref="uom.product_uom_unit"/>
-        </record>
-        <record id="product_product_mfp_adv_rental_price" model="product.product">
-            <field name="name">預收月租費</field>
             <field name="standard_price">0</field>
             <field name="list_price">0</field>
             <field name="detailed_type">service</field>

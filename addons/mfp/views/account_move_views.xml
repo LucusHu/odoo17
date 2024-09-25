@@ -19,6 +19,52 @@
                                 <field name="black_print_number"/>
                                 <field name="large_print_number"/>
                             </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="mfp_id"/>
+                                    </group>
+                                    <group>
+                                        <group string="月租">>
+                                            <field name="rental"/>
+                                            <field name="period"/>
+                                            <field name="contract_ids" widget="many2many_tags"
+                                                   options="{'color_field': 'color'}"/>
+                                        </group>
+                                        <group string="超印單價/贈送張數">
+                                            <field name="color_print_overprice"/>
+                                            <field name="black_print_overprice"/>
+                                            <field name="large_print_overprice"/>
+                                            <field name="color_print_deduct" readonly="True"/>
+                                            <field name="black_print_deduct" readonly="True"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group string="起算日">
+                                            <field name="date_start"/>
+                                            <field name="color_print_start"/>
+                                            <field name="black_print_start"/>
+                                            <field name="large_print_start"/>
+                                        </group>
+                                        <group string="結算日">
+                                            <field name="date_end"/>
+                                            <field name="color_print_end"/>
+                                            <field name="black_print_end"/>
+                                            <field name="large_print_end"/>
+                                        </group>
+                                        <group string="作廢">
+                                            <field name="color_print_invalid"/>
+                                            <field name="black_print_invalid"/>
+                                            <field name="large_print_invalid"/>
+                                        </group>
+                                        <group string="總計">
+                                            <field name="color_print_count"/>
+                                            <field name="black_print_count"/>
+                                            <field name="large_print_count"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
                         </field>
                     </page>
                 </xpath>

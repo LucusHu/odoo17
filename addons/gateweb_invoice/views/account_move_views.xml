@@ -60,6 +60,7 @@
                             <group string="賣方">
                                 <field name="seller_identifier"/>
                                 <field name="seller_name"/>
+                                <field name="seller_address"/>
                             </group>
                             <group string="買方">
                                 <field name="buyer_identifier"/>

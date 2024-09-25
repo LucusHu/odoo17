@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Paper Format -->
+        <record id="paperformat_stock_picking_avb" model="report.paperformat">
+            <field name="name">Avb</field>
+            <field name="default" eval="True"/>
+            <!-- 自訂寬度，單位為毫米 -->
+            <field name="format">custom</field>
+            <!-- 使用 'custom' 表示自定義格式 -->
+            <field name="page_height">140</field>
+            <!-- 自訂寬度，單位為毫米 -->
+            <field name="page_width">216</field>
+            <field name="orientation">Landscape</field>
+            <!--Landscape, Portrait-->
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">4</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="disable_shrinking" eval="False"/>
+            <field name="dpi">96</field>
+        </record>
+    </data>
+</odoo>

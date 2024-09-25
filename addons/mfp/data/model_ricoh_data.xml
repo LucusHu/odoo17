@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- code 定義為1 -->
+        <!-- ========== Ricoh ========== -->
+        <!-- 2XXX -->
+        <record id="mfp_model_ricoh_c2800" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC2800</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <!-- 3XXX -->
+        <record id="mfp_model_ricoh_c3300" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC3300</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_ricoh_c3500" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC3500</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_ricoh_c3503" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC3503</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <!-- 4XXX -->
+        <record id="mfp_model_ricoh_c4500" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC4500</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_ricoh_c4503" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC4503</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_ricoh_c4504" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC4504</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <!-- 5XXX -->
+        <record id="mfp_model_ricoh_c5000" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC5000</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_ricoh_c5503" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC5503</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+    </data>
+</odoo>

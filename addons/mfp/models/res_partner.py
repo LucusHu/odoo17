@@ -11,20 +11,17 @@ class ResPartner(models.Model):
     number = fields.Char('客戶編號')
     fax = fields.Char('傳真')
 
-
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if 'code' not in vals or not vals['code']:
                 # 沒有代碼，給予一個新代碼
-                vals['code'] = self.env['ir.sequence'].next_by_code('mfp.company.sequence')
-                vals['code'] = self.env['ir.sequence'].next_by_code('mfp.company.sequence')
                 while True:
+                    vals['code'] = self.env['ir.sequence'].next_by_code('mfp.company.sequence')
                     domain = [('code', '=', vals['code'])]
                     partners = self.env['res.partner'].search(domain)
                     if len(partners) == 0:
                         break
-                    vals['code'] = self.env['ir.sequence'].next_by_code('mfp.company.sequence')
         return super(ResPartner, self).create(vals_list)
 
     # 自動針對聯絡人給予Code碼

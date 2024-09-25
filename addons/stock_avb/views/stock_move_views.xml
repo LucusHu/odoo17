@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_stock_picking_form" model="ir.ui.view">
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="header" position="inside">
+                    <button name="action_btn" type="object" class="oe_highlight" string="檢驗數據"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -15,8 +15,3 @@ access_account_print_line,account.print.line,model_account_print_line,base.group
 
 access_mfp_calc_line,mfp.calc.line,model_mfp_calc_line,base.group_user,1,1,1,1
 access_mfp_calc_manual_wizard,mfp.calc.manual.wizard,model_mfp_calc_manual_wizard,base.group_user,1,1,1,1
-access_mfp_calc_exchange_line,mfp.calc.exchange.line,model_mfp_calc_exchange_line,base.group_user,1,1,1,1
-access_mfp_calc_return_line,mfp.calc.return.line,model_mfp_calc_return_line,base.group_user,1,1,1,1
-access_mfp_calc_manual_exchange_wizard,mfp.calc.manual.exchange.wizard,model_mfp_calc_manual_exchange_wizard,base.group_user,1,1,1,1
-
-access_mfp_calc_line,mfp.calc.line,model_mfp_calc_line,base.group_user,1,1,1,1

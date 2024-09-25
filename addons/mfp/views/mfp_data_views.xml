@@ -29,6 +29,8 @@
                     <header>
                         <button name="action_invalid" type="object" class="oe_highlight" icon="fa-trash"
                                 string="作廢張數"/>
+                        <button name="action_standby" type="object" class="oe_highlight" icon="fa-trash"
+                                string="待機區"/>
                     </header>
                     <sheet>
                         <group string="客戶資料">
@@ -52,7 +54,17 @@
                         </group>
                         <group string="事務機">
                             <group>
-                                <field name="name"/>
+                                <label for="name" class="oe_inline"/>
+                                <div class="d-flex">
+                                    <div class="d-flex col">
+                                        <field name="name"/>
+                                    </div>
+                                    <label for="serial_number" class="oe_inline"/>
+                                    <div class="d-flex col" style="margin-left: 1rem;">
+                                        <field name="serial_number"/>
+                                    </div>
+                                </div>
+                                <!-- <field name="name"/>-->
                                 <label for="brand_id" class="oe_inline"/>
                                 <div class="d-flex">
                                     <div class="d-flex col">
@@ -76,7 +88,7 @@
                             </group>
                             <group>
                                 <field name="deposit"/>
-                            <!--<field name="meter_day" invisible="merge_id"/>-->
+                                <!--<field name="meter_day" invisible="merge_id"/>-->
                                 <field name="state"/>
                             </group>
                         </group>
@@ -96,7 +108,7 @@
                                     <group string="抄表起訖">
                                         <field name="meter_date" readonly="merge_id"/>
                                         <field name="stl_date" readonly="merge_id"/>
-                                        <!--<field name="prev_date" invisible="merge_id"/>-->
+                                        <field name="rental_date" readonly="merge_id"/>
                                     </group>
                                     <group colspan="8">
                                         <group string="月租">

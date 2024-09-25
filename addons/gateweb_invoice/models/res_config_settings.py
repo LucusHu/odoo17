@@ -13,8 +13,8 @@ class ResConfigSettings(models.TransientModel):
     gw_url = fields.Char('Gw url', compute='_compute_url')
     gw_ac = fields.Char('Gw Account')
     gw_pw = fields.Char('Gw Password')
-    gw_token = fields.Char('Gw Token', readonly=True)
-    gw_date = fields.Date('Gw Date', readonly=True)
+    gw_token = fields.Char('Gw Token')
+    gw_date = fields.Datetime('Gw Date')
     gw_key = fields.Char('Gw Key')
     gw_seller_department = fields.Char('Gw SellerDepartment')
     gw_paper_format = fields.Selection([('A5', 'A5格式'), ('A4', 'A4格式')],
@@ -38,32 +38,31 @@ class ResConfigSettings(models.TransientModel):
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         config = self.env['ir.config_parameter'].sudo()
-        res['gw_demo_mode'] = config.get_param('gw_demo_mode')
-        res['gw_url'] = config.get_param('gw_url')
-        res['gw_ac'] = config.get_param('gw_ac')
-        res['gw_pw'] = config.get_param('gw_pw')
-        res['gw_token'] = config.get_param('gw_token')
-        res['gw_date'] = config.get_param('gw_date')
-        res['gw_key'] = config.get_param('gw_key')
-        res['gw_seller_department'] = config.get_param('gw_seller_department')
-        res['gw_paper_format'] = config.get_param('gw_paper_format')
+        res['gw_demo_mode'] = config.get_param('gateweb_invoice.gw_demo_mode')
+        res['gw_url'] = config.get_param('gateweb_invoice.gw_url')
+        res['gw_ac'] = config.get_param('gateweb_invoice.gw_ac')
+        res['gw_pw'] = config.get_param('gateweb_invoice.gw_pw')
+        # res['gw_token'] = config.get_param('gateweb_invoice.gw_token')
+        # res['gw_date'] = config.get_param('gateweb_invoice.gw_date')
+        res['gw_key'] = config.get_param('gateweb_invoice.gw_key')
+        res['gw_seller_department'] = config.get_param('gateweb_invoice.gw_seller_department')
+        res['gw_paper_format'] = config.get_param('gateweb_invoice.gw_paper_format')
         return res
 
-    #
     @api.model
     def set_values(self):
         super(ResConfigSettings, self).set_values()
         # 更新配置參數
         config = self.env['ir.config_parameter'].sudo()
-        config.set_param('gw_demo_mode', self.gw_demo_mode)
-        config.set_param('gw_url', self.gw_url)
-        config.set_param('gw_ac', self.gw_ac)
-        config.set_param('gw_pw', self.gw_pw)
-        config.set_param('gw_token', self.gw_token)
-        config.set_param('gw_date', self.gw_date)
-        config.set_param('gw_key', self.gw_key)
-        config.set_param('gw_seller_department', self.gw_seller_department)
-        config.set_param('gw_paper_format', self.gw_paper_format)
+        config.set_param('gateweb_invoice.gw_demo_mode', self.gw_demo_mode)
+        config.set_param('gateweb_invoice.gw_url', self.gw_url)
+        config.set_param('gateweb_invoice.gw_ac', self.gw_ac)
+        config.set_param('gateweb_invoice.gw_pw', self.gw_pw)
+        # config.set_param('gw_token', self.gw_token)
+        # config.set_param('gw_date', self.gw_date)
+        config.set_param('gateweb_invoice.gw_key', self.gw_key)
+        config.set_param('gateweb_invoice.gw_seller_department', self.gw_seller_department)
+        config.set_param('gateweb_invoice.gw_paper_format', self.gw_paper_format)
 
     def _gw_auth(self, gw_url, _ac, _pw):
         url = f'{gw_url}/api/authenticate'
@@ -78,14 +77,14 @@ class ResConfigSettings(models.TransientModel):
 
     def _token(self):
         config = self.env['ir.config_parameter'].sudo()
-        url = config.get_param('gw_url')
-        ac = config.get_param('gw_ac')
-        pw = config.get_param('gw_pw')
+        url = config.get_param('gateweb_invoice.gw_url')
+        ac = config.get_param('gateweb_invoice.gw_ac')
+        pw = config.get_param('gateweb_invoice.gw_pw')
         response = self._gw_auth(url, ac, pw)
         if response.status_code == 200:
             response_data = response.json()
-            config.set_param('gw_token', response_data['id_token'])
-            config.set_param('gw_date', datetime.date.today())
+            self.env['ir.config_parameter'].sudo().set_param('gateweb_invoice.gw_token', response_data['id_token'])
+            self.env['ir.config_parameter'].sudo().set_param('gateweb_invoice.gw_date', datetime.date.today())
         else:
             response_data = response.json()
             message = response_data['errors'][0]['errorMessage']
@@ -93,8 +92,8 @@ class ResConfigSettings(models.TransientModel):
 
     def token(self):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        date = config.get_param('gw_date')
+        token = config.get_param('gateweb_invoice.gw_token')
+        date = config.get_param('gateweb_invoice.gw_date')
         if token and date == datetime.date.today():
             return False
         self._token()
@@ -102,9 +101,9 @@ class ResConfigSettings(models.TransientModel):
     # 開立發票
     def invoice(self, data_array):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        key = config.get_param('gw_key')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
+        key = config.get_param('gateweb_invoice.gw_key')
         url = f'{gw_url}/api/v1/simplified/C0403?domestic=true&companyKey={key}'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}
@@ -114,8 +113,8 @@ class ResConfigSettings(models.TransientModel):
     # C0403 Status Instantly
     def invoice_status_instantly(self, identifier, relate_number):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
         url = f'{gw_url}/api/v1/invoice/{identifier}/{relate_number}'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}
@@ -125,9 +124,9 @@ class ResConfigSettings(models.TransientModel):
     # 作廢發票
     def trash(self, data_array):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        key = config.get_param('gw_key')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
+        key = config.get_param('gateweb_invoice.gw_key')
         url = f'{gw_url}/api/v1/simplified/C0503?domestic=true&companyKey={key}'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}
@@ -137,8 +136,8 @@ class ResConfigSettings(models.TransientModel):
     # C0503 Status Instantly
     def trash_status_instantly(self, identifier, relate_number):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
         url = f'{gw_url}/api/v1/invoiceCancellation/{identifier}/{relate_number}'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}
@@ -148,9 +147,9 @@ class ResConfigSettings(models.TransientModel):
     # 開立折讓
     def allowance(self, data_array):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        key = config.get_param('gw_key')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
+        key = config.get_param('gateweb_invoice.gw_key')
         url = f'{gw_url}/api/v1/simplified/D0403?domestic=true&companyKey={key}'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}
@@ -160,8 +159,8 @@ class ResConfigSettings(models.TransientModel):
     # D0403 Status Instantly
     def allowance_status(self, identifier, original_relate_number, relate_number):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
         url = (f'{gw_url}/api/v1/'
                f'simplified/D0403/{original_relate_number}/{identifier}/{relate_number}?completeness=true')
         headers = {'Content-Type': 'application/json',
@@ -172,9 +171,9 @@ class ResConfigSettings(models.TransientModel):
     # 作廢折讓
     def allowance_trash(self, data_array):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        key = config.get_param('gw_key')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
+        key = config.get_param('gateweb_invoice.gw_key')
         url = f'{gw_url}/api/v1/simplified/D0503?domestic=true&companyKey={key}'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}
@@ -184,8 +183,8 @@ class ResConfigSettings(models.TransientModel):
     # D0503 Status Instantly
     def allowance_trash_status(self, identifier, relate_number):
         config = self.env['ir.config_parameter'].sudo()
-        token = config.get_param('gw_token')
-        gw_url = config.get_param('gw_url')
+        gw_url = config.get_param('gateweb_invoice.gw_url')
+        token = config.get_param('gateweb_invoice.gw_token')
         url = f'{gw_url}/api/v1/simplified/D0503/{relate_number}/{identifier}?completeness=true'
         headers = {'Content-Type': 'application/json',
                    'Authorization': f'Bearer {token}'}

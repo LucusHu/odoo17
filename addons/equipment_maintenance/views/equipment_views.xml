@@ -16,6 +16,24 @@
             </field>
         </record>
 
+        <!-- Search -->
+        <record id="view_equipment_search" model="ir.ui.view">
+            <field name="model">equipment.maintenance</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name"/>
+                    <field name="name"/>
+                    <field name="number"/>
+                    <field name="serial_number"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name='group_by_company' context="{'group_by':'partner_id'}"/>
+                        <filter name='group_by_type' context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <!-- Form view -->
         <record id="view_equipment_form" model="ir.ui.view">
             <field name="model">equipment.maintenance</field>
@@ -61,6 +79,12 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"
+                               options="{'post_refresh': 'recipients'}"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>

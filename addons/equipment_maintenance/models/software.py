@@ -24,6 +24,8 @@ class SoftwareLicense(models.Model):
     _description = "網路-軟體-授權"
 
     partner_id = fields.Many2one("res.partner", "客戶")
+    company_name = fields.Char('客戶名稱', related='partner_id.name')
+
     software_type = fields.Many2one("software.type", "軟體類型", required=True)
     internet_type = fields.Many2one("software.internet.type", "上網型式")
 

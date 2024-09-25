@@ -14,6 +14,8 @@ class MFPData(models.Model):
                                  domain="[('id', '!=', id)]")
     merge_id = fields.Many2many('mfp.data', 'mfp_merge_rel', 'merge_id', 'mfp_id', '已合併至',
                                 domain="[('id', '!=', id)]")
+    # ========== 抄表事件 ==========
+    record_ids = fields.One2many('mfp.record', 'mfp_id', '抄表紀錄', readonly=True)
 
     # ========== 告警事件 ==========
     alert_ids = fields.One2many('mfp.alert.record', 'mfp_id', '告警訊息', readonly=True)
@@ -53,8 +55,8 @@ class MFPData(models.Model):
         for record in self:
             record.company_number = record.company_id.number
 
-    printer_name = fields.Char('列印機名稱', readonly=True)
-    serial_number = fields.Char('機器號碼', readonly=True)
+    printer_name = fields.Char('列印機名稱')
+    serial_number = fields.Char('機器號碼')
     mac = fields.Char('MAC', readonly=True)
     ip = fields.Char('IP位址', readonly=True)
     # 若為[新機]則 下月開始計費(月費&張數)
@@ -93,21 +95,41 @@ class MFPData(models.Model):
                                   '結算期數', default='1', required=True)
 
     is_adv = fields.Selection([('0', '否'), ('1', '是')], '預收月租', default='1', required=True)
-    tax = fields.Selection([('no_tax', '未稅'), ('tw_tax_sale_5', '稅金5%'), ('tw_tax_sale_inc_5', '稅金5%-內含')],
-                           '稅額', default='tw_tax_sale_5', required=True)
+    tax = fields.Selection(
+        [('tw_no_tax_sale', '未稅'), ('tw_tax_sale_5', '稅金5%'), ('tw_tax_sale_inc_5', '稅金5%-內含')],
+        '稅額', default='tw_tax_sale_5', required=True)
     # stl_prev_date = fields.Date('前期結算日', default=lambda self: self._default_date())
-    stl_date = fields.Date('結算日期', default=lambda self: self._default_stl_date(), required=True,
-                           help='結算帳單日期')
+    stl_date = fields.Date('超印結算', default=lambda self: self._default_stl_date(), required=True)
+    # stl_next_date = fields.Date('下次', compute='_compute_stl_next_date')
+    rental_date = fields.Date('月租結算', default=lambda self: self._default_rental_date(), required=True)
+
+    # rental_next_date = fields.Date('下次', compute='_compute_rental_next_date')
 
     def _default_stl_date(self):
-        meter_day = self.meter_day if (self.meter_day > 1) else 1
         date = datetime.now().date()
         year = date.year
         month = date.month
-        # 下個月份天數
-        temp_date = (datetime(year, month, 1) + relativedelta(months=1) - timedelta(days=1))
-        day = temp_date.day if (temp_date.day < meter_day) else meter_day
-        return datetime(temp_date.year, temp_date.month, day)
+        day = 1
+        return datetime(year, month, day)
+
+    def _default_rental_date(self):
+        date = datetime.now().date()
+        year = date.year
+        month = date.month
+        day = 1
+        return datetime(year, month, day)
+
+    @api.depends('stl_date', 'pay_period')
+    def _compute_stl_next_date(self):
+        for record in self:
+            pay_period = int(record.pay_period)
+            record.stl_next_date = record.stl_date + relativedelta(months=pay_period)
+
+    @api.depends('rental_date', 'pay_period')
+    def _compute_rental_next_date(self):
+        for record in self:
+            pay_period = int(record.pay_period)
+            record.rental_next_date = record.rental_date + relativedelta(months=pay_period)
 
     # @api.onchange('stl_date')
     # def _onchange_stl_date(self):
@@ -194,6 +216,16 @@ class MFPData(models.Model):
             },
         }
 
+    def action_standby(self):
+        place_id = self.env.ref('mfp.mfp_place_main_company')
+
+        domain = [('id', '=', self.id)]
+        record = self.env['mfp.data'].sudo().search(domain)
+        record.write({
+            'company_id': self.env.user.company_id.id,
+            'place_id': place_id.id
+        })
+
     # ========== iron ==========
     # 定時每天晚上8:00 檢查未有抄表紀錄之事務機
     # 並發出Line警告
@@ -201,25 +233,25 @@ class MFPData(models.Model):
         print(f'iron_noreocrd {datetime.now()}')
         # 所有事務機
         domain = [('state', '=', '1')]
-        mfp_datas = self.env['mfp.data'].sudo().search(domain)
-        if not mfp_datas:
+        records = self.env['mfp.data'].sudo().search(domain)
+        if not records:
             return
         now = datetime.now().date()
 
-        for mfp_data in mfp_datas:
-            stl_date = mfp_data.stl_date
-            meter_before = mfp_data.meter_before
-            meter_after = mfp_data.meter_after
+        for record in records:
+            stl_date = record.stl_date
+            meter_before = record.meter_before
+            meter_after = record.meter_after
             date1 = stl_date - timedelta(days=meter_before)
             date2 = stl_date + timedelta(days=meter_after)
             if now < date1 or now > date2:
                 continue
 
-            user_id = mfp_data.user_id
-            proxy_user = mfp_data.proxy_user
-            name = mfp_data.name
-            company_name = mfp_data.company_id.name if mfp_data.company_id else ''
-            place_name = mfp_data.place_id.name if mfp_data.place_id else ''
+            user_id = record.user_id
+            proxy_user = record.proxy_user
+            name = record.name
+            company_name = record.company_id.name if record.company_id else ''
+            place_name = record.place_id.name if record.place_id else ''
 
             # notify_name = f'事務機無資料 公司:{company_name} {now.year}-{now.month}-{now.day} {name}'
             notify_message = f'事件:事務機:{name} 未在預定日期{date1} ~ {date2}中獲取到張數資料, 請手動補資料,自行出帳 \r\n' \
