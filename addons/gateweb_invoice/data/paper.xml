@@ -32,5 +32,20 @@
             <field name="disable_shrinking" eval="False"/>
             <field name="dpi">96</field>
         </record>
+        <record id="paperformat_gateweb_invoice_allowance" model="report.paperformat">
+            <field name="name">GateWeb Invoice A4</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <!--Landscape, Portrait-->
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">7</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="disable_shrinking" eval="False"/>
+            <field name="dpi">96</field>
+        </record>
     </data>
 </odoo>

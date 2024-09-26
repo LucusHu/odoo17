@@ -17,10 +17,10 @@
                   action="action_mfp_invalid_record"/>
 
         <menuitem id="menu_mfp_05" name="帳單計算" parent="menu_mfp_root" sequence="40"/>
-        <menuitem id="menu_mfp_0501" name="帳單計算(單一&amp;合併)" parent="menu_mfp_05" sequence="10"
+        <menuitem id="menu_mfp_0501" name="帳單計算" parent="menu_mfp_05" sequence="10"
                   action="action_mfp_calc_manual_wizard"/>
-        <menuitem id="menu_mfp_0502" name="帳單計算(換機)" parent="menu_mfp_05" sequence="20"
-                  action="action_mfp_calc_manual_exchange_wizard"/>
+<!--        <menuitem id="menu_mfp_0502" name="帳單計算(換機)" parent="menu_mfp_05" sequence="20"-->
+<!--                  action="action_mfp_calc_manual_exchange_wizard"/>-->
         <!--        <menuitem id="menu_mfp_0503" name="合併帳單計算" parent="menu_mfp_05" sequence="30" action="action_account_move_exchange_calc"/>-->
 
         <menuitem id="menu_mfp_06" name="配置" parent="menu_mfp_root" sequence="50"/>

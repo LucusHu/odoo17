@@ -1,4 +1,6 @@
 import base64
+import datetime
+
 from odoo import fields, models, api
 from odoo.exceptions import UserError
 
@@ -103,7 +105,7 @@ class GateWebInvoice(models.Model):
     @api.depends('partner_id')
     def _compute_buyer(self):
         for record in self:
-            buyer = record.partner_id.partner_id if record.partner_id.partner_id else record.partner_id
+            buyer = record.partner_id.parent_id if record.partner_id.parent_id else record.partner_id
             record.buyer_identifier = buyer.vat if buyer else False
             record.buyer_name = buyer.name if buyer else False
 
@@ -397,8 +399,8 @@ class GateWebInvoice(models.Model):
             pdf_content = report_data[0]
             ir_values = {
                 'datas': base64.b64encode(pdf_content),
-                'name': f'電子發票{rec.name}.pdf',
-                'store_fname': f'電子發票{rec.name}.pdf',
+                'name': f'{rec.invoice_number}.pdf',
+                'store_fname': f'{rec.invoice_number}.pdf',
                 'mimetype': 'application/pdf',
                 'type': 'binary',
                 'res_id': rec.id,
@@ -486,6 +488,8 @@ class GateWebAllowance(models.Model):
     seller_id = fields.Char('賣方統編', readonly=True)
     allowance_date = fields.Date('折讓日期', readonly=True)
     allowance_time = fields.Char('折讓時間', readonly=True)
+    amount_untaxed = fields.Integer('金額(不含稅)', readonly=True)
+    tax = fields.Integer('稅金', readonly=True)
     amount = fields.Integer('金額', compute='_compute_amount', store=True)
 
     # ========== 作廢資訊 ==========
@@ -499,12 +503,19 @@ class GateWebAllowance(models.Model):
     def _compute_amount(self):
         for record in self:
             detail_ids = record.detail_ids
+
+            amount_untaxed = 0
+            tax = 0
             amount = 0
             # sequence = 1
             for line in detail_ids:
                 # line['sequence_number'] = sequence or line['sequence_number']
                 # sequence += 1
+                amount_untaxed += line['amount_untaxed']
+                tax += line['tax']
                 amount += line['amount']
+            record.amount_untaxed = amount_untaxed
+            record.tax = tax
             record.amount = amount
 
     def gw_allowance(self):
@@ -539,6 +550,8 @@ class GateWebAllowance(models.Model):
         if response.status_code == 200:
             # self.state = 'uploading'
             self.state = 'allowance'
+            # response_data = response.json()
+            self.allowance_date = datetime.date.today()
         else:
             response_data = response.json()
             message = response_data['errors'][0]['errorMessage']
@@ -622,6 +635,9 @@ class GateWebAllowance(models.Model):
         allowance.create_allowance()
         return allowance
 
+    def action_print_allowance(self):
+        return self.env.ref('gateweb_invoice.action_gateweb_invoices_allowance').report_action(self)
+
 
 class GateWebAllowanceLine(models.Model):
     _name = "gateweb.invoice.allowance.line"
@@ -638,6 +654,7 @@ class GateWebAllowanceLine(models.Model):
     tax_type = fields.Selection([('1', '應稅'), ('2', '零稅率'), ('3', '免稅'), ('4', '特種稅'),
                                  ('9', '混合稅')],
                                 '稅別', default='1', required=True)
+    amount_untaxed = fields.Integer('折讓金額(不含稅)', readonly=True)
     tax = fields.Integer('折讓稅額', required=True)
     amount = fields.Integer('折讓金額', default=0, readonly=True,
                             compute='_compute_amount', store=True)
@@ -655,5 +672,6 @@ class GateWebAllowanceLine(models.Model):
         for record in self:
             unit_price = record.unit_price
             quantity = record.quantity
+            record.amount_untaxed = unit_price * quantity
             tax = record.tax
             record.amount = unit_price * quantity + tax

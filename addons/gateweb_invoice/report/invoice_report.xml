@@ -388,12 +388,222 @@
             </t>
         </template>
 
+        <template id="template_invoice_allowance">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <!-- 原開立銷貨發票單位 -->
+                        <div>
+                            <table style="width:100%; border: 0 solid #fff;">
+                                <tbody>
+                                    <!-- 第一行： "原开立销货發票單位" 和 "XXXX" -->
+                                    <tr>
+                                        <td rowspan="3" colspan="2"
+                                            style="max-width:3rem; border: .1rem solid #000; text-align: center; writing-mode: vertical-lr;">
+                                            <span t-esc="'原開立銷貨'"/>
+                                            <br/>
+                                            <span t-esc="'發票單位'"/>
+                                        </td>
+                                        <!-- 第一行的兩個小格 -->
+                                        <td colspan="3" style="height:3rem; border: .1rem solid #000;">
+                                            <span t-esc="'營利事業統一編號'"/>
+                                        </td>
+                                        <td colspan="2" style="vertical-align: middle; border: .1rem solid #000;">
+                                            <span style="margin-left:1rem;" t-field="o.invoice_id.seller_identifier"/>
+                                        </td>
+                                        <!-- 第一段：显示静态文本 -->
+                                        <td rowspan="3" colspan="7"
+                                            style="border: 0 solid #fff; vertical-align: middle; text-align: center;">
+                                            <span t-esc="'電子發票銷貨退回、進貨退出或折讓證明單'"/>
+                                            <br/>
+                                            <span t-field="o.allowance_date"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- 第二行：兩個小格 -->
+                                    <tr>
+                                        <td colspan="3"
+                                            style="height:3rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                            <span t-esc="'名稱'"/>
+                                        </td>
+                                        <td colspan="2" style="vertical-align: middle; border: .1rem solid #000;">
+                                            <span style="margin-left:1rem;" t-field="o.invoice_id.seller_name"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- 第三行：兩個小格，拆分“營業所在地址” -->
+                                    <tr>
+                                        <td colspan="3"
+                                            style="height:3rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                            <span t-esc="'營業所在'"/>
+                                            <span t-esc="'地址'"/>
+                                        </td>
+                                        <td colspan="2" style="vertical-align: middle; border: .1rem solid #000;">
+                                            <span style="margin-left:1rem;" t-field="o.invoice_id.seller_address"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- 新增的一行：三個有內容的格子，內容居中，退貨或折讓內容添加字距 -->
+                                    <tr>
+                                        <td colspan="6"
+                                            style="height:2rem; text-align: center; border: .1rem solid #000;">
+                                            <span t-esc="'開立發票'"/>
+                                        </td>
+                                        <td colspan="5"
+                                            style="text-align: center; letter-spacing: 2rem; border: .1rem solid #000;">
+                                            <span t-esc="'退貨或折讓內容'"/>
+                                        </td>
+                                        <td colspan="3" style="text-align: center; border: .1rem solid #000;">
+                                            <span t-esc="'課稅別(v)'"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- 新增的一行：14格，依次填入指定的內容 -->
+                                    <tr>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'一般/特種'"/>
+                                        </td>
+                                        <td style="max-width:3rem; width:3rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'年'"/>
+                                        </td>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'月'"/>
+                                        </td>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'日'"/>
+                                        </td>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'字軌'"/>
+                                        </td>
+                                        <td style="max-width:6rem; width:6rem; vertical-align: middle; text-align: center; letter-spacing: 1rem; border: .1rem solid #000;">
+                                            <span t-esc="'號碼'"/>
+                                        </td>
+                                        <td style="vertical-align: middle; text-align: center; letter-spacing: 1rem; border: .1rem solid #000;">
+                                            <span t-esc="'品名'"/>
+                                        </td>
+                                        <td style="max-width:8rem; width:8rem; vertical-align: middle; text-align: center; letter-spacing: 1rem; border: .1rem solid #000;">
+                                            <span t-esc="'數量'"/>
+                                        </td>
+                                        <td style="max-width:10rem; width:10rem; vertical-align: middle; text-align: center; letter-spacing: 1rem; border: .1rem solid #000;">
+                                            <span t-esc="'單價'"/>
+                                        </td>
+                                        <td style="max-width:16rem; width:16rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                            <span t-esc="'金額'" style="letter-spacing: 1rem;"/>
+                                            <br/>
+                                            <span t-esc="'(不含稅之進貨額)'"/>
+                                        </td>
+                                        <td style="max-width:10rem; width:10rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                            <span t-esc="'營業稅額'"/>
+                                        </td>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'應稅'"/>
+                                        </td>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'零稅率'"/>
+                                        </td>
+                                        <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; writing-mode: vertical-lr; border: .1rem solid #000;">
+                                            <span t-esc="'免稅'"/>
+                                        </td>
+                                    </tr>
+                                    <!--<t t-set="length" t-value="range(10)"/>-->
+                                    <t t-foreach="o.detail_ids" t-as="line">
+                                        <tr>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; border: .1rem solid #000;">
+                                                <span t-if="o.invoice_id.invoice_type=='07'" t-esc="'一'"/>
+                                                <span t-if="o.invoice_id.invoice_type=='09'" t-esc="'特'"/>
+                                            </td>
+                                            <td style="max-width:3rem; width:3rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <!-- 获取年份 -->
+                                                <span t-esc="o.invoice_id.gw_invoice_date.strftime('%Y')"/>
+                                            </td>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <!-- 获取月份 -->
+                                                <span t-esc="o.invoice_id.gw_invoice_date.strftime('%m')"/>
+                                            </td>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <!-- 获取日期 -->
+                                                <span t-esc="o.invoice_id.gw_invoice_date.strftime('%d')"/>
+                                            </td>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <!-- 获取前两位字符 -->
+                                                <span t-esc="o.invoice_id.invoice_number[:2]"/>
+                                            </td>
+                                            <td style="max-width:6rem; width:6rem; vertical-align: middle; border: .1rem solid #000;">
+                                                <!-- 获取从第三位开始的后续字符 -->
+                                                <span t-esc="o.invoice_id.invoice_number[2:]"/>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <td style="max-width:8rem; width:8rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td style="max-width:10rem; width:10rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-field="line.unit_price"/>
+                                            </td>
+                                            <td style="max-width:16rem; width:16rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-field="line.amount_untaxed"/>
+                                            </td>
+                                            <td style="max-width:10rem; width:10rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-field="line.tax"/>
+                                            </td>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-if="o.invoice_id.tax_type=='1'" t-esc="'V'"/>
+                                            </td>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-if="o.invoice_id.tax_type=='3'" t-esc="'V'"/>
+                                            </td>
+                                            <td style="max-width:1.5rem; width:1.5rem; vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                                <span t-if="o.invoice_id.tax_type=='2'" t-esc="'V'"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <!-- 新增的一行：合計和空格 -->
+                                    <tr>
+                                        <td colspan="9"
+                                            style="height:2rem; text-align: center; border: .1rem solid #000;">
+                                            <span style="display: inline; width: 100%; text-align: center;">
+                                                <span style="float: left; padding-left: 10%;">合</span>
+                                                <span style="float: right; padding-right: 10%;">計</span>
+                                            </span>
+                                        </td>
+                                        <td style="vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                        <td style="vertical-align: middle; text-align: center; border: .1rem solid #000;">
+                                            <span t-field="o.tax"/>
+                                        </td>
+                                        <!-- 用來補齊前面的兩個單元格 -->
+                                        <td colspan="3" style="border: .1rem solid #000;"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top:3rem; margin-left:2rem; text-align:left;">
+                            <span t-esc="'本證明單所列進貨退出或折讓，確屬事實，特此。'"/>
+                        </div>
+                        <div style="float:right; width:14rem; text-align:right;">
+                            <div style="border: .15rem solid #000; text-align:center;">
+                                <span t-esc="'進貨營業人(或原買受人)'"/>
+                                <br/>
+                                <br/>
+                                <span t-esc="'蓋統一發票專用'"/>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div style="height:14rem; border: .15rem solid #000; border-top:0 solid #000; text-align:center;">
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
         <!-- Action -->
         <record id="action_gateweb_invoices_A4" model="ir.actions.report">
             <field name="name">電子發票(A4格式)</field>
             <field name="model">account.move</field>
-            <field name="report_type">qweb-pdf</field>
             <!--qweb-pdf, qweb-html -->
+            <field name="report_type">qweb-pdf</field>
             <field name="report_name">gateweb_invoice.invoice_A4</field>
             <field name="report_file">gateweb_invoice.invoice_A4</field>
             <field name="print_report_name">'%s' % (object.invoice_number)</field>
@@ -405,8 +615,8 @@
         <record id="action_gateweb_invoices_A5" model="ir.actions.report">
             <field name="name">電子發票(A5格式)</field>
             <field name="model">account.move</field>
-            <field name="report_type">qweb-pdf</field>
             <!--qweb-pdf, qweb-html -->
+            <field name="report_type">qweb-pdf</field>
             <field name="report_name">gateweb_invoice.invoice_A5</field>
             <field name="report_file">gateweb_invoice.invoice_A5</field>
             <field name="print_report_name">'%s' % (object.invoice_number)</field>
@@ -414,5 +624,29 @@
             <field name="binding_model_id" ref="model_account_move"/>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_gateweb_invoices_allowance" model="ir.actions.report">
+            <field name="name">電子發票-折讓單</field>
+            <field name="model">gateweb.invoice.allowance</field>
+            <!--qweb-pdf, qweb-html -->
+            <field name="report_type">qweb-pdf</field>
+            <field name="print_report_name">'%s' % (object.relate_number)</field>
+            <field name="report_name">gateweb_invoice.template_invoice_allowance</field>  <!-- 修改为唯一的 ID -->
+            <field name="report_file">gateweb_invoice.template_invoice_allowance</field>  <!-- 确保指向正确模板 -->
+            <field name="paperformat_id" ref="gateweb_invoice.paperformat_gateweb_invoice_allowance"/>
+        </record>
+
+        <!--        <record id="action_gateweb_invoices_allowance" model="ir.actions.report">-->
+        <!--            <field name="name">電子發票-折讓單</field>-->
+        <!--            <field name="model">gateweb.invoice.allowance</field>-->
+        <!--            <field name="report_type">qweb-html</field>-->
+        <!--            &lt;!&ndash;qweb-pdf, qweb-html &ndash;&gt;-->
+        <!--            <field name="report_name">gateweb_invoice.invoice_allowance</field>-->
+        <!--            <field name="report_file">gateweb_invoice.invoice_allowance</field>-->
+        <!--            <field name="print_report_name">'折讓單%s' % (object.invoice_number)</field>-->
+        <!--            <field name="paperformat_id" ref="gateweb_invoice.paperformat_gateweb_invoice_allowance"/>-->
+        <!--&lt;!&ndash;            <field name="binding_model_id" ref="model_account_move"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <field name="binding_type">report</field>&ndash;&gt;-->
+        <!--        </record>-->
     </data>
 </odoo>
