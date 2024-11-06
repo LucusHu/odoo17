@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="product_product_mfp_print_price" model="product.product">
-            <field name="name">影印費</field>
+            <field name="name">影印費用</field>
             <field name="categ_id" ref="product.product_category_all"/>
             <field name="standard_price">0</field>
             <field name="list_price">0</field>
@@ -29,7 +29,7 @@
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
         <record id="product_product_mfp_over_price" model="product.product">
-            <field name="name">超印費</field>
+            <field name="name">超印費用</field>
             <field name="categ_id" ref="product.product_category_all"/>
             <field name="standard_price">0</field>
             <field name="list_price">0</field>

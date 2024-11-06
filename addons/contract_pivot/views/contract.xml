@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_tree_contract_contract_pivot" model="ir.ui.view">
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="recurring_rule_type" widget="badge"
+                           decoration-info="['in', recurring_rule_type, ['daily', 'weekly']]"
+                           decoration-success="['in', recurring_rule_type, ['monthly', 'monthlylastday', 'quarterly', 'semesterly', 'yearly']]"/>
+                    <!--<field name="category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
+                    <field name="category_id" widget="badge" options="{'color_field': 'color'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_form_contract_contract_pivot" model="ir.ui.view">
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='recurring_invoicing_type']" position="after">
+                    <!--<field name="category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
+                    <field name="category_id" widget="selection"/>
+                    <field name="unit_price"/>
+                </xpath>
+                <xpath expr="//page[@name='info']" position="before">
+                    <page name='specification' string="Specification">
+                        <field name="specification" widget="html"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Pivot -->
+        <record id="view_pivot_contract_contract_pivot" model="ir.ui.view">
+            <field name="name">contract.contract.pivot</field>
+            <field name="model">contract.contract</field>
+            <field name="arch" type="xml">
+                <pivot string="Contract" sample="1">
+                    <field name="category_id" type="row"/>
+                    <field name="partner_id" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_contract_contract_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_pivot_contract_contract_pivot"/>
+            <field name="act_window_id" ref="contract.action_customer_contract"/>
+        </record>
+    </data>
+</odoo>

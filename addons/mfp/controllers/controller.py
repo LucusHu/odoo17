@@ -220,11 +220,13 @@ class MFPController(http.Controller):
         domain = [('state', '=', '1')]
         if company_id:
             # 轉換為ID
-            company = request.env['res.partner'].sudo().search([('code', '=', company_id)])
+            _domain = ['&', ('is_company', '=', True), ('code', '=', company_id)]
+            company = request.env['res.partner'].sudo().search(_domain)
             domain.append(('company_id', '=', company.id))
         elif place_id:
             # 轉換為ID
-            place_id = request.env['mfp.place'].sudo().search([('code', '=', place_id)])
+            _domain = [('code', '=', place_id)]
+            place_id = request.env['mfp.place'].sudo().search(_domain)
             domain.append(('place_id', '=', place_id.id))
         length = len(domain)
         for i in range(length):

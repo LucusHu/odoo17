@@ -1,6 +1,7 @@
 import base64
 import datetime
 
+from .qrcode_encrypter import QRCodeEncrypter
 from odoo import fields, models, api
 from odoo.exceptions import UserError
 
@@ -16,8 +17,9 @@ class GateWebInvoice(models.Model):
         for record in self:
             record.detail_ids = record.line_ids.filtered(lambda la: la.display_type == 'product')
 
-    allowance_ids = fields.One2many('gateweb.invoice.allowance', 'invoice_id',
-                                    '折讓單', ondelete='cascade')
+    #
+    # allowance_ids = fields.One2many('gateweb.invoice.allowance', 'invoice_id',
+    #                                 '折讓單', ondelete='cascade')
     # ========== 自定義 custom ==========
     invoice_category = fields.Selection([('B2B', 'B2B'), ('B2C', 'B2C')],
                                         '發票類別', default='B2B', required=True)
@@ -31,9 +33,10 @@ class GateWebInvoice(models.Model):
 
     invoice_state = fields.Selection([('not invoiced', '未開立'),
                                       ('uploading', '待上傳'), ('invoiced', '已開立'),
+                                      ('allowance', '已折讓'),
                                       ('canceling', '待作廢'), ('canceled', '已作廢')],
                                      '電子發票狀態', default='not invoiced', readonly=True)
-    allowance_amount = fields.Monetary('剩餘可折讓金額', compute='_compute_allowance_amount', store=True)
+    # allowance_amount = fields.Monetary('剩餘可折讓金額', compute='_compute_allowance_amount', store=True)
 
     # def _get_paperformat_id(self):
     #     paperformat_a5 = self.env.ref('gateweb_invoice.paperformat_gateweb_invoice_A5')
@@ -127,7 +130,7 @@ class GateWebInvoice(models.Model):
     # random_number = fields.Char('發票防偽隨機碼')
     # 必須是一組唯一的編號，可以是內部訂單號碼或自訂規則之編碼，未來查詢發票及異動對應使用
     # 在此與 sale_order name 同名
-    relate_number = fields.Char('發票唯一號碼')
+    relate_number = fields.Char('發票唯一號碼', readonly=True)
     invoice_type = fields.Selection([('07', '一般稅額'), ('08', '特種稅額')],
                                     '發票類別', default='07')
     # ※B2C STORAGE專用:
@@ -156,11 +159,24 @@ class GateWebInvoice(models.Model):
     tax_type = fields.Selection([('1', '應稅'), ('2', '免稅'), ('3', '零稅率')],
                                 '課稅別', default='1', required=True)
     # tax Type(1)=0.05、tax Type(2、3)= 0 、tax Type=(3) CustomsClearanceMark必填
-    tax_rate = fields.Float('稅率', default=0.05, required=True)
+
+    tax_rate = fields.Float('稅率', compute='_compute_tax_rate')
+
+    @api.depends('tax_type')
+    def _compute_tax_rate(self):
+        for record in self:
+            if record.tax_type == '1':
+                record.tax_rate = 0.05
+            else:
+                record.tax_rate = 0
 
     # 1: 非經海關出口   2:經海關出口
     customs_clearance_mark = fields.Selection([('1', '非經海關出口'), ('2', '經海關出口')],
                                               '零稅率通關方式', default='1')
+
+    allowance_relate_number = fields.Char('折讓單唯一號碼', readonly=True)
+    allowance_date = fields.Date('折讓日期', readonly=True)
+    allowance_time = fields.Char('折讓時間', readonly=True)
 
     # amount_tax
     # tax_amount = fields.Integer('營業稅額')
@@ -176,17 +192,19 @@ class GateWebInvoice(models.Model):
     # 作廢原因
     cancel_reason = fields.Text('作廢原因')
 
-    @api.depends('allowance_ids')
-    def _compute_allowance_amount(self):
-        for record in self:
-            detail_ids = record.allowance_ids
-            amount_total = record.amount_total
-            amount = 0
-            for line in detail_ids:
-                amount += line.amount if line.state != 'canceled' else 0
-            if amount_total < amount:
-                raise UserError('折讓金額已超出')
-            record.allowance_amount = amount_total - amount
+    # @api.depends('allowance_ids')
+    # def _compute_allowance_amount(self):
+    #     for record in self:
+    #         detail_ids = record.allowance_ids
+    #         amount_total = record.amount_total
+    #         tax = 0
+    #         amount = 0
+    #         for line in detail_ids:
+    #             amount += line.amount if line.state != 'canceled' else 0
+    #             tax += line.tax if line.state != 'canceled' else 0
+    #         if amount_total < (amount + tax):
+    #             raise UserError('折讓金額已超出')
+    #         record.allowance_amount = amount_total - (amount + tax)
 
     @api.onchange('tax_type')
     def _onchange_tax_rate(self):
@@ -227,6 +245,7 @@ class GateWebInvoice(models.Model):
             words.insert(0, "負")
         return ''.join(words)
 
+    # ========== invoice ==========
     def gw_invoice(self):
         try:
             config = self.env['ir.config_parameter'].sudo()
@@ -247,7 +266,7 @@ class GateWebInvoice(models.Model):
             #     seller.street if seller.street else '',
             #     seller.street2 if seller.street2 else '',))
             # 折讓金額
-            self.allowance_amount = self.amount_total
+            # self.allowance_amount = self.amount_total
             # 發票類別
             category = self.invoice_category
 
@@ -261,7 +280,8 @@ class GateWebInvoice(models.Model):
                 detail.append({
                     "amount": line.price_subtotal,
                     "quantity": line.quantity,
-                    "unitPrice": line.price_unit,
+                    # "unitPrice": line.price_unit,
+                    "unitPrice": line.price_subtotal / (line.quantity if line.quantity else 0),
                     "description": line.product_id.name,
                     "sequenceNumber": '%03d' % sequence,
                     "Remark": ''
@@ -346,33 +366,18 @@ class GateWebInvoice(models.Model):
             self.cancel_time = response_data['migData']['receiveTime']
 
     # [action] 開立發票
-    def create_invoice(self):
+    def action_create_invoice(self):
         if self.invoice_state == 'not invoiced':
             self.gw_invoice()
         self.gw_invoice_status_instantly()
 
-    def status_invoice(self):
+    def action_status_invoice(self):
         if self.invoice_state == 'uploading':
             self.gw_invoice_status_instantly()
         if self.invoice_state == 'canceling':
             self.gw_trash_status_instantly()
 
-    def trash_invoice(self):
-        if self.invoice_state == 'invoiced':
-            allowance_ids = self.allowance_ids
-            for allowance in allowance_ids:
-                allowance.trash_allowance()
-            self.gw_trash()
-        self.gw_trash_status_instantly()
-
-        # ====== 應收憑單取消 ======
-        super().button_draft()
-        super().button_cancel()
-
-    def action_allowance(self):
-        return self.allowance_ids.action_allowance(self.id)
-
-    def action_trash(self):
+    def action_trash_invoice(self):
         return {
             'name': '作廢發票 Invoice Trash',
             'res_model': 'account.move',
@@ -382,6 +387,123 @@ class GateWebInvoice(models.Model):
             'target': 'new',
             'type': 'ir.actions.act_window',
         }
+
+    def trash_invoice(self):
+        if self.invoice_state == 'invoiced':
+            self.gw_trash()
+        self.gw_trash_status_instantly()
+
+        # ====== 應收憑單取消 ======
+        super().button_draft()
+        super().button_cancel()
+
+    # def action_allowance(self):
+    #     return self.allowance_ids.action_allowance(self.id)
+
+    # ========== allowance ==========
+
+    def gw_allowance(self):
+        # 設定 relate_number
+        self.allowance_relate_number = self.allowance_relate_number or self.env['ir.sequence'].next_by_code(
+            'gateweb.allowance')
+        original_relate_number = self.relate_number
+        relate_number = self.allowance_relate_number
+        # self.original_relate_number = self.original_relate_number or self.invoice_id.relate_number
+        seller_id = self.seller_identifier
+        tax_type = self.tax_type
+        line_ids = self.detail_ids
+        detail = []
+        sequence = 0
+        for line in line_ids:
+            sequence += 1
+            tax = line.price_total - line.price_subtotal
+            detail.append({
+                "description": line.name,
+                "sequenceNumber": '%03d' % sequence,
+                "quantity": line.quantity,
+                "unitPrice": line.price_unit,
+                "taxType": tax_type,
+                "tax": tax,
+                "amount": line.price_subtotal,
+            })
+        transaction_data_array = {
+            "detail": detail,
+            "originalRelateNumber": original_relate_number,
+            "relateNumber": relate_number,
+            "sellerId": seller_id,
+        }
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance(transaction_data_array)
+        if response.status_code == 200:
+            # self.state = 'uploading'
+            self.invoice_state = 'allowance'
+            # response_data = response.json()
+            self.allowance_date = datetime.date.today()
+        else:
+            response_data = response.json()
+            message = response_data['errors'][0]['errorMessage']
+            raise UserError(message)
+
+    def gw_allowance_status(self):
+        original_relate_number = self.relate_number
+        relate_number = self.allowance_relate_number
+        seller_id = self.seller_identifier
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance_status(seller_id, original_relate_number, relate_number)
+        if response.status_code == 200:
+            self.invoice_state = 'allowance'
+            response_data = response.json()
+            self.allowance_date = response_data['migData']['receiveDate']
+            self.allowance_time = response_data['migData']['receiveTime']
+        else:
+            response_data = response.json()
+            message = response_data['errors'][0]['errorMessage']
+            raise UserError(message)
+
+    def gw_trash_allowance(self):
+        original_relate_number = self.relate_number
+        relate_number = self.allowance_relate_number
+        seller_id = self.seller_identifier
+        transaction_data_array = {
+            "originalRelateNumber": original_relate_number,
+            "relateNumber": relate_number,
+            "sellerId": seller_id,
+            "cancelReason": self.cancel_reason or 'cancel',
+        }
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance_trash(transaction_data_array)
+        if response.status_code == 200:
+            # self.state = 'canceling'
+            self.invoice_state = 'canceled'
+        else:
+            response_data = response.json()
+            message = response_data['errors'][0]['errorMessage']
+            raise UserError(message)
+
+    def gw_trash_allowance_status(self):
+        original_relate_number = self.relate_number
+        relate_number = self.allowance_relate_number
+        seller_id = self.seller_identifier
+        res_config = self.env['res.config.settings'].sudo().search([], limit=1)
+        res_config.token()
+        response = res_config.allowance_trash_status(seller_id, relate_number)
+        if response.status_code == 200:
+            self.invoice_state = 'canceled'
+            response_data = response.json()
+            self.cancel_date = response_data['migData']['receiveDate']
+            self.cancel_time = response_data['migData']['receiveTime']
+
+    def action_create_allowance(self):
+        if self.invoice_state == 'invoiced':
+            self.gw_allowance()
+
+    def action_trash_allowance(self):
+        if self.invoice_state == 'allowance':
+            self.gw_trash_allowance()
+        # self.gw_trash_status()
 
     # ========== 發送 ==========
 
@@ -407,16 +529,13 @@ class GateWebInvoice(models.Model):
                 'res_model': 'account.move',
             }
             domain = [('name', '=', ir_values.get('name'))]
-            attachment = self.env['ir.attachment'].sudo().search(domain)
-            if attachment:
-                attachment.write(ir_values)
-            else:
-                attachment = self.env['ir.attachment'].sudo().create(ir_values)
-            return attachment
+            self.env['ir.attachment'].sudo().search(domain).unlink()
+            return self.env['ir.attachment'].sudo().create(ir_values)
 
     def action_send_and_print(self):
         self.report_gateweb_invoice()
         return super().action_send_and_print()
+
     # def send_email(self):
     #     self.ensure_one()
     #     # 獲取郵件模板
@@ -467,6 +586,35 @@ class GateWebInvoice(models.Model):
     #     }
     #     return report_action
 
+    def action_test(self):
+        # 使用範例
+        encrypter = QRCodeEncrypter()
+        try:
+            qr_code = encrypter.qr_code_inv(
+                invoice_number="AB12345678",
+                invoice_date="1120501",
+                invoice_time="123456",
+                random_number="1234",
+                sales_amount=1000,
+                tax_amount=50,
+                total_amount=1050,
+                buyer_identifier="00000000",
+                represent_identifier="00000000",
+                seller_identifier="12345678",
+                business_identifier="12345678",
+                product_array=[["product1", "100"], ["product2", "200"]],
+                # aes_key="0123456789abcdef0123456789abcdef"
+                # aes_key="9A9E4631B46012ED78D86425168855184C9878BDA92F762B23B5F8C48F291BD5"
+                aes_key="9A9E4631B46012ED78D8642516885518"
+                # aes_key="iFCveb9nGIcl"
+            )
+            print("QR Code Content:", qr_code)
+        except ValueError as e:
+            print("Validation Error:", e)
+
+        # for recode in self:
+        #     pass
+
 
 class GateWebAllowance(models.Model):
     _name = 'gateweb.invoice.allowance'
@@ -488,7 +636,6 @@ class GateWebAllowance(models.Model):
     seller_id = fields.Char('賣方統編', readonly=True)
     allowance_date = fields.Date('折讓日期', readonly=True)
     allowance_time = fields.Char('折讓時間', readonly=True)
-    amount_untaxed = fields.Integer('金額(不含稅)', readonly=True)
     tax = fields.Integer('稅金', readonly=True)
     amount = fields.Integer('金額', compute='_compute_amount', store=True)
 
@@ -509,14 +656,11 @@ class GateWebAllowance(models.Model):
             amount = 0
             # sequence = 1
             for line in detail_ids:
-                # line['sequence_number'] = sequence or line['sequence_number']
-                # sequence += 1
-                amount_untaxed += line['amount_untaxed']
                 tax += line['tax']
                 amount += line['amount']
-            record.amount_untaxed = amount_untaxed
             record.tax = tax
             record.amount = amount
+            print(f'==>{tax}/{amount}')
 
     def gw_allowance(self):
         # 設定 relate_number
@@ -654,7 +798,6 @@ class GateWebAllowanceLine(models.Model):
     tax_type = fields.Selection([('1', '應稅'), ('2', '零稅率'), ('3', '免稅'), ('4', '特種稅'),
                                  ('9', '混合稅')],
                                 '稅別', default='1', required=True)
-    amount_untaxed = fields.Integer('折讓金額(不含稅)', readonly=True)
     tax = fields.Integer('折讓稅額', required=True)
     amount = fields.Integer('折讓金額', default=0, readonly=True,
                             compute='_compute_amount', store=True)
@@ -672,6 +815,5 @@ class GateWebAllowanceLine(models.Model):
         for record in self:
             unit_price = record.unit_price
             quantity = record.quantity
-            record.amount_untaxed = unit_price * quantity
-            tax = record.tax
-            record.amount = unit_price * quantity + tax
+            # record.tax = record.tax
+            record.amount = unit_price * quantity

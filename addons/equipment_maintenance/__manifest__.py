@@ -14,12 +14,8 @@
         1.調整description Html,Char->Text
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'base_setup',
-        'mail',
-    ],
+    'depends': ['base_setup', 'mail', ],
     'data': [
-        # 'security/security.xml',
         'security/ir.model.access.csv',
         'views/equipment_device_type_views.xml',
         'views/equipment_remote_type_views.xml',

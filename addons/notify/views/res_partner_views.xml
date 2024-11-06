@@ -12,6 +12,15 @@
                         <button string="Notify測試訊息" name="action_message" type="object" invisible="is_company"/>
                     </header>
                 </xpath>
+                <xpath expr="//sheet/group" position="after">
+                    <group string="Line Notify">
+                        <field name="line_code" invisible="is_company"/>
+                        <field name="line_token" invisible="is_company"/>
+                        <field name="notify_ids" invisible="is_company" widget="many2many_tags"
+                               options="{'color_field': 'color'}"/>
+                    </group>
+                </xpath>
+                <!--========== 聯絡人欄位 ==========-->
                 <xpath expr="//notebook//page//form//sheet" position="before">
                     <header>
                         <button string="發送連結 Line Notify" name="action_link" type="object"
@@ -20,11 +29,10 @@
                                 invisible="type != 'contact'"/>
                     </header>
                 </xpath>
-                <xpath expr="//sheet/group" position="after">
-                    <group string="Line Notify">
-                        <field name="line_code" invisible="is_company"/>
-                        <field name="line_token" invisible="is_company"/>
-                        <field name="notify_ids" invisible="is_company" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <xpath expr="//notebook//page//form//sheet//field[@name='user_id']" position="after">
+                    <group>
+                        <field name="notify_ids" widget="many2many_tags"
+                               options="{'color_field': 'color'}"/>
                     </group>
                 </xpath>
             </field>

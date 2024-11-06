@@ -34,7 +34,7 @@
                                 <div class="d-flex">
                                     <field name="company_id"/>
                                     <field name="company_number"/>
-                                    <field name="company_name"/>
+                                    <!--<field name="company_name"/>-->
                                 </div>
                                 <field name="mfp_id"/>
                             </group>

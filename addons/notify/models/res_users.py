@@ -33,7 +33,7 @@ class ResUsers(models.Model):
     def action_link(self):
         self.ensure_one()
         # Email 格式
-        mail_template = self.env.ref('line_notify.email_template_res_users_line_notify', raise_if_not_found=False)
+        mail_template = self.env.ref('notify.email_template_res_users_line_notify', raise_if_not_found=False)
         mail_template.send_mail(self.id, email_values={}, force_send=True)
         # compose_form = self.env.ref('mail.email_compose_message_wizard_form')
         #

@@ -18,6 +18,11 @@
                                 <field name="black_print"/>
                                 <field name="large_print"/>
                             </group>
+                            <!--                            <group string="篩選-事務機">-->
+                            <!--                                <field name="tax"/>-->
+                            <!--                                <field name="is_adv"/>-->
+                            <!--                                <field name="deduct"/>-->
+                            <!--                            </group>-->
                         </group>
                         <notebook>
                             <page name="line_ids" string="事務機清單">
@@ -26,17 +31,13 @@
                                         <field name="mfp_id"/>
                                         <field name="contract_ids" widget="many2many_tags"
                                                options="{'color_field': 'color'}"/>
-                                        <!--                                        <field name="date_start"/>-->
-                                        <!--                                        <field name="date_end"/>-->
                                         <field name="pay_period"/>
                                         <field name="rental"/>
-                                        <field name="print_count"/>
+                                        <field name="print_count" invisible="kind == 'advances'"/>
                                         <field name="kind" widget="badge"
-                                               decoration-success="kind == '0'"
-                                               decoration-info="kind == '1'"
-                                               decoration-warning="kind == '2'"
-                                               decoration-danger="kind == '3'"/>
-                                        <!--<field name="merge_ids" widget="many2many_tags"/>-->
+                                               decoration-success="kind == 'normal' or kind == 'advances'"
+                                               decoration-info="kind == 'merge' or kind == 'exchange' or kind == 'settlement'"
+                                               decoration-danger="kind == 'returns'"/>
                                     </tree>
                                     <form>
                                         <sheet>
@@ -54,38 +55,40 @@
                                                     <field name="is_adv"/>
                                                     <field name="deduct"/>
                                                 </group>
-                                                <group string="超印單價/贈送張數">
+                                                <group string="起訖日" invisible="kind != 'advances'">
+                                                    <field name="date_start"/>
+                                                    <field name="date_end"/>
+                                                </group>
+                                                <group string="超印單價/贈送張數" invisible="kind == 'advances'">
                                                     <field name="color_print_overprice"/>
                                                     <field name="black_print_overprice"/>
                                                     <field name="large_print_overprice"/>
                                                     <field name="color_print_deduct" readonly="True"/>
                                                     <field name="black_print_deduct" readonly="True"/>
                                                 </group>
-                                            </group>
-                                            <group>
-                                                <group string="起算日">
+                                                <group string="起算日" invisible="kind == 'advances'">
                                                     <field name="date_start"/>
                                                     <field name="color_print_start"/>
                                                     <field name="black_print_start"/>
                                                     <field name="large_print_start"/>
                                                 </group>
-                                                <group string="結算日">
+                                                <group string="結算日" invisible="kind == 'advances'">
                                                     <field name="date_end"/>
                                                     <field name="color_print_end"/>
                                                     <field name="black_print_end"/>
                                                     <field name="large_print_end"/>
                                                 </group>
-                                                <group string="作廢">
+                                                <group string="作廢" invisible="kind == 'advances'">
                                                     <field name="color_print_invalid"/>
                                                     <field name="black_print_invalid"/>
                                                     <field name="large_print_invalid"/>
                                                 </group>
                                                 <group string="總計">
                                                     <field name="rental_price"/>
-                                                    <field name="color_print_count"/>
-                                                    <field name="black_print_count"/>
-                                                    <field name="large_print_count"/>
-                                                    <field name="print_count"/>
+                                                    <field name="color_print_count" invisible="kind == 'advances'"/>
+                                                    <field name="black_print_count" invisible="kind == 'advances'"/>
+                                                    <field name="large_print_count" invisible="kind == 'advances'"/>
+                                                    <field name="print_count" invisible="kind == 'advances'"/>
                                                 </group>
                                             </group>
                                         </sheet>

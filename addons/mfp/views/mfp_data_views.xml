@@ -5,14 +5,33 @@
         <record id="view_mfp_data_list" model="ir.ui.view">
             <field name="model">mfp.data</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-danger="not brand_id or not model_id or not meter_day or not meter_date or not stl_date or not rental_date or not deduct or not pay_period or not is_adv or not tax"
+                      decoration-warning="alert_ids"
+                      decoration-info="not ip or not mac">
+
+                    <!-- 隐藏這些字段但用於裝飾條件 -->
+                    <field name="brand_id" column_invisible="1"/>
+                    <field name="meter_day" column_invisible="1"/>
+                    <field name="meter_date" column_invisible="1"/>
+                    <field name="stl_date" column_invisible="1"/>
+                    <field name="rental_date" column_invisible="1"/>
+                    <field name="rental" column_invisible="1"/>
+                    <field name="deduct" column_invisible="1"/>
+                    <field name="pay_period" column_invisible="1"/>
+                    <field name="is_adv" column_invisible="1"/>
+                    <field name="tax" column_invisible="1"/>
+                    <field name="ip" column_invisible="1"/>
+                    <field name="mac" column_invisible="1"/>
+                    <field name="alert_ids" column_invisible="1"/>
+
+                    <!-- 顯示這些字段 -->
                     <field name="company_number"/>
                     <field name="company_id"/>
                     <field name="model_id"/>
                     <field name="name"/>
                     <field name="contract_end"/>
                     <field name="contract_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                    <field name="stl_date"/>
+                    <field name="merge_stl_next_date"/>
                     <field name="toner"/>
                     <field name="drum"/>
                     <field name="merge_id" widget="many2many_tags"/>
@@ -98,6 +117,13 @@
                             </page>
                             <page name="contract" string="合約/費用">
                                 <group>
+                                    <group string="月租">
+                                        <field name="rental"/>
+                                        <field name="tax" invisible="merge_id"/>
+                                        <field name="pay_period" invisible="merge_id"/>
+                                        <field name="is_adv" invisible="merge_id"/>
+                                        <field name="deduct" invisible="merge_id"/>
+                                    </group>
                                     <group string="合約">
                                         <field name="contract_start"/>
                                         <field name="contract_end"/>
@@ -105,26 +131,37 @@
                                                options="{'color_field': 'color'}"
                                                invisible="merge_id"/>
                                     </group>
-                                    <group string="抄表起訖">
+                                    <group string="抄表起訖" invisible="merge_id">
                                         <field name="meter_date" readonly="merge_id"/>
-                                        <field name="stl_date" readonly="merge_id"/>
-                                        <field name="rental_date" readonly="merge_id"/>
+                                        <!--<field name="stl_date" readonly="merge_id"/>-->
+                                        <!--<field name="rental_date" readonly="merge_id"/>-->
+                                        <label for="stl_date" class="oe_inline"/>
+                                        <div class="d-flex">
+                                            <div class="d-flex col">
+                                                <field name="stl_date" readonly="merge_id"/>
+                                            </div>
+                                            <label for="stl_next_date" class="oe_inline"/>
+                                            <div class="d-flex col" style="margin-left: 1rem;">
+                                                <field name="stl_next_date"/>
+                                            </div>
+                                        </div>
+                                        <label for="rental_date" class="oe_inline" invisible="is_adv == '0'"/>
+                                        <div class="d-flex" invisible="is_adv == '0'">
+                                            <div class="d-flex col">
+                                                <field name="rental_date" readonly="merge_id"/>
+                                            </div>
+                                            <label for="rental_next_date" class="oe_inline"/>
+                                            <div class="d-flex col" style="margin-left: 1rem;">
+                                                <field name="rental_next_date"/>
+                                            </div>
+                                        </div>
                                     </group>
-                                    <group colspan="8">
-                                        <group string="月租">
-                                            <field name="rental"/>
-                                            <field name="tax" invisible="merge_id"/>
-                                            <field name="pay_period" invisible="merge_id"/>
-                                            <field name="is_adv" invisible="merge_id"/>
-                                            <field name="deduct" invisible="merge_id"/>
-                                        </group>
-                                        <group string="超印單價/贈送張數">
-                                            <field name="color_print_overprice"/>
-                                            <field name="black_print_overprice"/>
-                                            <field name="large_print_overprice"/>
-                                            <field name="color_print_deduct"/>
-                                            <field name="black_print_deduct"/>
-                                        </group>
+                                    <group string="超印單價/贈送張數">
+                                        <field name="color_print_overprice" invisible="merge_id"/>
+                                        <field name="black_print_overprice" invisible="merge_id"/>
+                                        <field name="large_print_overprice" invisible="merge_id"/>
+                                        <field name="color_print_deduct"/>
+                                        <field name="black_print_deduct"/>
                                     </group>
                                 </group>
                                 <group string="合併計費">
@@ -153,13 +190,13 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="notify" string="帳務通知" invisible="merge_id">
-                                <field name="notify_ids">
-                                    <tree editable="bottom">
-                                        <field name="name"/>
-                                    </tree>
-                                </field>
-                            </page>
+<!--                            <page name="notify" string="帳務通知" invisible="merge_id">-->
+<!--                                <field name="notify_ids">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="name"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
                             <page name="toner" string="碳粉/滾筒">
                                 <group>
                                     <group string="碳粉">

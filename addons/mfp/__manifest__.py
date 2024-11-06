@@ -10,12 +10,10 @@
         1.新增【待機區】
         2.【帳單計算】,將預收與扣抵顯示移除
         3.修正發送異常問題
-        4.
+    【版本v2.4】
+        1.修正自動做帳單 & 手動作帳單
     ''',
-    'depends': [
-        'base',
-        'account',
-    ],
+    'depends': ['base', 'account', ],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
@@ -29,7 +27,7 @@
         'data/tooltip_data.xml',
         'data/ir_cron.xml',
         'report/account_move_report.xml',
-        # 'views/account_data_views.xml',
+        'views/report_invoice.xml',
         'views/account_move_views.xml',
         'views/brand_views.xml',
         'views/contract_views.xml',
@@ -41,7 +39,7 @@
         'views/res_partner_views.xml',
         'views/place_views.xml',
         'wizard/mfp_calc_manual_wizard.xml',
-        'wizard/mfp_calc_manual_exchange_wizard.xml',
+        # 'wizard/mfp_calc_manual_exchange_wizard.xml',
         # 'wizard/account_move_exchange_calc.xml',
         'views/menu.xml',
     ],

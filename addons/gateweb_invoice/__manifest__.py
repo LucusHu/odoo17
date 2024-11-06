@@ -1,6 +1,6 @@
 {
     'name': 'GateWeb 第三方電子發票模組',
-    'version': '2.0',
+    'version': '2.2',
     'category': 'Accounting',
     # 'Accounting', # 'Sales', # 'Services'
     'license': 'LGPL-3',
@@ -25,21 +25,23 @@
     【版本v1.9】
         1. 修改添加附檔名
     【版本v2.0】
-        1. 修改電子發票改為取得僅取得公司      
+        1.修改電子發票改為取得僅取得公司
+    【版本v2.1】
+        1.折讓單結合貸記單
+    【版本v2.2】
+        1.稅金內含5%修正        
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'base',
-        'account',
-    ],
+    'depends': ['base', 'account', ],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/paper.xml',
         'views/gateweb_invoice_trash_views.xml',
-        'views/gateweb_invoice_allowance_views.xml',
+        # 'views/gateweb_invoice_allowance_views.xml',
         'views/res_config_settings_views.xml',
         'views/account_move_views.xml',
+        'views/account_move_reversal_view.xml',
         'report/invoice_report.xml',
     ],
     'installable': True,

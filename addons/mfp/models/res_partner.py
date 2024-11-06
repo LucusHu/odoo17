@@ -7,7 +7,7 @@ class ResPartner(models.Model):
 
     place_ids = fields.One2many('mfp.place', 'company_id')
 
-    code = fields.Char(string='Code', readonly=True)
+    code = fields.Char('Code', readonly=True)
     number = fields.Char('客戶編號')
     fax = fields.Char('傳真')
 

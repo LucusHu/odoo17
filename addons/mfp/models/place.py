@@ -9,12 +9,15 @@ class Place(models.Model):
                                  domain="[('parent_id', '=', False)]",
                                  required=True, ondelete='cascade')
 
-    code = fields.Char(string='Code')
-    name = fields.Char('裝機地點', default='辦公室', required=True)
+    code = fields.Char('Code')
+    name = fields.Char('裝機地點', default=lambda self: self.default_name(), required=True)
     install_place = fields.Char('驅動安裝位置')
     state = fields.Selection([('0', '未啟用'), ('1', '啟用'), ('2', '停用')],
                              '狀態', default='1', required=True)
     description = fields.Text('描述')
+
+    def default_name(self):
+        return f'辦公室'
 
     @api.model_create_multi
     def create(self, vals_list):

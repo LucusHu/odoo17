@@ -3,6 +3,6 @@
     <data>
         <menuitem id="menu_notify_root" name="Line Notify" web_icon="static/description/icon.png" sequence="10"/>
         <menuitem id="menu_notify_02" name="配置" parent="menu_notify_root" sequence="10"/>
-        <menuitem id="menu_notify_0201" name="Notify標籤" parent="menu_notify_02" sequence="10" action="line_notify.action_line_notify_category"/>
+        <menuitem id="menu_notify_0201" name="Notify標籤" parent="menu_notify_02" sequence="10" action="notify.action_line_notify_category"/>
     </data>
 </odoo>

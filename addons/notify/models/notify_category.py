@@ -20,6 +20,12 @@ class LineNotifyCategory(models.Model):
     def get_message(self, record):
         try:
             message = self.message
-            return message.format(**record.read()[0])
+            # 如果 message 不是字符串，或 record 沒有數據，返回 False
+            if not isinstance(message, str) or not record.read():
+                return False
+            # 格式化 message
+            # 如果 message 包含 '{'，進行格式化，否則直接返回 message
+            return message.format(**record.read()[0]) if "{" in message else message
         except Exception as ex:
-            raise UserError(f'Line Notify 文本異常:{ex}')
+            raise UserError(f'Line Notify 文本異常: {ex}')
+

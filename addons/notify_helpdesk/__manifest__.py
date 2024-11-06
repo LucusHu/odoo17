@@ -17,13 +17,8 @@
         3.文本內容則在「客服中心」標籤內定義
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'notify',
-        'website_axis_helpdesk_advance',
-    ],
-    'data': [
-        'data/notify_category_data.xml',
-    ],
+    'depends': ['notify', 'website_axis_helpdesk_advance', ],
+    'data': ['data/notify_category_data.xml', ],
     'installable': True,
     'application': False,
     'auto_install': False,

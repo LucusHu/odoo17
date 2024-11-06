@@ -5,18 +5,15 @@
     'license': 'LGPL-3',
     'summary': 'Customer system of CPIC',
     'author': 'Lucas',
-    # 'description': 'Your Description',
+    'description': '''
+        §功能(創勁專用):
+        1.客製化系統
+    ''',
     # 'website': 'Your Website',
-    'depends': [
-        'base',
-        'contacts',
-        'crm',
-        'product',
-    ],
+    'depends': ['base', 'contacts', 'crm', 'product', ],
     'data': [
         'security/ir.model.access.csv',
         'views/res_partner_views.xml',
-        # 'views/product_template_views.xml',
     ],
     'installable': True,
     'application': False,

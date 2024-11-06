@@ -10,7 +10,7 @@ class AccountMoveSend(models.TransientModel):
     def _get_mail_template_attachments_gateweb(self, move, mail_template):
         """ Returns all the placeholder data and mail template data
         """
-        domain = [('name', '=',  f'電子發票{move.name}.pdf')]
+        domain = [('name', '=',  f'{move.invoice_number}.pdf')]
         attachments = self.env['ir.attachment'].sudo().search(domain)
         return [
             {

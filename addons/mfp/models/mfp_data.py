@@ -10,6 +10,7 @@ class MFPData(models.Model):
     _order = 'company_number'
 
     # ========== 合併 ==========
+
     merge_ids = fields.Many2many('mfp.data', 'mfp_merge_rel', 'mfp_id', 'merge_id', '合併計費',
                                  domain="[('id', '!=', id)]")
     merge_id = fields.Many2many('mfp.data', 'mfp_merge_rel', 'merge_id', 'mfp_id', '已合併至',
@@ -28,15 +29,15 @@ class MFPData(models.Model):
                                  domain="['&', '&',"
                                         "('user_ids', '=', False),"
                                         "('company_id', '=', False),"
-                                        "('parent_id', '=', False)]")
+                                        "('parent_id', '=', False)]", ondelete='cascade')
     place_id = fields.Many2one('mfp.place', '裝機地點', required=True,
                                domain="[('company_id', '=?', company_id)]")
     user_id = fields.Many2one('res.users', '維護工程師')
     proxy_user = fields.Many2one('res.users', '代理工程師')
 
     # ========== 帳務通知 ==========
-    notify_ids = fields.Many2many('res.partner', string='帳務通知',
-                                  domain="[('parent_id', '=?', company_id)]")
+    # notify_ids = fields.Many2many('res.partner', string='帳務通知',
+    #                               domain="[('parent_id', '=?', company_id)]")
 
     # ========== 事務機 ==========
     brand_id = fields.Many2one('mfp.brand', '廠牌',
@@ -47,18 +48,18 @@ class MFPData(models.Model):
 
     name = fields.Char('事務機名稱')
     company_name = fields.Char('公司名稱', related='company_id.name')
-    # company_number = fields.Char('客戶編號', related='company_id.number')
-    company_number = fields.Char('客戶編號', compute='_compute_company', store=True)
+    company_number = fields.Char('客戶編號', related='company_id.number')
+    # company_number = fields.Char('客戶編號', compute='_compute_company', store=True)
 
-    @api.depends('company_id')
-    def _compute_company(self):
-        for record in self:
-            record.company_number = record.company_id.number
+    # @api.depends('company_id')
+    # def _compute_company(self):
+    #     for record in self:
+    #         record.company_number = record.company_id.number
 
     printer_name = fields.Char('列印機名稱')
     serial_number = fields.Char('機器號碼')
     mac = fields.Char('MAC', readonly=True)
-    ip = fields.Char('IP位址', readonly=True)
+    ip = fields.Char('IP位址')
     # 若為[新機]則 下月開始計費(月費&張數)
     # 若為[退機]則 下月結束計費(月費&張數)
     # 若為[換機]則 下月開始計費(月費), 超印的計費依舊(張數)
@@ -82,8 +83,8 @@ class MFPData(models.Model):
     # meter = fields.Integer()
     meter_before = fields.Integer('抄表日前X日', default=2)
     meter_after = fields.Integer('抄表日後X日', default=2)
-    meter_date = fields.Date('起算日期', default=lambda self: self._default_stl_date(), required=True,
-                             help='初次安裝選擇安裝日, 其次則選擇前次結算日算')
+    meter_date = fields.Date('抄表起算', default=lambda self: self._default_stl_date(), required=True,
+                             help='初次安裝選擇安裝日, 其次則選擇前次結算日算(抄表紀錄，起算日期)')
 
     # ========== 費用 ==========
     rental = fields.Integer('月租', default=0, required=True)
@@ -99,11 +100,12 @@ class MFPData(models.Model):
         [('tw_no_tax_sale', '未稅'), ('tw_tax_sale_5', '稅金5%'), ('tw_tax_sale_inc_5', '稅金5%-內含')],
         '稅額', default='tw_tax_sale_5', required=True)
     # stl_prev_date = fields.Date('前期結算日', default=lambda self: self._default_date())
-    stl_date = fields.Date('超印結算', default=lambda self: self._default_stl_date(), required=True)
-    # stl_next_date = fields.Date('下次', compute='_compute_stl_next_date')
-    rental_date = fields.Date('月租結算', default=lambda self: self._default_rental_date(), required=True)
-
-    # rental_next_date = fields.Date('下次', compute='_compute_rental_next_date')
+    stl_date = fields.Date('結算起算', default=lambda self: self._default_stl_date(), required=True,
+                           help='(結算帳單，起算日期)')
+    stl_next_date = fields.Date('下次結算', compute='_compute_stl_next_date', store=True)
+    rental_date = fields.Date('預收起算', default=lambda self: self._default_rental_date(), required=True,
+                              help='(預收月租，起算日期)')
+    rental_next_date = fields.Date('下次預收', compute='_compute_rental_next_date', store=True)
 
     def _default_stl_date(self):
         date = datetime.now().date()
@@ -131,16 +133,6 @@ class MFPData(models.Model):
             pay_period = int(record.pay_period)
             record.rental_next_date = record.rental_date + relativedelta(months=pay_period)
 
-    # @api.onchange('stl_date')
-    # def _onchange_stl_date(self):
-    #     stl_date = self.stl_date
-    #     if stl_date:
-    #         date_obj = fields.Date.from_string(stl_date)
-    #         year = date_obj.year
-    #         month = date_obj.month
-    #         day = date_obj.day
-    #         self.meter_day = day
-
     @api.depends('stl_date')
     def _compute_meter(self):
         for record in self:
@@ -165,7 +157,27 @@ class MFPData(models.Model):
     # large_print_invalid = fields.Integer('A3-作廢張數')
     large_print_overprice = fields.Float('A3大尺寸價格', default=0, required=True)
 
-    # ========== 碳粉/滾筒 ==========
+    black_overprice = fields.Float('黑白-超印價格', compute='_compute_overprice')
+    color_overprice = fields.Float('彩色-超印價格', compute='_compute_overprice')
+    large_overprice = fields.Float('A3-超印價格', compute='_compute_overprice')
+    merge_stl_date = fields.Date('收費起算', compute='_compute_overprice')
+    merge_stl_next_date = fields.Date('收費結算', compute='_compute_overprice')
+    merge_rental_date = fields.Date('預收起算', compute='_compute_overprice')
+    merge_rental_next_date = fields.Date('預收結算', compute='_compute_overprice')
+
+    # 計算
+    def _compute_overprice(self):
+        for record in self:
+            merge_id = record.merge_id
+            record.black_overprice = merge_id.black_overprice if merge_id else record.black_print_overprice
+            record.color_overprice = merge_id.color_overprice if merge_id else record.color_print_overprice
+            record.large_overprice = merge_id.large_overprice if merge_id else record.large_print_overprice
+            record.merge_stl_date = merge_id.stl_date if merge_id else record.stl_date
+            record.merge_stl_next_date = merge_id.stl_next_date if merge_id else record.stl_next_date
+            record.merge_rental_date = merge_id.rental_date if merge_id else record.rental_date
+            record.merge_rental_next_date = merge_id.rental_next_date if merge_id else record.rental_next_date
+            # ========== 碳粉/滾筒 ==========
+
     # ==== 碳粉 ====
     toner_black = fields.Float('碳粉-黑色', readonly=True)
     toner_cyan = fields.Float('碳粉-青色', readonly=True)

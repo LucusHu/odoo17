@@ -13,17 +13,12 @@
     【版本v1.1】
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'base',
-        'stock',
-    ],
+    'depends': ['base', 'stock', ],
     'data': [
-        # 'security/ir.model.access.csv',
         'data/paper.xml',
         'report/stock_picking_report_views.xml',
         'views/res_company_views.xml',
         'views/res_partner_views.xml',
-        # 'views/stock_move_views.xml',
     ],
     'installable': True,
     'application': False,

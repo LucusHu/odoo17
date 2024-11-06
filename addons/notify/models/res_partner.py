@@ -10,7 +10,7 @@ class ResPartner(models.Model):
     line_code = fields.Char('Line Notify Code')
     line_token = fields.Char('Line Notify Token')
     line_notify = fields.Char('odoo服務', compute='_compute_notify')
-    notify_ids = fields.Many2many('line.notify.category', string='通知標籤')
+    notify_ids = fields.Many2many('line.notify.category', string='Notify標籤')
 
     # ========== line notify ==========
     # 整理line notify連結

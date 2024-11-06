@@ -17,13 +17,8 @@
         3.文本內容則在「商機」標籤內定義
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'notify',
-        'crm',
-    ],
-    'data': [
-        'data/notify_category_data.xml',
-    ],
+    'depends': ['notify', 'crm', ],
+    'data': ['data/notify_category_data.xml', ],
     'installable': True,
     'application': False,
     'auto_install': False,

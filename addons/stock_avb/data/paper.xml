@@ -11,12 +11,12 @@
             <field name="page_height">140</field>
             <!-- 自訂寬度，單位為毫米 -->
             <field name="page_width">216</field>
-            <field name="orientation">Landscape</field>
+            <field name="orientation">Portrait</field>
             <!--Landscape, Portrait-->
-            <field name="margin_top">7</field>
+            <field name="margin_top">4</field>
             <field name="margin_bottom">0</field>
-            <field name="margin_left">4</field>
-            <field name="margin_right">0</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">0</field>
             <field name="disable_shrinking" eval="False"/>

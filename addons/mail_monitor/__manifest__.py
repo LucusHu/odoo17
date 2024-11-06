@@ -1,6 +1,6 @@
 {
     "name": "Mail郵件系統",
-    "version": "1.0",
+    "version": "1.1",
     "category": "Services",
     # "Accounting", # "Sales", # "Services"
     "license": "LGPL-3",
@@ -11,21 +11,17 @@
      §功能:
         1.監測Mail Server信件
         2.設定【關鍵字】,並對特定格式去解析
-        2.針對符合【關鍵字】的郵件,開立客服單
+        3.針對符合【關鍵字】的郵件,開立客服單
+    【版本v1.1】
+        1.修正無法開立客服單問題  
     ''',
     # "website": "Your Website",
-    "depends": [
-        "mail",
-    ],
+    "depends": ["mail", "cpic_partner", ],
     "data": [
         "security/ir.model.access.csv",
-        # "views/account_data_views.xml",
         "views/server_mail_views.xml",
         "views/filter_views.xml",
-        # "report/account_move_report.xml",
-        # "wizard/account_move_calc.xml",
         "views/menu.xml",
-        # "data/sequence.xml",
     ],
     "installable": True,
     "application": False,

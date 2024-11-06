@@ -26,6 +26,13 @@
             <field name="state">1</field>
             <field name="verify">1</field>
         </record>
+        <record id="mfp_model_ricoh_c3502" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC3502</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
         <record id="mfp_model_ricoh_c3503" model="mfp.brand.model">
             <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
             <field name="name">MPC3503</field>
@@ -59,6 +66,13 @@
         <record id="mfp_model_ricoh_c5000" model="mfp.brand.model">
             <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
             <field name="name">MPC5000</field>
+            <field name="code">1</field>
+            <field name="state">1</field>
+            <field name="verify">1</field>
+        </record>
+        <record id="mfp_model_ricoh_c5502" model="mfp.brand.model">
+            <field name="brand_id" ref="mfp.mfp_brand_ricoh"/>
+            <field name="name">MPC5502</field>
             <field name="code">1</field>
             <field name="state">1</field>
             <field name="verify">1</field>

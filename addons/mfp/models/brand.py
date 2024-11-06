@@ -5,7 +5,7 @@ class Brand(models.Model):
     _name = 'mfp.brand'
     _description = '廠牌'
 
-    line_ids = fields.One2many('mfp.brand.model', 'brand_id', '型號', ondelete='cascade')
+    line_ids = fields.One2many('mfp.brand.model', 'brand_id', '型號')
 
     name = fields.Char('名稱', required=True)
     logo = fields.Binary('Logo')
@@ -17,7 +17,7 @@ class BrandModel(models.Model):
     _description = '廠牌型號'
     _order = 'name asc'
 
-    brand_id = fields.Many2one('mfp.brand', '廠牌', required=True)
+    brand_id = fields.Many2one('mfp.brand', '廠牌', required=True, ondelete='cascade')
 
     brand_name = fields.Char('廠牌名稱', related='brand_id.name')
     name = fields.Char('機器型號', required=True)

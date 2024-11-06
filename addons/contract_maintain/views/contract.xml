@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree -->
+        <record id="view_tree_contract_contract_maintain" model="ir.ui.view">
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="maintain_next"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_form_contract_contract_maintain" model="ir.ui.view">
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='info']" position="before">
+                    <page name='maintain' string="Maintain">
+                        <group>
+                            <field name="maintain_user"/>
+                            <label for="maintain_internal"/>
+                            <div class="o_row">
+                                <field name="maintain_internal" class="oe_inline" nolabel="1"/>
+                                <field name="maintain_recurring" class="oe_inline" nolabel="1"/>
+                            </div>
+                            <field name="maintain_start"/>
+                            <field name="maintain_next"/>
+                            <field name="maintain_end"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

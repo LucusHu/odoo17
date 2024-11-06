@@ -22,7 +22,10 @@
         # 'sale_management',
     ],
     'data': [
+        'security/ir.model.access.csv',
+        'data/hr_salary_rule_data.xml',
         'views/hr_contract_views.xml',
+        'views/hr_payslip_extra_views.xml',
     ],
     'installable': True,
     'application': False,

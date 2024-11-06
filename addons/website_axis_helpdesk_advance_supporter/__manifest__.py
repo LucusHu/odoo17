@@ -20,7 +20,6 @@
     # 'website': 'Your Website',
     'depends': [
         'website_axis_helpdesk_advance',
-        'line_notify',
     ],
     'data': [
         'security/ir.model.access.csv',

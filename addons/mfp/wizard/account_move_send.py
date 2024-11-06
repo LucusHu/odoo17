@@ -8,7 +8,7 @@ class AccountMoveSend(models.TransientModel):
     def _get_mail_template_attachments_mfp(self, move, mail_template):
         """ Returns all the placeholder data and mail template data
         """
-        domain = [('name', '=',  f'事務機明細{move.name}.pdf')]
+        domain = [('name', '=',  f'事務機明細{move.name.replace("/", "_")}.pdf')]
         attachments = self.env['ir.attachment'].sudo().search(domain)
         return [
             {

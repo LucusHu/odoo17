@@ -5,9 +5,9 @@ class InstallRecord(models.Model):
     _name = 'mfp.install.record'
     _description = 'Install Record'
 
-    company_id = fields.Many2one('res.partner', '公司名稱', related='mfp_id.company_id')
-    place_id = fields.Many2one('mfp.place', '裝機地點', related='mfp_id.place_id')
-    mfp_id = fields.Many2one("mfp.data", '事務機', required=True)
+    company_id = fields.Many2one('res.partner', '公司名稱', ondelete='cascade')
+    place_id = fields.Many2one('mfp.place', '裝機地點')
+    mfp_id = fields.Many2one("mfp.data", '事務機', required=True, ondelete='cascade')
     user_id = fields.Many2one('res.users', '維護工程師')
 
     # name = fields.Char()
@@ -20,3 +20,10 @@ class InstallRecord(models.Model):
     state = fields.Selection([('0', '使用中'), ('1', '新裝機'), ('2', '退機'),
                               ('3', '換機[新裝機]'), ('4', '換機[退機]')],
                              '狀態', default='0', required=True)
+
+    @api.onchange('mfp_id')
+    def _onchange_mfp(self):
+        mfp_id = self.mfp_id
+        if mfp_id:
+            self.company_id = mfp_id.company_id
+            self.place_id = mfp_id.place_id

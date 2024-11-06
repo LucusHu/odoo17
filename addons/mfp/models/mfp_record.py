@@ -22,10 +22,10 @@ class MFPRecord(models.Model):
                                  domain="['&', '&',"
                                         "('user_ids', '=', False),"
                                         "('company_id', '=', False),"
-                                        "('parent_id', '=', False)]")
+                                        "('parent_id', '=', False)]", ondelete='cascade')
     company_number = fields.Char('客戶編號', related='company_id.number')
     company_name = fields.Char('公司名稱', related='company_id.name')
-    place_id = fields.Many2one('mfp.place', '裝機地點', related='mfp_id.place_id')
+    place_id = fields.Many2one('mfp.place', '裝機地點')
 
     mfp_id = fields.Many2one('mfp.data', '事務機', required=True,
                              domain="[('company_id', '=?', company_id)]", ondelete='cascade')
@@ -35,6 +35,7 @@ class MFPRecord(models.Model):
         mfp_id = self.mfp_id
         if mfp_id:
             self.company_id = mfp_id.company_id
+            self.place_id = mfp_id.place_id
 
     user_id = fields.Many2one('res.users', '建立者', default=lambda self: self._default_user_id())
 

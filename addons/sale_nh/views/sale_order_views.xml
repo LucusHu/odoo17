@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form -->
+        <record id="view_form_sale_order" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_cancel']" position="after">
+                    <button name="action_cancel_btn" string="Cancel"
+                            invisible="state not in ['sale']" type="object"
+                            class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Search -->
+        <record id="view_search_sale_order" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

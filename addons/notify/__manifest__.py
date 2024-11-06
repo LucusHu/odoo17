@@ -14,10 +14,7 @@
         2.文本內容則在「會計」標籤內定義
     ''',
     # "website": "Your Website",
-    "depends": [
-        "base",
-        "contacts",
-    ],
+    "depends": ["base", 'mail', "contacts", ],
     "data": [
         "security/ir.model.access.csv",
         "data/mail_template_data.xml",

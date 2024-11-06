@@ -4,7 +4,7 @@
         <!-- Schedule -->
         <record id="ir_cron_mail_activity" model="ir.cron">
             <field name="name">Mail Activity Send Notify</field>
-            <field name="model_id" ref="mail_activity.model_mail_activity"/>
+            <field name="model_id" ref="notify_activity.model_mail_activity"/>
             <field name="state">code</field>
             <field name="code">model._send_notify()</field>
             <field name="interval_number">1</field>

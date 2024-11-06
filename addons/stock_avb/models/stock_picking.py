@@ -26,7 +26,7 @@ class StockPicking(models.Model):
             value = {
                 'move_ids': rec.move_ids,
                 'move_line_ids': rec.move_line_ids,
-                'return_ids': rec.return_ids,
+                'return_id': rec.return_id,
                 'purchase_id': rec.purchase_id,
                 'sale_id': rec.sale_id,
                 'purchase_id.partner_id': rec.purchase_id.partner_id,

@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from odoo import models
 from collections import defaultdict
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class MFPCalcAutoWizard(models.TransientModel):
@@ -23,52 +26,94 @@ class MFPCalcAutoWizard(models.TransientModel):
     # ========== 結帳計算(含檢查) ==========
     # 參數:
     # mfp_id: 事務機ID
-    def auto_calc_account_move(self, mfp_id):
-        # ========== 檢查結算條件 ==========
-        # 檢查事務機的結算日, 是否符合結算條件
-        # 月租結算日
-        rental_date = mfp_id.rental_date
-        # 超印結算日
-        stl_date = mfp_id.stl_date
-        # 實際紀錄抄表日
-        meter_date = mfp_id.meter_date
-        # ========== 計算帳單 ==========
-        account_moves = self._calc_account_move(mfp_id, rental_date, meter_date, stl_date)
-        return account_moves
-
+    # def auto_calc_account_move(self, mfp_id):
+    #     # ========== 檢查結算條件 ==========
+    #     # 檢查事務機的結算日, 是否符合結算條件
+    #     # 月租結算日
+    #     rental_date = mfp_id.rental_date
+    #     # 超印結算日
+    #     stl_date = mfp_id.stl_date
+    #     # 實際紀錄抄表日
+    #     meter_date = mfp_id.meter_date
+    #     # ========== 計算帳單 ==========
+    #     return self._calc_account_move(mfp_id, rental_date, meter_date, stl_date)
     # ========== 結帳計算 ==========
     # 定時每天晚上6:30 計算帳單
     # 目前僅知道先顯示異常, 未來優化將顯示細節問題, 通知人員先暫訂工程師, 未來將改為會計人員
     # ==== mfp (多筆) ====
     def calc_start(self):
-        print(f'========== iron_account start: {datetime.now()} ==========')
+        _logger.info(f"========== iron_account start: {datetime.now()} ==========")
+        self.auto_calc_adv_rental()
+        self.auto_calc_normal()
+        _logger.info(f'========== iron_account end: {datetime.now()} ==========')
+
+    def auto_calc_adv_rental(self):
+        _logger.info(f"========== calc rental start: {datetime.now()} ==========")
         # 所有事務機
         now = datetime.now().date()
-        domain = ['&', ('state', '=', '1'), '|', ('stl_date', '<=', now), ('rental_date', '<=', now)]
+        companies = self.env['res.company'].search([('partner_id', '!=', False)]).mapped('partner_id')
+        domain = ['&', '&', '&', '&',
+                  ('company_id', 'not in', companies.ids),
+                  ('state', '=', '1'),
+                  # ('ip', '!=', False),  # 使用 False 而不是 'False' 字符串
+                  ('merge_id', '=', False),
+                  ('is_adv', '=', '1'),
+                  ('rental_next_date', '<=', now)]
+        _logger.info(f"domain=> {domain}")
         mfp_ids = self.env['mfp.data'].search(domain)
-        print(f'iron_account mfp count: {len(mfp_ids)}')
+        _logger.info(f'calc rental count: {len(mfp_ids)}')
 
-        # if mfp_ids:
-        #     for mfp_id in mfp_ids:
-        #         self.env['mfp.calc.auto.wizard'].auto_calc_account_move(mfp_id)
-        [self.env['mfp.calc.auto.wizard'].auto_calc_account_move(mfp_id) for mfp_id in mfp_ids] if mfp_ids else False
-        print(f'========== iron_account end: {datetime.now()} ==========')
+        [self.env['mfp.calc.auto.wizard']._calc_adv_rental(mfp_id) for mfp_id in mfp_ids] if mfp_ids else False
+        _logger.info(f'========== calc rental end: {datetime.now()} ==========')
+
+    def auto_calc_normal(self):
+        _logger.info(f"========== calc overprice start: {datetime.now()} ==========")
+        # 所有事務機
+        now = datetime.now().date()
+        companies = self.env['res.company'].search([('partner_id', '!=', False)]).mapped('partner_id')
+        domain = ['&', '&', '&',
+                  ('company_id', 'not in', companies.ids),
+                  ('state', '=', '1'),
+                  # ('ip', '!=', False),  # 使用 False 而不是 'False' 字符串
+                  ('merge_id', '=', False),
+                  # ('is_adv', '=', '0'),
+                  ('stl_next_date', '<=', now)]
+        _logger.info(f"domain=> {domain}")
+        mfp_ids = self.env['mfp.data'].search(domain)
+        _logger.info(f'calc overprice count: {len(mfp_ids)}')
+
+        [self.env['mfp.calc.auto.wizard']._calc_normal(mfp_id) for mfp_id in mfp_ids] if mfp_ids else False
+        _logger.info(f'========== calc overprice end: {datetime.now()} ==========')
 
     # ==== 計算張數(將列印張數&贈送張數&作廢張數做相減後的計算結果(含合併) ====
     def _calc_sheet(self, mfp_id, meter_date, stl_date):
+        _logger.info(f'===== _calc_sheet start =====')
+        _logger.info(f"mfp_id<={mfp_id.name}")
+        _logger.info(f"meter_date<={meter_date}")
+        _logger.info(f"stl_date<={stl_date}")
         # 記錄張數
         record = self._calc_printer(mfp_id, meter_date, stl_date)
+        _logger.info(f"len=>{len(record) if record else 0}")
         if not record:
             return False
-
+        # 更新-結算日期
+        self._update_mfp_meter_date(mfp_id, record['date']['end'])
         # ========== ==========
         # 事務機(合併)
         merge_ids = mfp_id.merge_ids
+        _logger.info(f'=== _calc_sheet merge start ===')
+        _logger.info(f"len=>{len(merge_ids) if merge_ids else 0}")
         for mfp_merge in merge_ids:
+            _logger.info(f"mfp_id<={mfp_merge.name}")
+            _logger.info(f"meter_date<={meter_date}")
+            _logger.info(f"stl_date<={stl_date}")
             # 記錄張數
             m_record = self._calc_printer(mfp_merge, meter_date, stl_date)
+            _logger.info(f"len=>{len(record) if record else 0}")
             if not m_record:
                 continue
+            # 更新-結算日期
+            self._update_mfp_meter_date(mfp_merge, m_record['date']['end'])
 
             record['black']['count'] += m_record['black']['count']
             record['color']['count'] += m_record['color']['count']
@@ -79,7 +124,7 @@ class MFPCalcAutoWizard(models.TransientModel):
             record['black']['invalid'] += m_record['black']['invalid']
             record['color']['invalid'] += m_record['color']['invalid']
             record['large']['invalid'] += m_record['large']['invalid']
-
+        _logger.info(f'=== _calc_sheet merge end ===')
         record['black']['sum'] = record['black']['count'] - record['black']['invalid'] - record['black']['deduct']
         record['color']['sum'] = record['color']['count'] - record['color']['invalid'] - record['color']['deduct']
         record['large']['sum'] = record['large']['count'] - record['large']['invalid']
@@ -88,23 +133,41 @@ class MFPCalcAutoWizard(models.TransientModel):
         record['black']['sum'] = record['black']['sum'] if record['black']['sum'] > 0 else 0
         record['color']['sum'] = record['color']['sum'] if record['color']['sum'] > 0 else 0
         record['large']['sum'] = record['large']['sum'] if record['large']['sum'] > 0 else 0
-
+        _logger.info(f"date=> {record['date']['start']}/{record['date']['end']}")
+        _logger.info(f"count=> {record['black']['count']}/{record['color']['count']}/{record['large']['count']}")
+        _logger.info(f"deduct=> {record['black']['deduct']}/{record['color']['deduct']}/{record['large']['deduct']}")
+        _logger.info(
+            f"invalid=> {record['black']['invalid']}/{record['color']['invalid']}/{record['large']['invalid']}")
+        _logger.info(f"sum=> {record['black']['sum']}/{record['color']['sum']}/{record['large']['sum']}")
+        _logger.info(f'===== _calc_sheet end =====')
         return record
 
     # ==== Region:records, invalid, deduct ====
 
     # 記錄張數
     def _calc_records(self, _mfp_id, _meter_date, _stl_date):
+        _logger.info(f"===== _calc_records start:{_mfp_id.name} =====")
+        _logger.info(f"mfp_id=>{_mfp_id.name}")
+        _logger.info(f"meter_date=>{_meter_date}")
+        _logger.info(f"stl_date=>{_stl_date}")
         # ========== 抄表紀錄 ==========
         # 從抄表記錄獲取張數
         # 上次抄表日期: meter_date
         # 結算日: stl_date
-
-        domain = ['&', '&',
-                  ('date', '>=', _meter_date),
-                  ('date', '<=', _stl_date),
+        # 第一个条件 - 精确的日期和 mfp_id
+        domain = ['|', '&',  # 条件1：精确匹配 _meter_date
+                  ('date', '=', _meter_date),
+                  ('mfp_id', '=', _mfp_id.id),
+                  '&', '&',  # 条件2：日期范围匹配 _stl_date 前后 2 天
+                  ('date', '>=', _stl_date - timedelta(days=2)),
+                  ('date', '<=', _stl_date + timedelta(days=2)),
                   ('mfp_id', '=', _mfp_id.id)]
+        # domain = ['&', '&',
+        #           ('date', '>=', _meter_date),
+        #           ('date', '<=', _stl_date),
+        #           ('mfp_id', '=', _mfp_id.id)]
         records = self.env['mfp.record'].sudo().search(domain, order='date asc')
+        _logger.info(f"len=>{len(records) if records else 0}")
         # 限制必須要兩筆以上的紀錄, 才可計算(後-前)
         if not records or len(records) < 2:
             return False
@@ -125,7 +188,6 @@ class MFPCalcAutoWizard(models.TransientModel):
                 _record['large']['start'] = rec.large_print
                 _record['date']['start'] = rec.date
                 start = False
-
             elif rec.state in ['1', '3']:
                 # Update start values and description
                 _record['black']['start'] = rec.black_print
@@ -134,7 +196,6 @@ class MFPCalcAutoWizard(models.TransientModel):
                 _record['date']['start'] = rec.date
                 _record['large']['description'] = '新機' if rec.state == '1' else '換機(新裝機)'
                 start = False
-
             elif rec.state == '2':
                 # Set end values and description, then break loop
                 _record['black']['end'] = rec.black_print
@@ -145,17 +206,19 @@ class MFPCalcAutoWizard(models.TransientModel):
                 break
             elif rec.state == '4':
                 pass
-
             else:
                 # Update end values
                 _record['black']['end'] = rec.black_print
                 _record['color']['end'] = rec.color_print
                 _record['large']['end'] = rec.large_print
                 _record['date']['end'] = rec.date
-
         _record['black']['count'] = _record['black']['end'] - _record['black']['start']
         _record['color']['count'] = _record['color']['end'] - _record['color']['start']
         _record['large']['count'] = _record['large']['end'] - _record['large']['start']
+        _logger.info(f"black=> {_record['black']['count']}/{_record['black']['start']}/{_record['black']['end']}")
+        _logger.info(f"color=> {_record['color']['count']}/{_record['color']['start']}/{_record['color']['end']}")
+        _logger.info(f"black=> {_record['large']['count']}/{_record['large']['start']}/{_record['large']['end']}")
+        _logger.info(f"===== _calc_records end:{_mfp_id.name} =====")
         return _record
 
     # 作廢張數
@@ -196,25 +259,32 @@ class MFPCalcAutoWizard(models.TransientModel):
     def _calc_printer(self, mfp_id, meter_date, stl_date):
         # 記錄張數
         records = self._calc_records(mfp_id, meter_date, stl_date)
-        if not records:
+        if not records or records['date']['end'] is None:
             return False
         deducts = self._calc_deduct(mfp_id)
         invalids = self._calc_invalid(mfp_id)
-        # 更新-結算日期
-        self._update_mfp_meter_date(mfp_id, records['date']['end'])
         # 合併三個字典
         record = self.merge_dicts([records, deducts, invalids])
         return record
 
     # 更新-事務機
     def _update_mfp_rental_date(self, mfp_id, date):
-        mfp_id.rental_date = date
+        _logger.info(f'_update_mfp_rental_date=>{mfp_id.name}->{date}')
+        domain = [('id', '=', mfp_id.id)]
+        mfp = self.env['mfp.data'].search(domain)
+        mfp.update({'rental_date': date})
 
     def _update_mfp_meter_date(self, mfp_id, date):
-        mfp_id.meter_date = date
+        _logger.info(f'_update_mfp_meter_date=>{mfp_id.name}->{date}')
+        domain = [('id', '=', mfp_id.id)]
+        mfp = self.env['mfp.data'].search(domain)
+        mfp.update({'meter_date': date})
 
     def _update_mfp_stl_date(self, mfp_id, date):
-        mfp_id.stl_date = date
+        _logger.info(f'_update_mfp_stl_date=>{mfp_id.name}->{date}')
+        domain = [('id', '=', mfp_id.id)]
+        mfp = self.env['mfp.data'].search(domain)
+        mfp.update({'stl_date': date})
 
     # ==== End Region ====
 
@@ -237,11 +307,12 @@ class MFPCalcAutoWizard(models.TransientModel):
     def _cal_rentalprice(self, move_id, partner_id, date_start, date_end, rental_price, tax, is_adv):
         if rental_price > 0:
             # 產品ID: 影印費-基本月租費
-            adv_rental = 'mfp.product_product_mfp_adv_rental_price'
-            rental = 'mfp.product_product_mfp_rental_price'
-            ref_id = adv_rental if is_adv == '1' else rental
+            # adv_rental = 'mfp.product_product_mfp_adv_rental_price'
+            # rental = 'mfp.product_product_mfp_rental_price'
+            # ref_id = adv_rental if is_adv == '1' else rental
+            ref_id = 'mfp.product_product_mfp_print_price'
             product_id = self.env.ref(ref_id)
-            summary = f'{date_start}~{date_end}'
+            summary = f'{"預收 " if is_adv == "1" else ""}{date_start}~{date_end}'
             self._create_account_move_line(move_id, summary,
                                            partner_id, product_id, 1, rental_price, tax)
 
@@ -250,11 +321,11 @@ class MFPCalcAutoWizard(models.TransientModel):
         # 超印
         if over_price > 0:
             # 產品ID: 超印費/影印費
-            print_price = 'mfp.product_product_mfp_print_price'
-            over_price = 'mfp.product_product_mfp_over_price'
-            ref_id = over_price if rental_price > 0 else print_price
+            product_print_price = 'mfp.product_product_mfp_print_price'
+            product_over_price = 'mfp.product_product_mfp_over_price'
+            ref_id = product_over_price if rental_price > 0 else product_print_price
             product_id = self.env.ref(ref_id)
-            summary = f'{date_start}~{date_end}'
+            summary = f'結算 {date_start}~{date_end}'
             self._create_account_move_line(move_id, summary,
                                            partner_id, product_id, 1, over_price, tax)
 
@@ -320,27 +391,32 @@ class MFPCalcAutoWizard(models.TransientModel):
 
     def _cal_printerline(self, move_id, mfp_id, date_start, date_end, period):
         records = self._calc_records(mfp_id, date_start, date_end)
+        # if not records or records['date']['end'] is None:
+        #     return False
         invalids = self._calc_invalid(mfp_id)
-
         rental = mfp_id.rental
+        black_start = records['black']['start'] if records else False
+        black_end = records['black']['end'] if records else False
+        black_invalid = records['black']['invalid'] if records else False
+        color_start = records['color']['start'] if records else False
+        color_end = records['color']['end'] if records else False
+        color_invalid = records['color']['invalid'] if records else False
+        large_start = records['large']['start'] if records else False
+        large_end = records['large']['end'] if records else False
+        large_invalid = records['large']['invalid'] if records else False
         self._create_account_print_line(move_id, mfp_id, date_start, date_end, rental, period,
-                                        records['black']['start'], records['black']['end'],
-                                        invalids['black']['invalid'],
-                                        records['color']['start'], records['color']['end'],
-                                        invalids['color']['invalid'],
-                                        records['large']['start'], records['large']['end'],
-                                        invalids['large']['invalid'])
+                                        black_start, black_end,
+                                        black_invalid,
+                                        color_start, color_end,
+                                        color_invalid,
+                                        large_start, large_end,
+                                        large_invalid)
 
-    # 參數:
-    # mfp_id: 事務機
-    # meter_date: 前期抄表日期
-    # stl_date: 結算日
-    def _calc_account_move(self, mfp_id, rental_date, meter_date, stl_date):
+    def _calc_adv_rental(self, mfp_id):
+        _logger.info(f"========== _calc_adv_rental start: ${mfp_id.name} ==========")
         # 若尚未到[結算日]則返回
         now = datetime.now().date()
 
-        if now < stl_date and now < rental_date:
-            return False
         # ========== 發票(應收憑單)草稿 ==========
         # 客戶
         partner_id = mfp_id.company_id
@@ -348,8 +424,10 @@ class MFPCalcAutoWizard(models.TransientModel):
         invoice_date = now
         # 含稅
         tax = mfp_id.tax
-        # 會計
-        move_id = self._create_account_moves(invoice_date, partner_id)
+        if not tax:
+            return False
+        # # 會計
+        # move_id = self._create_account_moves(invoice_date, partner_id)
         # 結算週期
         pay_period = int(mfp_id.pay_period)
 
@@ -362,6 +440,8 @@ class MFPCalcAutoWizard(models.TransientModel):
             rental += mfp_merge.rental
         rental_price = rental * pay_period
 
+        # 會計
+        move_id = self._create_account_moves(invoice_date, partner_id)
         # ==== 月費結算 ====
         # 預繳
         is_adv = mfp_id.is_adv
@@ -378,17 +458,85 @@ class MFPCalcAutoWizard(models.TransientModel):
             self._update_mfp_rental_date(mfp_id, rental_date)
             for mfp_merge in merge_ids:
                 self._update_mfp_rental_date(mfp_merge, rental_date)
+        _logger.info(f"========== _calc_adv_rental end: ${mfp_id.name} ==========")
+        return False
 
+    def _calc_normal(self, mfp_id):
+        _logger.info(f"========== _calc_normal start: ${mfp_id.name} ==========")
+        # 若尚未到[結算日]則返回
+        now = datetime.now().date()
+
+        # ========== 發票(應收憑單)草稿 ==========
+        # 客戶
+        partner_id = mfp_id.company_id
+        # 發票日期
+        invoice_date = now
+        # 含稅
+        tax = mfp_id.tax
+        if not tax:
+            return False
+        # # 會計
+        # move_id = self._create_account_moves(invoice_date, partner_id)
+        # 結算週期
+        pay_period = int(mfp_id.pay_period)
+
+        # ========== 發票明細行-月租費/預收月租 ==========
+        # 月費
+        rental = mfp_id.rental
+        # 合併底下的月租
+        merge_ids = mfp_id.merge_ids
+        for mfp_merge in merge_ids:
+            rental += mfp_merge.rental
+        rental_price = rental * pay_period
+
+        # ==== 月費結算 ====
+        # 預繳
+        is_adv = mfp_id.is_adv
+        rental_date = mfp_id.rental_date
+        # 會計
+        move_id = self._create_account_moves(invoice_date, partner_id)
+
+        while is_adv == '0' and rental_date < now:
+            # 結算月費起訖日
+            rental_begin = rental_date
+            rental_finish = rental_date + relativedelta(months=pay_period) + relativedelta(days=-1)
+            # 月租/預收
+            self._cal_rentalprice(move_id, partner_id, rental_begin, rental_finish, rental_price, tax, is_adv)
+
+            rental_date = rental_date + relativedelta(months=pay_period)
+            # 更新事務機月費資料
+            self._update_mfp_rental_date(mfp_id, rental_date)
+            for mfp_merge in merge_ids:
+                self._update_mfp_rental_date(mfp_merge, rental_date)
         # ==== 超印費結算 ====
         # 扣抵
         deduct = mfp_id.deduct
         stl_date = mfp_id.stl_date
+        meter_date = mfp_id.meter_date
         while stl_date < now:
             # ========== 發票明細行-月租費/預收月租 ==========
             # 事務機(含合併)的月租&張數
-            sheets = self._calc_sheet(mfp_id, meter_date, stl_date)
+            stl_begin = meter_date
+            stl_finish = stl_date + relativedelta(months=pay_period) + relativedelta(days=-1)
+            sheets = self._calc_sheet(mfp_id, stl_begin, stl_finish)
+            # 明細顯示 日期範圍
+            over_begin = stl_date
+            over_finish = stl_date + relativedelta(months=pay_period) + relativedelta(days=-1)
             if not sheets:
+                stl_date = stl_date + relativedelta(months=pay_period)
+                # ========== 檢查 ==========
+                # ==== 若日期較新,則更新「預收月租」日 ====
+                self._update_mfp_stl_date(mfp_id, stl_date)
+                for mfp_merge in merge_ids:
+                    self._update_mfp_stl_date(mfp_merge, stl_date)
+
+                # 事務機清單
+                self._cal_printerline(move_id, mfp_id, over_begin, over_finish, pay_period)
+                for mfp_merge in merge_ids:
+                    self._cal_printerline(move_id, mfp_merge, over_begin, over_finish, pay_period)
+
                 return False
+            meter_date = sheets['date']['end']
             black_print = sheets['black']['sum']
             color_print = sheets['color']['sum']
             large_print = sheets['large']['sum']
@@ -397,23 +545,27 @@ class MFPCalcAutoWizard(models.TransientModel):
             over_price = (mfp_id.black_print_overprice * black_print +
                           mfp_id.color_print_overprice * color_print +
                           mfp_id.large_print_overprice * large_print)
-            # 明細顯示 日期範圍
-            over_begin = stl_date - relativedelta(months=pay_period)
-            over_finish = stl_date - relativedelta(day=-1)
+
             # 扣抵
             over_price -= rental_price if deduct == '1' else 0
+            # # 會計
+            # move_id = self._create_account_moves(invoice_date, partner_id)
             # 超印
             self._cal_overprice(move_id, partner_id, over_begin, over_finish, over_price, tax, rental_price)
 
             stl_date = stl_date + relativedelta(months=pay_period)
+            # ========== 檢查 ==========
+            # ==== 若日期較新,則更新「預收月租」日 ====
             self._update_mfp_stl_date(mfp_id, stl_date)
             for mfp_merge in merge_ids:
                 self._update_mfp_stl_date(mfp_merge, stl_date)
 
             # 事務機清單
             self._cal_printerline(move_id, mfp_id, over_begin, over_finish, pay_period)
+            for mfp_merge in merge_ids:
+                self._cal_printerline(move_id, mfp_merge, over_begin, over_finish, pay_period)
 
-        # 清除作廢紀錄
+        # ========== 清除「作廢紀錄」 ==========
         invalid_ids = mfp_id.invalid_ids
         for rec in invalid_ids:
             rec.state = '1'
@@ -422,5 +574,5 @@ class MFPCalcAutoWizard(models.TransientModel):
             invalid_ids = mfp_merge.invalid_ids
             for rec in invalid_ids:
                 rec.state = '1'
-
-        return move_id
+        _logger.info(f"========== _calc_normal end: ${mfp_id.name} ==========")
+        return False

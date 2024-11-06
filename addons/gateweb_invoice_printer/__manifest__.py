@@ -14,12 +14,8 @@
         2.開立發票時,將採用此欄位參數取代buyer
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'gateweb_invoice',
-    ],
-    'data': [
-        'views/res_partner_views.xml',
-    ],
+    'depends': ['gateweb_invoice', ],
+    'data': ['views/res_partner_views.xml', ],
     'installable': True,
     'application': False,
     'auto_install': False,

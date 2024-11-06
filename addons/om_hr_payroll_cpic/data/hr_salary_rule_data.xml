@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Salary Rules -->
+        <!-- ========== 應代扣項目 ========== -->
+        <!-- 事假 -->
+        <record id="hr_salary_rule_personal_leave" model="hr.salary.rule">
+            <field name="name">事假</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">PL</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 240</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 病假 -->
+        <record id="hr_salary_rule_sick_leave" model="hr.salary.rule">
+            <field name="name">病假</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">SL</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 480</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 早退 -->
+        <record id="hr_salary_rule_early_leave" model="hr.salary.rule">
+            <field name="name">早退</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">EL</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 240</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 勞保費 -->
+        <record id="hr_salary_rule_labor_insurance" model="hr.salary.rule">
+            <field name="name">勞保費</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">LI</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 240</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 健保費 -->
+        <record id="hr_salary_rule_health_insurance" model="hr.salary.rule">
+            <field name="name">健保費</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">HI</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 240</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 職工福利金 -->
+        <record id="hr_salary_rule_employee_benefits" model="hr.salary.rule">
+            <field name="name">職工福利金</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">EB</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">1000</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 勞工自願提繳退休金 -->
+        <record id="hr_salary_rule_labor_pension_withholding" model="hr.salary.rule">
+            <field name="name">勞工自願提繳退休金</field>
+            <field name="category_id" ref="om_hr_payroll.DED"/>
+            <field name="code">LPW</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 240</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+
+        <!-- ========== 非固定支付項目 ========== -->
+        <!-- 平日加班 -->
+        <record id="hr_salary_rule_weekdays_over_time" model="hr.salary.rule">
+            <field name="name">平日加班</field>
+            <field name="category_id" ref="om_hr_payroll.ALW"/>
+            <field name="code">WOT</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 180</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 休假日加班 -->
+        <record id="hr_salary_rule_holidays_over_time" model="hr.salary.rule">
+            <field name="name">休假日加班</field>
+            <field name="category_id" ref="om_hr_payroll.ALW"/>
+            <field name="code">HOT</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage / 180</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+
+        <!-- ========== 約定薪資結構 ========== -->
+        <!-- 伙食津貼 -->
+        <record id="hr_salary_rule_allowance_food" model="hr.salary.rule">
+            <field name="name">伙食津貼</field>
+            <field name="category_id" ref="om_hr_payroll.ALW"/>
+            <field name="code">AF</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">1500</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 職務津貼 -->
+        <record id="hr_salary_rule_allowance_job" model="hr.salary.rule">
+            <field name="name">職務津貼</field>
+            <field name="category_id" ref="om_hr_payroll.ALW"/>
+            <field name="code">AJ</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">5000</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 全勤獎金 -->
+        <record id="hr_salary_rule_attendance_bonus" model="hr.salary.rule">
+            <field name="name">全勤獎金</field>
+            <field name="category_id" ref="om_hr_payroll.ALW"/>
+            <field name="code">AB</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">1500</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+        <!-- 績效獎金 -->
+        <record id="hr_salary_rule_performance_bonus" model="hr.salary.rule">
+            <field name="name">績效獎金</field>
+            <field name="category_id" ref="om_hr_payroll.ALW"/>
+            <field name="code">PB</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">5000</field>
+            <!-- percentage, fix, code -->
+            <!-- ===== code ===== -->
+            <!--<field name="amount_python_compute">result = contract.wage / 240</field>-->
+            <!-- ===== percentage ===== -->
+            <!--<field name="amount_percentage" eval="1"/>-->
+            <!--<field name="amount_percentage_base">contract.wage</field>-->
+            <!-- ===== fix ===== -->
+            <!--<field name="amount_fix" eval="10"/>-->
+            <field name="sequence" eval="5"/>
+        </record>
+    </data>
+</odoo>

@@ -17,12 +17,8 @@
         連結：{web}"
     ''',
     # 'website': 'Your Website',
-    'depends': [
-        'notify',
-        'project',
-    ],
-    'data': [
-    ],
+    'depends': ['notify', 'project', ],
+    'data': [],
     'installable': True,
     'application': False,
     'auto_install': False,

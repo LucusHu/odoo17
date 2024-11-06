@@ -10,6 +10,7 @@
                     <sheet>
                         <group>
                             <field name="amount"/>
+                            <field name="tax"/>
                         </group>
                         <group>
                             <!-- 折讓商品 -->

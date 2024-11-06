@@ -64,7 +64,7 @@ class AccountMove(models.Model):
             pdf_content = report_data[0]
             ir_values = {
                 'datas': base64.b64encode(pdf_content),
-                'name': f'事務機明細{rec.name}.pdf',
+                'name': f'事務機明細{rec.name.replace("/", "_")}.pdf',
                 'store_fname': f'事務機明細{rec.name}.pdf',
                 'mimetype': 'application/pdf',
                 'type': 'binary',
@@ -72,12 +72,8 @@ class AccountMove(models.Model):
                 'res_model': 'account.move',
             }
             domain = [('name', '=', ir_values.get('name'))]
-            attachment = self.env['ir.attachment'].sudo().search(domain)
-            if attachment:
-                attachment.write(ir_values)
-            else:
-                attachment = self.env['ir.attachment'].sudo().create(ir_values)
-            return attachment
+            self.env['ir.attachment'].sudo().search(domain).unlink()
+            return self.env['ir.attachment'].sudo().create(ir_values)
 
     def action_send_and_print(self):
         self.report_mfp_detail()
@@ -148,7 +144,7 @@ class AccountPrintLine(models.Model):
     _description = 'Account Print Line'
 
     move_id = fields.Many2one('account.move', 'Journal Entry')
-    mfp_id = fields.Many2one('mfp.data', '事務機', required=True)
+    mfp_id = fields.Many2one('mfp.data', '事務機', required=True, ondelete='cascade')
     number = fields.Char('客戶編號', related='mfp_id.company_number')
     # rental = fields.Integer('租金', related='mfp_id.rental')
     rental = fields.Integer('租金')
@@ -158,6 +154,8 @@ class AccountPrintLine(models.Model):
     #                                ('6', '半年'), ('12', '每年')],
     #                               '結算期數')
     pay_period = fields.Selection(string='結算期數', related='mfp_id.pay_period')
+    # is_adv = fields.Selection(string='預收月租', related='mfp_id.is_adv')
+    # tax = fields.Selection(string='稅額', related='mfp_id.tax')
     contract_ids = fields.Many2many(string='合約類型', related='mfp_id.contract_ids')
 
     date_start = fields.Date('起算日期', required=True, default=fields.Date.today())

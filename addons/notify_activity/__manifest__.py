@@ -13,15 +13,8 @@
     【版本v1.2】
         1.修正無法每日預期活動&過期活動,發送Line訊息提醒
     ''',
-    'depends': [
-        'mail',
-        'notify',
-    ],
-    'data': [
-        # 'security/ir.model.access.csv',
-        # 'views/mail_activity_views.xml',
-        'data/ir_cron.xml',
-    ],
+    'depends': ['mail', 'notify', ],
+    'data': ['data/ir_cron.xml', ],
     'installable': True,
     'application': False,
     'auto_install': False,
