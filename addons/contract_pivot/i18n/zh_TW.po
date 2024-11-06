@@ -1,0 +1,97 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* contract_pivot
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-30 08:51+0000\n"
+"PO-Revision-Date: 2024-10-30 16:51+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_contract__category_id
+msgid "Category"
+msgstr "合約類型"
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__color
+msgid "Color Index"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__company_id
+msgid "Company"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model,name:contract_pivot.model_contract_contract
+#: model_terms:ir.ui.view,arch_db:contract_pivot.view_pivot_contract_contract_pivot
+msgid "Contract"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.actions.act_window,name:contract_pivot.contract_tag_category_act_window
+#: model:ir.model,name:contract_pivot.model_contract_tag_category
+#: model:ir.ui.menu,name:contract_pivot.contract_tag_category_menu
+msgid "Contract Tags of Category"
+msgstr "合約類型"
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__id
+msgid "ID"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_tag_category__name
+msgid "Name"
+msgstr ""
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_contract__specification
+#: model_terms:ir.ui.view,arch_db:contract_pivot.view_form_contract_contract_pivot
+msgid "Specification"
+msgstr "合約規格"
+
+#. module: contract_pivot
+#: model:ir.model.fields,field_description:contract_pivot.field_contract_contract__unit_price
+msgid "Unit Price"
+msgstr "每月平均"
+
+#. module: contract_pivot
+#: model:ir.model.fields,help:contract_pivot.field_contract_contract__unit_price
+msgid "unit price=price/month"
+msgstr "每月平均=總金額/每月"

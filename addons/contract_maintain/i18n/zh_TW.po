@@ -1,0 +1,103 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* contract_maintain
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-30 08:40+0000\n"
+"PO-Revision-Date: 2024-10-30 16:42+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: contract_maintain
+#: model:ir.model,name:contract_maintain.model_contract_contract
+msgid "Contract"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields,field_description:contract_maintain.field_contract_contract__maintain_end
+msgid "Date End"
+msgstr "結束日期"
+
+#. module: contract_maintain
+#: model:ir.model.fields,field_description:contract_maintain.field_contract_contract__maintain_start
+msgid "Date Start"
+msgstr "開始日期"
+
+#. module: contract_maintain
+#: model:ir.model.fields,field_description:contract_maintain.field_contract_contract__maintain_next
+msgid "Date of Next"
+msgstr "下次維護日期"
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__daily
+msgid "Day(s)"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields,field_description:contract_maintain.field_contract_contract__maintain_internal
+msgid "Internal"
+msgstr "做維護每"
+
+#. module: contract_maintain
+#: model_terms:ir.ui.view,arch_db:contract_maintain.view_form_contract_contract_maintain
+msgid "Maintain"
+msgstr "例行維護"
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__monthly
+msgid "Month(s)"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__monthlylastday
+msgid "Month(s) last day"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__quarterly
+msgid "Quarter(s)"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields,field_description:contract_maintain.field_contract_contract__maintain_recurring
+msgid "Recurring"
+msgstr "維護週期"
+
+#. module: contract_maintain
+#: model:mail.activity.type,name:contract_maintain.mail_activity_data_repair
+msgid "Repair"
+msgstr "合約維護"
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__semesterly
+msgid "Semester(s)"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields,field_description:contract_maintain.field_contract_contract__maintain_user
+msgid "User"
+msgstr "維護人員"
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__weekly
+msgid "Week(s)"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.model.fields.selection,name:contract_maintain.selection__contract_contract__maintain_recurring__yearly
+msgid "Year(s)"
+msgstr ""
+
+#. module: contract_maintain
+#: model:ir.actions.server,name:contract_maintain.ir_cron_contract_contract_maintain_ir_actions_server
+msgid "contract of maintain"
+msgstr "客戶合約：例行維護"
